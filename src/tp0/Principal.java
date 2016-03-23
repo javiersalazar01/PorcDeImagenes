@@ -37,15 +37,22 @@ public class Principal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        desktopPane.setLayout(null);
+
         fileMenu.setMnemonic('f');
-        fileMenu.setText("File");
+        fileMenu.setText("Archivo");
 
         abrirMenuItem.setMnemonic('o');
-        abrirMenuItem.setText("Open");
+        abrirMenuItem.setText("Abrir Imágen");
+        abrirMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                abrirMenuItemActionPerformed(evt);
+            }
+        });
         fileMenu.add(abrirMenuItem);
 
         guardarMenuItem.setMnemonic('s');
-        guardarMenuItem.setText("Save");
+        guardarMenuItem.setText("Nueva Imágen");
         fileMenu.add(guardarMenuItem);
 
         saveAsMenuItem.setMnemonic('a');
@@ -70,11 +77,11 @@ public class Principal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 732, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
+            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 478, Short.MAX_VALUE)
         );
 
         pack();
@@ -83,6 +90,15 @@ public class Principal extends javax.swing.JFrame {
     private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
         System.exit(0);//fsdfdsfds
     }//GEN-LAST:event_exitMenuItemActionPerformed
+
+    private void abrirMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abrirMenuItemActionPerformed
+        // TODO add your handling code here:
+        Editar ed = new Editar();
+        desktopPane.add(ed);
+        ed.setVisible(true);
+        
+    
+    }//GEN-LAST:event_abrirMenuItemActionPerformed
 
     /**
      * @param args the command line arguments
