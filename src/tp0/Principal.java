@@ -81,7 +81,7 @@ public class Principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
-        System.exit(0);
+        System.exit(0);//fsdfdsfds
     }//GEN-LAST:event_exitMenuItemActionPerformed
 
     /**
