@@ -5,6 +5,10 @@
  */
 package tp0;
 
+import java.awt.Image;
+import javax.swing.ImageIcon;
+import utiles.ProcImagenes;
+
 /**
  *
  * @author karlagutz
@@ -14,8 +18,23 @@ public class Editar extends javax.swing.JInternalFrame {
     /**
      * Creates new form Editar
      */
+    ProcImagenes p;
+    
+    public Editar(ProcImagenes pro){
+        initComponents();
+        this.p = pro;
+        labelImagen.setIcon(new ImageIcon(p.getImageActual()));
+    }
+    
+    public void unit(){
+        
+        
+        
+    }
+  
     public Editar() {
         initComponents();
+        
     }
 
     /**
@@ -53,7 +72,7 @@ public class Editar extends javax.swing.JInternalFrame {
         txtLimDer_X = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
         txtLimDer_Y = new javax.swing.JTextField();
-        jLabel10 = new javax.swing.JLabel();
+        labelImagen = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -63,7 +82,6 @@ public class Editar extends javax.swing.JInternalFrame {
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
-        setResizable(true);
 
         jPanel1.setName("PanPrincipal"); // NOI18N
 
@@ -262,9 +280,9 @@ public class Editar extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jLabel10.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel10.setText("IMG");
+        labelImagen.setBackground(new java.awt.Color(255, 255, 255));
+        labelImagen.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelImagen.setText("IMG");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -272,7 +290,7 @@ public class Editar extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 498, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(labelImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 498, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -284,7 +302,7 @@ public class Editar extends javax.swing.JInternalFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
-                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(labelImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -342,7 +360,6 @@ public class Editar extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
@@ -363,6 +380,7 @@ public class Editar extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JLabel labelImagen;
     private javax.swing.JTextField txtBuscarX;
     private javax.swing.JTextField txtBuscarY;
     private javax.swing.JTextField txtLimDer_X;

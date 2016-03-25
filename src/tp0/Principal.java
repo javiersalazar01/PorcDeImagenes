@@ -5,6 +5,9 @@
  */
 package tp0;
 
+import utiles.ProcImagenes;
+import utiles.ProcImagenes;
+
 /**
  *
  * @author javi_
@@ -14,8 +17,11 @@ public class Principal extends javax.swing.JFrame {
     /**
      * Creates new form Principal
      */
+    ProcImagenes p;
     public Principal() {
         initComponents();
+        p = new ProcImagenes();
+        
     }
 
     /**
@@ -31,8 +37,8 @@ public class Principal extends javax.swing.JFrame {
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         abrirMenuItem = new javax.swing.JMenuItem();
-        guardarMenuItem = new javax.swing.JMenuItem();
-        saveAsMenuItem = new javax.swing.JMenuItem();
+        EditarMenuItem = new javax.swing.JMenuItem();
+        crearMenuItem = new javax.swing.JMenuItem();
         exitMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -51,14 +57,18 @@ public class Principal extends javax.swing.JFrame {
         });
         fileMenu.add(abrirMenuItem);
 
-        guardarMenuItem.setMnemonic('s');
-        guardarMenuItem.setText("Nueva Imágen");
-        fileMenu.add(guardarMenuItem);
+        EditarMenuItem.setMnemonic('s');
+        EditarMenuItem.setText("Editar");
+        EditarMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EditarMenuItemActionPerformed(evt);
+            }
+        });
+        fileMenu.add(EditarMenuItem);
 
-        saveAsMenuItem.setMnemonic('a');
-        saveAsMenuItem.setText("Save As ...");
-        saveAsMenuItem.setDisplayedMnemonicIndex(5);
-        fileMenu.add(saveAsMenuItem);
+        crearMenuItem.setMnemonic('a');
+        crearMenuItem.setText("Crear");
+        fileMenu.add(crearMenuItem);
 
         exitMenuItem.setMnemonic('x');
         exitMenuItem.setText("Exit");
@@ -93,12 +103,17 @@ public class Principal extends javax.swing.JFrame {
 
     private void abrirMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abrirMenuItemActionPerformed
         // TODO add your handling code here:
-        Editar ed = new Editar();
-        desktopPane.add(ed);
-        ed.setVisible(true);
+        p.abrirImagen();
         
     
     }//GEN-LAST:event_abrirMenuItemActionPerformed
+
+    private void EditarMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditarMenuItemActionPerformed
+        // TODO add your handling code here:
+        Editar ed = new Editar(p);
+        desktopPane.add(ed);
+        ed.setVisible(true);
+    }//GEN-LAST:event_EditarMenuItemActionPerformed
 
     /**
      * @param args the command line arguments
@@ -136,13 +151,13 @@ public class Principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem EditarMenuItem;
     private javax.swing.JMenuItem abrirMenuItem;
+    private javax.swing.JMenuItem crearMenuItem;
     private javax.swing.JDesktopPane desktopPane;
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenu fileMenu;
-    private javax.swing.JMenuItem guardarMenuItem;
     private javax.swing.JMenuBar menuBar;
-    private javax.swing.JMenuItem saveAsMenuItem;
     // End of variables declaration//GEN-END:variables
 
 }
