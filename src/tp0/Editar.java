@@ -5,6 +5,7 @@
  */
 package tp0;
 
+import java.awt.Color;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 import utiles.ProcImagenes;
@@ -23,6 +24,11 @@ public class Editar extends javax.swing.JInternalFrame {
     public Editar(ProcImagenes pro){
         initComponents();
         this.p = pro;
+        asignarImagen();
+    }
+    
+    public void asignarImagen(){
+        
         labelImagen.setIcon(new ImageIcon(p.getImageActual()));
     }
     
@@ -34,7 +40,6 @@ public class Editar extends javax.swing.JInternalFrame {
   
     public Editar() {
         initComponents();
-        
     }
 
     /**
@@ -60,6 +65,7 @@ public class Editar extends javax.swing.JInternalFrame {
         txtValorR = new javax.swing.JTextField();
         txtValorG = new javax.swing.JTextField();
         txtValorB = new javax.swing.JTextField();
+        btnCambierRgb = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -72,6 +78,7 @@ public class Editar extends javax.swing.JInternalFrame {
         txtLimDer_X = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
         txtLimDer_Y = new javax.swing.JTextField();
+        jButton2 = new javax.swing.JButton();
         labelImagen = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -110,6 +117,13 @@ public class Editar extends javax.swing.JInternalFrame {
 
         jLabel6.setText("B:");
 
+        btnCambierRgb.setText("cambiar");
+        btnCambierRgb.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCambierRgbActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -130,6 +144,7 @@ public class Editar extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtValorR, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(btnCambierRgb, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -146,7 +161,9 @@ public class Editar extends javax.swing.JInternalFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(txtValorB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnCambierRgb)
+                .addContainerGap())
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Recortar Imágen"));
@@ -213,7 +230,7 @@ public class Editar extends javax.swing.JInternalFrame {
                                 .addComponent(jLabel13)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtLimDer_Y, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 5, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -239,6 +256,13 @@ public class Editar extends javax.swing.JInternalFrame {
                 .addComponent(jButton1))
         );
 
+        jButton2.setText("Obtener");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -246,8 +270,11 @@ public class Editar extends javax.swing.JInternalFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel2)
@@ -257,9 +284,7 @@ public class Editar extends javax.swing.JInternalFrame {
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtBuscarY, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 29, Short.MAX_VALUE))
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -274,6 +299,8 @@ public class Editar extends javax.swing.JInternalFrame {
                     .addComponent(txtBuscarX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtBuscarY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -282,7 +309,6 @@ public class Editar extends javax.swing.JInternalFrame {
 
         labelImagen.setBackground(new java.awt.Color(255, 255, 255));
         labelImagen.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        labelImagen.setText("IMG");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -356,9 +382,40 @@ public class Editar extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtLimDer_XActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        int x = Integer.parseInt(txtBuscarX.getText());   
+        int y = Integer.parseInt(txtBuscarY.getText());
+
+        Color c = p.valorPixel(x, y);
+        
+        txtValorR.setText(String.valueOf(c.getRed()));
+        txtValorG.setText(String.valueOf(c.getGreen()));
+        txtValorB.setText(String.valueOf(c.getBlue()));
+        
+        
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void btnCambierRgbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambierRgbActionPerformed
+        int x = Integer.parseInt(txtBuscarX.getText());   
+        int y = Integer.parseInt(txtBuscarY.getText());
+        
+        int valorR = Integer.parseInt(txtValorR.getText());
+        int valorG = Integer.parseInt(txtValorG.getText());
+        int valorB = Integer.parseInt(txtValorB.getText());
+        
+        p.cambiarPixel(x, y, valorR, valorG, valorB);
+        
+        asignarImagen(); 
+        
+        
+    }//GEN-LAST:event_btnCambierRgbActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCambierRgb;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;

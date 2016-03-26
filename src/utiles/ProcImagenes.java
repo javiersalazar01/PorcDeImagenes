@@ -23,7 +23,6 @@ public class ProcImagenes {
 
     //Método que devuelve una imagen abierta desde archivo
     //Retorna un objeto BufferedImagen
-
     public BufferedImage abrirImagen() {
         //Creamos la variable que será devuelta (la creamos como null)
         BufferedImage bmp = null;
@@ -32,7 +31,7 @@ public class ProcImagenes {
         //Le damos un título
         selector.setDialogTitle("Seleccione una imagen");
         //Filtramos los tipos de archivos
-        FileNameExtensionFilter filtroImagen = new FileNameExtensionFilter("JPG, GIF, BMP, JPG, PGM, BPM", "jpg", "gif", "bmp", "pgm", "ppm", "raw");
+        FileNameExtensionFilter filtroImagen = new FileNameExtensionFilter("JPG, GIF, BMP, JPG, PGM, BPM, jpeg", "jpeg","jpg", "gif", "bmp", "pgm", "ppm", "raw");
         selector.setFileFilter(filtroImagen);
         //Abrimos el cuadro de diálog
         int flag = selector.showOpenDialog(null);
@@ -71,6 +70,19 @@ public class ProcImagenes {
                 imageActual.setRGB(i, j, colorSRGB);
             }
         }
+        //Retornamos la imagen
+        return imageActual;
+    }
+
+    public Color valorPixel(int x, int y) {
+        Color res;
+        res = new Color(this.imageActual.getRGB(x, y));
+        return res;
+    }
+
+    public BufferedImage cambiarPixel(int x,int y,int r,int g, int b) {
+        Color c = new Color(r, g, b);
+        imageActual.setRGB(x, y, c.getRGB());
         //Retornamos la imagen
         return imageActual;
     }
