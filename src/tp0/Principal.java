@@ -21,6 +21,7 @@ public class Principal extends javax.swing.JFrame {
     public Principal() {
         initComponents();
         p = new ProcImagenes();
+        this.setSize(1300, 700);
         
     }
 
@@ -42,8 +43,6 @@ public class Principal extends javax.swing.JFrame {
         exitMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        desktopPane.setLayout(null);
 
         fileMenu.setMnemonic('f');
         fileMenu.setText("Archivo");
@@ -146,6 +145,7 @@ public class Principal extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Principal().setVisible(true);
+                
             }
         });
     }

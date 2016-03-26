@@ -6,8 +6,17 @@
 package tp0;
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
+import javax.swing.JDesktopPane;
+import javax.swing.JOptionPane;
 import utiles.ProcImagenes;
 
 /**
@@ -20,24 +29,47 @@ public class Editar extends javax.swing.JInternalFrame {
      * Creates new form Editar
      */
     ProcImagenes p;
-    
-    public Editar(ProcImagenes pro){
+    Rectangle captureRect;
+    Point start = new Point();
+    BufferedImage screen;
+    BufferedImage screenCopy;
+
+    public Editar(ProcImagenes pro) {
         initComponents();
         this.p = pro;
-        asignarImagen();
+        seleccionarRectangulo();
+
     }
-    
-    public void asignarImagen(){
-        
-        labelImagen.setIcon(new ImageIcon(p.getImageActual()));
+
+    public void seleccionarRectangulo() {
+        screen = p.getImageActual();
+        screenCopy = new BufferedImage(
+                screen.getWidth(),
+                screen.getHeight(),
+                screen.getType());
+
+        screenLabel.setIcon(new ImageIcon(screen));
+
+        repaint(screen, screenCopy);
+        screenLabel.repaint();
     }
-    
-    public void unit(){
-        
-        
-        
+
+    public void repaint(BufferedImage orig, BufferedImage copy) {
+        Graphics2D g = copy.createGraphics();
+        g.drawImage(orig, 0, 0, null);
+        if (captureRect != null) {
+            g.setColor(Color.RED);
+            g.draw(captureRect);
+            g.setColor(new Color(255, 255, 255, 150));
+            g.fill(captureRect);
+        }
+        g.dispose();
     }
-  
+
+    public void asignarImagen() {
+        screenLabel.setIcon(new ImageIcon(p.getImageActual()));
+    }
+
     public Editar() {
         initComponents();
     }
@@ -79,12 +111,17 @@ public class Editar extends javax.swing.JInternalFrame {
         jLabel13 = new javax.swing.JLabel();
         txtLimDer_Y = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
-        labelImagen = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
+        labelPuntoActual = new javax.swing.JLabel();
+        labelDimencion = new javax.swing.JLabel();
+        labelDimencion1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        screenLabel = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
 
         setClosable(true);
         setIconifiable(true);
@@ -143,7 +180,7 @@ public class Editar extends javax.swing.JInternalFrame {
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtValorR, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(117, Short.MAX_VALUE))
             .addComponent(btnCambierRgb, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
@@ -207,31 +244,26 @@ public class Editar extends javax.swing.JInternalFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1))
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel9)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel9)
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtLimIzq_X, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel11)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtLimIzq_Y, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(jLabel12)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtLimDer_X, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel13)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtLimDer_Y, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 5, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtLimIzq_X, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel11)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtLimIzq_Y, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel12)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtLimDer_X, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel13)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtLimDer_Y, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton1))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -253,7 +285,8 @@ public class Editar extends javax.swing.JInternalFrame {
                     .addComponent(txtLimDer_X, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtLimDer_Y, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1))
+                .addComponent(jButton1)
+                .addGap(75, 75, 75))
         );
 
         jButton2.setText("Obtener");
@@ -263,6 +296,31 @@ public class Editar extends javax.swing.JInternalFrame {
             }
         });
 
+        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Informacion"));
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(labelDimencion, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
+                        .addComponent(labelPuntoActual, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(labelDimencion1, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addComponent(labelPuntoActual, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(labelDimencion, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(labelDimencion1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(102, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -270,10 +328,9 @@ public class Editar extends javax.swing.JInternalFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1)
                             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -284,8 +341,12 @@ public class Editar extends javax.swing.JInternalFrame {
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtBuscarY, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addGap(124, 124, 124))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -300,24 +361,40 @@ public class Editar extends javax.swing.JInternalFrame {
                     .addComponent(txtBuscarY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(72, Short.MAX_VALUE))
         );
 
-        labelImagen.setBackground(new java.awt.Color(255, 255, 255));
-        labelImagen.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        screenLabel.setBackground(new java.awt.Color(255, 255, 255));
+        screenLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        screenLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                screenLabelMouseClicked(evt);
+            }
+        });
+        screenLabel.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                screenLabelMouseDragged(evt);
+            }
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                screenLabelMouseMoved(evt);
+            }
+        });
+        jScrollPane1.setViewportView(screenLabel);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(labelImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 498, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(6, 6, 6)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 476, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -325,11 +402,11 @@ public class Editar extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(labelImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 407, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
 
         jMenu1.setText("Archivo");
@@ -345,10 +422,15 @@ public class Editar extends javax.swing.JInternalFrame {
         jMenuItem2.setText("Guardar como");
         jMenu1.add(jMenuItem2);
 
-        jMenuBar1.add(jMenu1);
+        jMenuItem3.setText("Mostrar Imagen");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem3);
 
-        jMenu2.setText("Edit");
-        jMenuBar1.add(jMenu2);
+        jMenuBar1.add(jMenu1);
 
         setJMenuBar(jMenuBar1);
 
@@ -383,33 +465,72 @@ public class Editar extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtLimDer_XActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        int x = Integer.parseInt(txtBuscarX.getText());   
+        int x = Integer.parseInt(txtBuscarX.getText());
         int y = Integer.parseInt(txtBuscarY.getText());
 
         Color c = p.valorPixel(x, y);
-        
+
+        txtValorR.setText(String.valueOf(c.getRed()));
+        txtValorG.setText(String.valueOf(c.getGreen()));
+        txtValorB.setText(String.valueOf(c.getBlue()));
+
+
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void btnCambierRgbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambierRgbActionPerformed
+        int x = Integer.parseInt(txtBuscarX.getText());
+        int y = Integer.parseInt(txtBuscarY.getText());
+
+        int valorR = Integer.parseInt(txtValorR.getText());
+        int valorG = Integer.parseInt(txtValorG.getText());
+        int valorB = Integer.parseInt(txtValorB.getText());
+
+        BufferedImage b = p.cambiarPixel(x, y, valorR, valorG, valorB);
+
+        screenLabel.setIcon(new ImageIcon(b));
+        screenLabel.repaint();
+
+    }//GEN-LAST:event_btnCambierRgbActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        JDesktopPane dp = (JDesktopPane) this.getParent();
+        Visor v = new Visor(p);
+        dp.add(v);
+        v.setVisible(true);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void screenLabelMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_screenLabelMouseMoved
+
+        start = evt.getPoint();
+        repaint(screen, screenCopy);
+        labelPuntoActual.setText("Punto: X: " + start.x + ",Y: "  + start.y);
+        screenLabel.repaint();
+    }//GEN-LAST:event_screenLabelMouseMoved
+
+    private void screenLabelMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_screenLabelMouseDragged
+        Point end = evt.getPoint();
+        captureRect = new Rectangle(start,
+                new Dimension(end.x - start.x, end.y - start.y));
+        repaint(screen, screenCopy);
+        screenLabel.repaint();
+        labelDimencion.setText("Ancho: " + captureRect.width + " ,Largo: " + captureRect.height);
+    }//GEN-LAST:event_screenLabelMouseDragged
+
+    private void screenLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_screenLabelMouseClicked
+        Point click = evt.getPoint();
+        int x = click.x;
+        int y = click.y;
+
+        txtBuscarX.setText(String.valueOf(x));
+        txtBuscarY.setText(String.valueOf(y));
+
+        Color c = p.valorPixel(x, y);
+
         txtValorR.setText(String.valueOf(c.getRed()));
         txtValorG.setText(String.valueOf(c.getGreen()));
         txtValorB.setText(String.valueOf(c.getBlue()));
         
-        
-        
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void btnCambierRgbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambierRgbActionPerformed
-        int x = Integer.parseInt(txtBuscarX.getText());   
-        int y = Integer.parseInt(txtBuscarY.getText());
-        
-        int valorR = Integer.parseInt(txtValorR.getText());
-        int valorG = Integer.parseInt(txtValorG.getText());
-        int valorB = Integer.parseInt(txtValorB.getText());
-        
-        p.cambiarPixel(x, y, valorR, valorG, valorB);
-        
-        asignarImagen(); 
-        
-        
-    }//GEN-LAST:event_btnCambierRgbActionPerformed
+    }//GEN-LAST:event_screenLabelMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -429,15 +550,20 @@ public class Editar extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JLabel labelImagen;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel labelDimencion;
+    private javax.swing.JLabel labelDimencion1;
+    private javax.swing.JLabel labelPuntoActual;
+    private javax.swing.JLabel screenLabel;
     private javax.swing.JTextField txtBuscarX;
     private javax.swing.JTextField txtBuscarY;
     private javax.swing.JTextField txtLimDer_X;
