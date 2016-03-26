@@ -36,6 +36,10 @@ public class TP0 {
     System.out.println(c.getGreen()); // = (dataBuffInt[100] >> 8)  & 0xFF
     System.out.println(c.getBlue());  // = (dataBuffInt[100] >> 0)  & 0xFF
     System.out.println(c.getAlpha()); // = (dataBuffInt[100] >> 24) & 0xFF
+    int x = 3;
+    int y = 7;
+    float res = (float)x/(float)y;
+        System.out.println(res );
     }
     
 }
