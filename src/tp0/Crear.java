@@ -5,8 +5,10 @@
  */
 package tp0;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
+import utiles.canvasCrear;
 
 /**
  *
@@ -19,25 +21,18 @@ public class Crear extends javax.swing.JInternalFrame {
      */
 
     public Crear() {
+      canvasCrear cc = new canvasCrear();
       initComponents();
-      this.setVisible(true);
-      this.setSize(400,400);
-      this.pack();
+      cc.setBounds(100, 100, this.size().width, this.size().height);
+      this.getContentPane().add(cc, BorderLayout.CENTER);
+      cc.setVisible(true);
+      
       
     }
 
-    @Override
-    public void paintComponent( Graphics g ) {
-          g.setColor(Color.BLUE);
-          g.fillOval(20, 20, 200, 200);
-
-     }
+   
     
-    public static void main(String[] args){
-    new Crear(); 
     
-
-}
     
 
     /**
