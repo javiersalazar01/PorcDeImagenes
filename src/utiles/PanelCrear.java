@@ -3,41 +3,46 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tp0;
+package utiles;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import javax.swing.JPanel;
 
 /**
  *
  * @author karlagutz
  */
-public class Crear extends javax.swing.JInternalFrame {
-    
+public class PanelCrear extends JPanel {
+    Boolean paintCirculo = false;
+    Boolean paintCuadrado = false;
+    Boolean paintGrises = false;
+    Boolean paintColores = false;
     /**
-     * Creates new form Crear
+     * Creates new form PanelCrear
      */
-
-    public Crear() {
-      initComponents();
-      this.setVisible(true);
-      this.setSize(400,400);
-      this.pack();
-      
+    public PanelCrear() {
+        initComponents();
     }
-
+    
+    public void drawCircle( Boolean draw ) {
+       paintCirculo = true;
+       repaint();
+    }
+    
     @Override
-    public void paintComponent( Graphics g ) {
+    protected void paintComponent( Graphics g ) {
+      super.paintComponent(g);
+      
+       if ( paintCirculo ) {
           g.setColor(Color.BLUE);
-          g.fillOval(20, 20, 200, 200);
-
+          g.fillOval(1, 1, 200, 200);
+          
+       } else if (paintCuadrado) {
+            g.setColor(Color.red);
+            g.fillRect(20, 20, 200, 200);
+        }
      }
-    
-    public static void main(String[] args){
-    new Crear(); 
-    
-
-}
     
 
     /**
@@ -49,33 +54,19 @@ public class Crear extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jMenu1 = new javax.swing.JMenu();
-
-        jMenu1.setText("jMenu1");
-
-        setClosable(true);
-        setIconifiable(true);
-        setMaximizable(true);
-        setResizable(true);
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 544, Short.MAX_VALUE)
+            .addGap(0, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 433, Short.MAX_VALUE)
+            .addGap(0, 300, Short.MAX_VALUE)
         );
-
-        pack();
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenu jMenu1;
     // End of variables declaration//GEN-END:variables
-
-
 }

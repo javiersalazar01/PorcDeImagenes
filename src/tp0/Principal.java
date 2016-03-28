@@ -44,6 +44,8 @@ public class Principal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        desktopPane.setLayout(null);
+
         fileMenu.setMnemonic('f');
         fileMenu.setText("Archivo");
 
@@ -67,6 +69,11 @@ public class Principal extends javax.swing.JFrame {
 
         crearMenuItem.setMnemonic('a');
         crearMenuItem.setText("Crear");
+        crearMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                crearMenuItemActionPerformed(evt);
+            }
+        });
         fileMenu.add(crearMenuItem);
 
         exitMenuItem.setMnemonic('x');
@@ -113,6 +120,13 @@ public class Principal extends javax.swing.JFrame {
         desktopPane.add(ed);
         ed.setVisible(true);
     }//GEN-LAST:event_EditarMenuItemActionPerformed
+
+    private void crearMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crearMenuItemActionPerformed
+        // TODO add your handling code here:
+        Crear cr = new Crear();
+        desktopPane.add(cr);
+        cr.setVisible(true);
+    }//GEN-LAST:event_crearMenuItemActionPerformed
 
     /**
      * @param args the command line arguments
