@@ -20,13 +20,17 @@ public class Crear extends javax.swing.JInternalFrame {
      * Creates new form Crear
      */
 
-    public Crear() {
+    public Crear(String s) {
       canvasCrear cc = new canvasCrear();
+      cc.paint(s);
       initComponents();
-      cc.setBounds(100, 100, this.size().width, this.size().height);
+      this.setSize(500, 500);
+      int posX = (this.getWidth()/2)-100;
+      int posY = (this.getHeight()/2)-100;
+      cc.setBounds(posX, posY, this.size().width, this.size().height);
       this.getContentPane().add(cc, BorderLayout.CENTER);
+      cc.setBackground(Color.BLACK);
       cc.setVisible(true);
-      
       
     }
 

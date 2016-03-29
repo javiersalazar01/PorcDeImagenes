@@ -34,13 +34,20 @@ public class Principal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenuItem2 = new javax.swing.JMenuItem();
         desktopPane = new javax.swing.JDesktopPane();
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         abrirMenuItem = new javax.swing.JMenuItem();
         EditarMenuItem = new javax.swing.JMenuItem();
-        crearMenuItem = new javax.swing.JMenuItem();
+        crearMenuItem = new javax.swing.JMenu();
+        circuloMenuItem = new javax.swing.JMenuItem();
+        cuadradoMenuItem = new javax.swing.JMenuItem();
+        grisesMenuItem = new javax.swing.JMenuItem();
+        coloresMenuItem = new javax.swing.JMenuItem();
         exitMenuItem = new javax.swing.JMenuItem();
+
+        jMenuItem2.setText("jMenuItem2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -67,13 +74,40 @@ public class Principal extends javax.swing.JFrame {
         });
         fileMenu.add(EditarMenuItem);
 
-        crearMenuItem.setMnemonic('a');
         crearMenuItem.setText("Crear");
-        crearMenuItem.addActionListener(new java.awt.event.ActionListener() {
+
+        circuloMenuItem.setText("Circulo");
+        circuloMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                crearMenuItemActionPerformed(evt);
+                circuloMenuItemActionPerformed(evt);
             }
         });
+        crearMenuItem.add(circuloMenuItem);
+
+        cuadradoMenuItem.setText("Cuadrado");
+        cuadradoMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cuadradoMenuItemActionPerformed(evt);
+            }
+        });
+        crearMenuItem.add(cuadradoMenuItem);
+
+        grisesMenuItem.setText("Degradado Grises");
+        grisesMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                grisesMenuItemActionPerformed(evt);
+            }
+        });
+        crearMenuItem.add(grisesMenuItem);
+
+        coloresMenuItem.setText("Degradado Colores");
+        coloresMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                coloresMenuItemActionPerformed(evt);
+            }
+        });
+        crearMenuItem.add(coloresMenuItem);
+
         fileMenu.add(crearMenuItem);
 
         exitMenuItem.setMnemonic('x');
@@ -121,12 +155,36 @@ public class Principal extends javax.swing.JFrame {
         ed.setVisible(true);
     }//GEN-LAST:event_EditarMenuItemActionPerformed
 
-    private void crearMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crearMenuItemActionPerformed
+    private void circuloMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_circuloMenuItemActionPerformed
         // TODO add your handling code here:
-        Crear cr = new Crear();
+        Crear cr = new Crear("circulo");
         desktopPane.add(cr);
         cr.setVisible(true);
-    }//GEN-LAST:event_crearMenuItemActionPerformed
+       
+    }//GEN-LAST:event_circuloMenuItemActionPerformed
+
+    private void cuadradoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cuadradoMenuItemActionPerformed
+        // TODO add your handling code here:
+        Crear cr = new Crear("cuadrado");
+        desktopPane.add(cr);
+        cr.setVisible(true);
+        
+    }//GEN-LAST:event_cuadradoMenuItemActionPerformed
+
+    private void grisesMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_grisesMenuItemActionPerformed
+        // TODO add your handling code here:
+          Crear cr = new Crear("grises");
+        desktopPane.add(cr);
+        cr.setVisible(true);
+        
+    }//GEN-LAST:event_grisesMenuItemActionPerformed
+
+    private void coloresMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_coloresMenuItemActionPerformed
+        Crear cr = new Crear("colores");
+        desktopPane.add(cr);
+        cr.setVisible(true);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_coloresMenuItemActionPerformed
 
     /**
      * @param args the command line arguments
@@ -167,10 +225,15 @@ public class Principal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem EditarMenuItem;
     private javax.swing.JMenuItem abrirMenuItem;
-    private javax.swing.JMenuItem crearMenuItem;
+    private javax.swing.JMenuItem circuloMenuItem;
+    private javax.swing.JMenuItem coloresMenuItem;
+    private javax.swing.JMenu crearMenuItem;
+    private javax.swing.JMenuItem cuadradoMenuItem;
     private javax.swing.JDesktopPane desktopPane;
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenu fileMenu;
+    private javax.swing.JMenuItem grisesMenuItem;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuBar menuBar;
     // End of variables declaration//GEN-END:variables
 
