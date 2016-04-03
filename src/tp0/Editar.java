@@ -8,11 +8,8 @@ package tp0;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -20,7 +17,6 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 import utiles.ExtensionFileFilter;
 import utiles.LayoutFileFilter;
 import utiles.ProcImagenes;
@@ -35,7 +31,7 @@ public class Editar extends javax.swing.JInternalFrame {
      * Creates new form Editar
      */
     ProcImagenes p;
-    Rectangle captureRect;
+    Rectangle captureRect = new Rectangle();
     Point start = new Point();
     Point end;
     Point startClick;
@@ -45,18 +41,19 @@ public class Editar extends javax.swing.JInternalFrame {
     public Editar(ProcImagenes pro) {
         initComponents();
         this.p = pro;
-        seleccionarRectangulo();
+
+        seleccionarRectangulo(p.getImageActual());
 
     }
 
-    public void seleccionarRectangulo() {
-        screen = p.getImageActual();
+    public void seleccionarRectangulo(BufferedImage screen) {
+        this.screen = screen;
         screenCopy = new BufferedImage(
                 screen.getWidth(),
                 screen.getHeight(),
                 screen.getType());
 
-        screenLabel.setIcon(new ImageIcon(screen));
+        screenLabel.setIcon(new ImageIcon(screenCopy));
 
         repaint(screen, screenCopy);
         screenLabel.repaint();
@@ -417,8 +414,7 @@ public class Editar extends javax.swing.JInternalFrame {
         int valorB = Integer.parseInt(txtValorB.getText());
 
         BufferedImage b = p.cambiarPixel(x, y, valorR, valorG, valorB);
-
-        screenLabel.setIcon(new ImageIcon(b));
+        seleccionarRectangulo(b);
         screenLabel.repaint();
 
     }//GEN-LAST:event_btnCambierRgbActionPerformed
@@ -446,9 +442,9 @@ public class Editar extends javax.swing.JInternalFrame {
                 new Dimension(end.x - startClick.x, end.y - startClick.y));
 
         repaint(screen, screenCopy);
-        screenLabel.repaint();
-        labelDmiencion.setText("Ancho: " + captureRect.width + " ,Largo: " + captureRect.height);
 
+        labelDmiencion.setText("Ancho: " + captureRect.width + " ,Largo: " + captureRect.height);
+        screenLabel.repaint();
         float promedioR = 0, promedioG = 0, promedioB = 0;
         int sumR = 0, sumG = 0, sumB = 0, count = 0;
 
@@ -477,19 +473,18 @@ public class Editar extends javax.swing.JInternalFrame {
 
     private void screenLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_screenLabelMouseClicked
 
-        
 
     }//GEN-LAST:event_screenLabelMouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        System.out.println(startClick.x + " " + startClick.y  + " "  + captureRect.width + " " + captureRect.height);
+        System.out.println(startClick.x + " " + startClick.y + " " + captureRect.width + " " + captureRect.height);
         BufferedImage image = screen.getSubimage(startClick.x, startClick.y, captureRect.width, captureRect.height);
-        
+
         chooseSaveFile(image);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void screenLabelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_screenLabelMouseEntered
-       
+
     }//GEN-LAST:event_screenLabelMouseEntered
 
     private void screenLabelMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_screenLabelMousePressed

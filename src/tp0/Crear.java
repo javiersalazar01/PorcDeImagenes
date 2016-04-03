@@ -25,10 +25,10 @@ public class Crear extends javax.swing.JInternalFrame {
       cc.paint(s);
       initComponents();
       this.setSize(500, 500);
-      int posX = (this.getWidth()/2)-100;
-      int posY = (this.getHeight()/2)-100;
+      int posX = 100;
+      int posY = 100;
       cc.setBounds(posX, posY, this.size().width, this.size().height);
-      this.getContentPane().add(cc, BorderLayout.CENTER);
+      jPanel1.add(cc, BorderLayout.CENTER);
       cc.setBackground(Color.BLACK);
       cc.setVisible(true);
       
@@ -49,6 +49,7 @@ public class Crear extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jMenu1 = new javax.swing.JMenu();
+        jPanel1 = new javax.swing.JPanel();
 
         jMenu1.setText("jMenu1");
 
@@ -57,15 +58,28 @@ public class Crear extends javax.swing.JInternalFrame {
         setMaximizable(true);
         setResizable(true);
 
+        jPanel1.setBackground(new java.awt.Color(0, 0, 0));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 544, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 433, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 544, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 433, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -74,6 +88,7 @@ public class Crear extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 
 
