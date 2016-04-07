@@ -6,7 +6,6 @@
 package tp0;
 
 import utiles.ProcImagenes;
-import utiles.ProcImagenes;
 
 /**
  *
