@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tp0;
+package gui;
 
 import utiles.ProcImagenes;
 import utiles.ProcImagenes;
@@ -50,8 +50,6 @@ public class Principal extends javax.swing.JFrame {
         jMenuItem2.setText("jMenuItem2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        desktopPane.setLayout(null);
 
         fileMenu.setMnemonic('f');
         fileMenu.setText("Archivo");
