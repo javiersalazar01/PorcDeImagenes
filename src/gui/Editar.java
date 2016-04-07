@@ -18,6 +18,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
 import javax.swing.JFileChooser;
 import utiles.ExtensionFileFilter;
+import utiles.Histograma;
+import utiles.Histograma2;
+import utiles.Imagen;
 import utiles.LayoutFileFilter;
 import utiles.ProcImagenes;
 
@@ -30,21 +33,24 @@ public class Editar extends javax.swing.JInternalFrame {
     /**
      * Creates new form Editar
      */
-    ProcImagenes p;
-    Rectangle captureRect = new Rectangle();
-    Point start = new Point();
-    Point end;
-    Point startClick;
-    BufferedImage screen;
-    BufferedImage screenCopy;
-
+    private ProcImagenes p;
+    private Rectangle captureRect = new Rectangle();
+    private Point start = new Point();
+    private Point end;
+    private Point startClick;
+    private BufferedImage screen;
+    private BufferedImage screenCopy;
+    private Histograma2 objHistograma;
+    private VentanaHistograma objVentanaHistograma;
+    private JDesktopPane parentPanel = (JDesktopPane) this.getParent();
+    
     public Editar(ProcImagenes pro) {
         initComponents();
         this.p = pro;
-
+        objVentanaHistograma = new VentanaHistograma();
         seleccionarRectangulo(p.getImageActual());
-
     }
+    
 
     public void seleccionarRectangulo(BufferedImage screen) {
         this.screen = screen;
@@ -119,6 +125,8 @@ public class Editar extends javax.swing.JInternalFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        jMenuItem4 = new javax.swing.JMenuItem();
 
         setClosable(true);
         setIconifiable(true);
@@ -368,6 +376,18 @@ public class Editar extends javax.swing.JInternalFrame {
 
         jMenuBar1.add(jMenu1);
 
+        jMenu3.setText("Ver");
+
+        jMenuItem4.setText("Histograma");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem4);
+
+        jMenuBar1.add(jMenu3);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -420,9 +440,9 @@ public class Editar extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnCambierRgbActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        JDesktopPane dp = (JDesktopPane) this.getParent();
+        
         Visor v = new Visor(p);
-        dp.add(v);
+        parentPanel.add(v);
         v.setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
@@ -502,6 +522,16 @@ public class Editar extends javax.swing.JInternalFrame {
         txtValorB.setText(String.valueOf(c.getBlue()));
     }//GEN-LAST:event_screenLabelMousePressed
 
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        objHistograma = new Histograma2(p.getImageActual());
+        objVentanaHistograma.canvasHistograma.pintarHistograma(objHistograma.getImageHistograma());
+        objVentanaHistograma.pack();
+        //parentPanel.add(objVentanaHistograma);
+        objVentanaHistograma.setVisible(true);
+        
+        
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
     protected static final String EXTENSION = ".jpg";
 
     protected static final String FORMAT_NAME = "jpg";
@@ -543,10 +573,12 @@ public class Editar extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
