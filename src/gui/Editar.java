@@ -17,10 +17,9 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import utiles.ExtensionFileFilter;
-import utiles.Histograma;
 import utiles.Histograma2;
-import utiles.Imagen;
 import utiles.LayoutFileFilter;
 import utiles.ProcImagenes;
 
@@ -126,7 +125,8 @@ public class Editar extends javax.swing.JInternalFrame {
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
-        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItemHistograma = new javax.swing.JMenuItem();
+        jMenuItemUmbralizar = new javax.swing.JMenuItem();
 
         setClosable(true);
         setIconifiable(true);
@@ -378,13 +378,21 @@ public class Editar extends javax.swing.JInternalFrame {
 
         jMenu3.setText("Ver");
 
-        jMenuItem4.setText("Histograma");
-        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItemHistograma.setText("Histograma");
+        jMenuItemHistograma.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem4ActionPerformed(evt);
+                jMenuItemHistogramaActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItem4);
+        jMenu3.add(jMenuItemHistograma);
+
+        jMenuItemUmbralizar.setText("Umbralizar");
+        jMenuItemUmbralizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemUmbralizarActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItemUmbralizar);
 
         jMenuBar1.add(jMenu3);
 
@@ -522,7 +530,7 @@ public class Editar extends javax.swing.JInternalFrame {
         txtValorB.setText(String.valueOf(c.getBlue()));
     }//GEN-LAST:event_screenLabelMousePressed
 
-    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+    private void jMenuItemHistogramaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemHistogramaActionPerformed
         objHistograma = new Histograma2(p.getImageActual());
         objVentanaHistograma.canvasHistograma.pintarHistograma(objHistograma.getImageHistograma());
         objVentanaHistograma.pack();
@@ -530,7 +538,19 @@ public class Editar extends javax.swing.JInternalFrame {
         objVentanaHistograma.setVisible(true);
         
         
-    }//GEN-LAST:event_jMenuItem4ActionPerformed
+    }//GEN-LAST:event_jMenuItemHistogramaActionPerformed
+
+    private void jMenuItemUmbralizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemUmbralizarActionPerformed
+        String ans = JOptionPane.showInputDialog(this, "Valor Del Umbral");
+        int ansInt = Integer.parseInt(ans);
+        if (ansInt < 256 && ansInt > -1) {
+            screenLabel.setIcon(new ImageIcon(p.umbralizarGrises(ansInt)));
+        } else{
+            JOptionPane.showMessageDialog(this, "Ingrese Numero entr 0 y 255");
+        }
+        
+        
+    }//GEN-LAST:event_jMenuItemUmbralizarActionPerformed
 
     protected static final String EXTENSION = ".jpg";
 
@@ -578,7 +598,8 @@ public class Editar extends javax.swing.JInternalFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItemHistograma;
+    private javax.swing.JMenuItem jMenuItemUmbralizar;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

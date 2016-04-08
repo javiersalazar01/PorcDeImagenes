@@ -31,7 +31,7 @@ public class ProcImagenes {
         //Le damos un título
         selector.setDialogTitle("Seleccione una imagen");
         //Filtramos los tipos de archivos
-        FileNameExtensionFilter filtroImagen = new FileNameExtensionFilter("JPG, GIF, BMP, JPG, PGM, BPM, jpeg", "jpeg","jpg", "gif", "bmp", "pgm", "ppm", "raw");
+        FileNameExtensionFilter filtroImagen = new FileNameExtensionFilter("JPG, GIF, BMP, JPG, PGM, BPM, jpeg", "jpeg", "jpg", "gif", "bmp", "pgm", "ppm", "raw");
         selector.setFileFilter(filtroImagen);
         //Abrimos el cuadro de diálog
         int flag = selector.showOpenDialog(null);
@@ -74,13 +74,30 @@ public class ProcImagenes {
         return imageActual;
     }
 
+    public BufferedImage umbralizarGrises(int umbral) {
+        
+        BufferedImage copia = imageActual;
+        Color c;
+        for (int i = 0; i < imageActual.getWidth(); i++) {
+            for (int j = 0; j < imageActual.getHeight(); j++) {
+                c = valorPixel(j, j);
+                if (c.getRed() <= umbral) {
+                    copia.setRGB(i, j, new Color(0, 0, 0).getRGB());
+                } else {
+                    copia.setRGB(i, j, new Color(255, 255, 255).getRGB());
+                }
+            }
+        }
+        return copia;
+    }
+
     public Color valorPixel(int x, int y) {
         Color res;
         res = new Color(this.imageActual.getRGB(x, y));
         return res;
     }
 
-    public BufferedImage cambiarPixel(int x,int y,int r,int g, int b) {
+    public BufferedImage cambiarPixel(int x, int y, int r, int g, int b) {
         Color c = new Color(r, g, b);
         imageActual.setRGB(x, y, c.getRGB());
         //Retornamos la imagen
