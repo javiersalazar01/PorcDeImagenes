@@ -57,10 +57,11 @@ public class Editar extends javax.swing.JInternalFrame {
                 screen.getWidth(),
                 screen.getHeight(),
                 screen.getType());
-
         screenLabel.setIcon(new ImageIcon(screenCopy));
-
+        screenLabel.setPreferredSize(new Dimension(screen.getWidth(), screen.getHeight()));
         repaint(screen, screenCopy);
+        
+        
         screenLabel.repaint();
     }
 
@@ -126,7 +127,7 @@ public class Editar extends javax.swing.JInternalFrame {
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItemHistograma = new javax.swing.JMenuItem();
-        jMenuItemUmbralizar = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
 
         setClosable(true);
         setIconifiable(true);
@@ -386,13 +387,8 @@ public class Editar extends javax.swing.JInternalFrame {
         });
         jMenu3.add(jMenuItemHistograma);
 
-        jMenuItemUmbralizar.setText("Umbralizar");
-        jMenuItemUmbralizar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemUmbralizarActionPerformed(evt);
-            }
-        });
-        jMenu3.add(jMenuItemUmbralizar);
+        jMenuItem5.setText("Umbralizar");
+        jMenu3.add(jMenuItem5);
 
         jMenuBar1.add(jMenu3);
 
@@ -540,18 +536,6 @@ public class Editar extends javax.swing.JInternalFrame {
         
     }//GEN-LAST:event_jMenuItemHistogramaActionPerformed
 
-    private void jMenuItemUmbralizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemUmbralizarActionPerformed
-        String ans = JOptionPane.showInputDialog(this, "Valor Del Umbral");
-        int ansInt = Integer.parseInt(ans);
-        if (ansInt < 256 && ansInt > -1) {
-            screenLabel.setIcon(new ImageIcon(p.umbralizarGrises(ansInt)));
-        } else{
-            JOptionPane.showMessageDialog(this, "Ingrese Numero entr 0 y 255");
-        }
-        
-        
-    }//GEN-LAST:event_jMenuItemUmbralizarActionPerformed
-
     protected static final String EXTENSION = ".jpg";
 
     protected static final String FORMAT_NAME = "jpg";
@@ -598,8 +582,8 @@ public class Editar extends javax.swing.JInternalFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItemHistograma;
-    private javax.swing.JMenuItem jMenuItemUmbralizar;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
