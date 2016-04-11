@@ -73,14 +73,14 @@ public class ProcImagenes {
         return imageActual;
     }
 
-    public BufferedImage umbralizarGrises(int umbral) {
+    public BufferedImage umbralizarGrises(BufferedImage screen,int umbral) {
         BufferedImage copia = new BufferedImage(
-                imageActual.getWidth(),
-                imageActual.getHeight(),
-                imageActual.getType());
+                screen.getWidth(),
+                screen.getHeight(),
+                screen.getType());
         Color c;
-        for (int i = 0; i < imageActual.getWidth(); i++) {
-            for (int j = 0; j < imageActual.getHeight(); j++) {
+        for (int i = 0; i < screen.getWidth(); i++) {
+            for (int j = 0; j < screen.getHeight(); j++) {
                 c = valorPixel(i, j);
                 if (c.getRed() <= umbral) {
                     copia.setRGB(i, j, new Color(0, 0, 0).getRGB());
@@ -92,18 +92,18 @@ public class ProcImagenes {
         return copia;
     }
     
-    public BufferedImage ecualizarGris() {
+    public BufferedImage ecualizarGris(BufferedImage screen) {
         
         BufferedImage copia = new BufferedImage(
-                imageActual.getWidth(),
-                imageActual.getHeight(),
-                imageActual.getType());
+                screen.getWidth(),
+                screen.getHeight(),
+                screen.getType());
         
-        Histograma2 histograma = new Histograma2(imageActual);
+        Histograma2 histograma = new Histograma2(screen);
         //histograma de la imagen
         int histogramaGris[] = histograma.getHistogramaGris();
-        int ancho = imageActual.getWidth();
-        int alto = imageActual.getHeight();
+        int ancho = screen.getWidth();
+        int alto = screen.getHeight();
         int L = 255;
         //histograma normalizado
         int histogramaNormal[] = new int[L+1];

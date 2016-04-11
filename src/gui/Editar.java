@@ -19,6 +19,7 @@ import javax.swing.JDesktopPane;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import utiles.ExtensionFileFilter;
+import utiles.GeneradorDeRuido;
 import utiles.Histograma2;
 import utiles.LayoutFileFilter;
 import utiles.ProcImagenes;
@@ -41,11 +42,12 @@ public class Editar extends javax.swing.JInternalFrame {
     private BufferedImage screenCopy;
     private Histograma2 objHistograma;
     private VentanaHistograma objVentanaHistograma;
-    private JDesktopPane parentPanel = (JDesktopPane) this.getParent();
+    private GeneradorDeRuido gdr;
     
     public Editar(ProcImagenes pro) {
         initComponents();
         this.p = pro;
+        this.gdr = new GeneradorDeRuido();
         objVentanaHistograma = new VentanaHistograma();
         seleccionarRectangulo(p.getImageActual());
     }
@@ -127,6 +129,10 @@ public class Editar extends javax.swing.JInternalFrame {
         jMenuItemHistograma = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuItem6 = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
+        jMenuItem8 = new javax.swing.JMenuItem();
         jMenuItemRestaurar = new javax.swing.JMenuItem();
 
         setClosable(true);
@@ -403,6 +409,34 @@ public class Editar extends javax.swing.JInternalFrame {
         });
         jMenu3.add(jMenuItem4);
 
+        jMenu2.setText("Filtros");
+
+        jMenuItem6.setText("Gaussiano");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem6);
+
+        jMenuItem7.setText("Rayleigh");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem7);
+
+        jMenuItem8.setText("Exponencial");
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem8);
+
+        jMenu3.add(jMenu2);
+
         jMenuItemRestaurar.setText("Restaurar Imagen");
         jMenuItemRestaurar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -564,7 +598,7 @@ public class Editar extends javax.swing.JInternalFrame {
             String res = JOptionPane.showInputDialog(this, "Valor Del Umbral: ");
             int resNum = Integer.parseInt(res);
             if (resNum > -1 && resNum < 256) {
-                seleccionarRectangulo(p.umbralizarGrises(resNum));
+                seleccionarRectangulo(p.umbralizarGrises(screen,resNum));
             } else {
                 JOptionPane.showMessageDialog(this, "Ingrese Un Numero Entre 0 y 255");
             }
@@ -579,8 +613,48 @@ public class Editar extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jMenuItemRestaurarActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        seleccionarRectangulo(p.ecualizarGris());
+        seleccionarRectangulo(p.ecualizarGris(screen));
     }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        
+        try {
+            String sigma = JOptionPane.showInputDialog(this, "Valor De Sigma");
+            String mu = JOptionPane.showInputDialog(this, "Valor De Mu");
+            int sigmaInt = Integer.parseInt(sigma);          
+            int muInt = Integer.parseInt(mu);
+            seleccionarRectangulo(GeneradorDeRuido.generarRuidoGauss(screen, sigmaInt, muInt));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Ingrese Solo Valores Numericos.");
+            e.printStackTrace();
+        }
+        
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        
+        try {
+            String phi = JOptionPane.showInputDialog(this, "Valor De Phi");
+            int phiInt = Integer.parseInt(phi);   
+            seleccionarRectangulo(GeneradorDeRuido.generarRuidoRayleighMultiplicativo(screen, phiInt));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Ingrese Solo Valores Numericos.");
+            e.printStackTrace();
+        }
+        
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
+
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+        
+        try {
+            String lamba = JOptionPane.showInputDialog(this, "Valor De Phi");
+            int lambaInt = Integer.parseInt(lamba);
+            seleccionarRectangulo(GeneradorDeRuido.generarRuidoExponencialMultiplicativo(screen, lambaInt));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Ingrese Solo Valores Numericos.");
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
 
     protected static final String EXTENSION = ".jpg";
 
@@ -623,6 +697,7 @@ public class Editar extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
@@ -630,6 +705,9 @@ public class Editar extends javax.swing.JInternalFrame {
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItemHistograma;
     private javax.swing.JMenuItem jMenuItemRestaurar;
     private javax.swing.JPanel jPanel1;
