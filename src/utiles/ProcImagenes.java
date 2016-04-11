@@ -20,6 +20,7 @@ public class ProcImagenes {
 
     //Imagen actual que se ha cargado
     private BufferedImage imageActual;
+    private int nivelIntensidad;
 
     //Método que devuelve una imagen abierta desde archivo
     //Retorna un objeto BufferedImagen
@@ -74,6 +75,27 @@ public class ProcImagenes {
         return imageActual;
     }
 
+    public BufferedImage escalaGrises(BufferedImage imgSegunda) {
+        //Variables que almacenarán los píxeles
+        int mediaPixel, colorSRGB;
+        Color colorAux;
+
+        //Recorremos la imagen píxel a píxel
+        for (int i = 0; i < imgSegunda.getWidth(); i++) {
+            for (int j = 0; j < imgSegunda.getHeight(); j++) {
+                //Almacenamos el color del píxel
+                colorAux = new Color(imgSegunda.getRGB(i, j));
+                //Calculamos la media de los tres canales (rojo, verde, azul)
+                mediaPixel = (int) ((colorAux.getRed() + colorAux.getGreen() + colorAux.getBlue()) / 3);
+                //Cambiamos a formato sRGB
+                colorSRGB = (mediaPixel << 16) | (mediaPixel << 8) | mediaPixel;
+                //Asignamos el nuevo valor al BufferedImage
+                imgSegunda.setRGB(i, j, colorSRGB);
+            }
+        }
+        //Retornamos la imagen
+        return imageActual;
+    }
     public Color valorPixel(int x, int y) {
         Color res;
         res = new Color(this.imageActual.getRGB(x, y));
@@ -90,5 +112,33 @@ public class ProcImagenes {
     public BufferedImage getImageActual() {
         return imageActual;
     }
+    
+    public void normalizarImagenGris(BufferedImage imageSegunda) {
+        // nivel intensidad
+        if(nivelIntensidad > 255) {
+            nivelIntensidad = 255;
+        }
+        if(nivelIntensidad < 0) {
+            nivelIntensidad = 0;
+        }
+        // matriz
+        for(int fila = 0; fila < imageSegunda.getHeight(); fila++) {
+            for(int columna = 0; columna < imageSegunda.getWidth(); columna++) {
+               
+                int pixel = imageSegunda.getRGB(fila, columna);
+                // pixeles
+                if(pixel > nivelIntensidad) {
+                    pixel = nivelIntensidad;
+                }
+                if(pixel < 0) {
+                    pixel = 0;
+                }
+               imageSegunda.setRGB(fila, columna, pixel);
+            }
+        }
+    }
+    
+    
+    
 
 }

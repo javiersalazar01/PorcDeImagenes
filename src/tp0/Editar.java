@@ -16,13 +16,18 @@ import java.awt.event.MouseMotionAdapter;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.plaf.OptionPaneUI;
 import utiles.ExtensionFileFilter;
 import utiles.LayoutFileFilter;
+import utiles.Operaciones;
 import utiles.ProcImagenes;
 
 /**
@@ -35,12 +40,14 @@ public class Editar extends javax.swing.JInternalFrame {
      * Creates new form Editar
      */
     ProcImagenes p;
+    Operaciones Op;
     Rectangle captureRect;
     Point start = new Point();
     Point end;
     Point startClick;
     BufferedImage screen;
     BufferedImage screenCopy;
+    BufferedImage imageSegunda;
 
     public Editar(ProcImagenes pro) {
         initComponents();
@@ -122,6 +129,12 @@ public class Editar extends javax.swing.JInternalFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
+        MenuImagen = new javax.swing.JMenu();
+        menuSuma = new javax.swing.JMenuItem();
+        menuResta = new javax.swing.JMenuItem();
+        menuProducto = new javax.swing.JMenuItem();
+        menuEscalar = new javax.swing.JMenuItem();
+        menuDinamico = new javax.swing.JMenuItem();
 
         setClosable(true);
         setIconifiable(true);
@@ -371,6 +384,51 @@ public class Editar extends javax.swing.JInternalFrame {
 
         jMenuBar1.add(jMenu1);
 
+        MenuImagen.setText("Imágen");
+
+        menuSuma.setText("Suma");
+        menuSuma.setName("menuSuma"); // NOI18N
+        menuSuma.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuSumaActionPerformed(evt);
+            }
+        });
+        MenuImagen.add(menuSuma);
+
+        menuResta.setText("Resta");
+        menuResta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuRestaActionPerformed(evt);
+            }
+        });
+        MenuImagen.add(menuResta);
+
+        menuProducto.setText("Producto");
+        menuProducto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuProductoActionPerformed(evt);
+            }
+        });
+        MenuImagen.add(menuProducto);
+
+        menuEscalar.setText("Producto Escalar");
+        menuEscalar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuEscalarActionPerformed(evt);
+            }
+        });
+        MenuImagen.add(menuEscalar);
+
+        menuDinamico.setText("Rango Dinámico");
+        menuDinamico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuDinamicoActionPerformed(evt);
+            }
+        });
+        MenuImagen.add(menuDinamico);
+
+        jMenuBar1.add(MenuImagen);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -477,19 +535,18 @@ public class Editar extends javax.swing.JInternalFrame {
 
     private void screenLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_screenLabelMouseClicked
 
-        
 
     }//GEN-LAST:event_screenLabelMouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        System.out.println(startClick.x + " " + startClick.y  + " "  + captureRect.width + " " + captureRect.height);
+        System.out.println(startClick.x + " " + startClick.y + " " + captureRect.width + " " + captureRect.height);
         BufferedImage image = screen.getSubimage(startClick.x, startClick.y, captureRect.width, captureRect.height);
-        
+
         chooseSaveFile(image);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void screenLabelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_screenLabelMouseEntered
-       
+
     }//GEN-LAST:event_screenLabelMouseEntered
 
     private void screenLabelMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_screenLabelMousePressed
@@ -506,6 +563,204 @@ public class Editar extends javax.swing.JInternalFrame {
         txtValorG.setText(String.valueOf(c.getGreen()));
         txtValorB.setText(String.valueOf(c.getBlue()));
     }//GEN-LAST:event_screenLabelMousePressed
+
+    private void menuSumaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSumaActionPerformed
+        // TODO add your handling code here:
+        int respuesta = JOptionPane.showConfirmDialog(this, "Sumar Una Constante?", "Sumar Constante O Imagen", JOptionPane.YES_NO_CANCEL_OPTION);
+        // si respuesta es si, suma constante
+        if (respuesta == 0) {
+            String valor = JOptionPane.showInputDialog(this, "Valor", "Sumar Valor A Imagen", JOptionPane.INFORMATION_MESSAGE);
+            int constante = Integer.parseInt(valor);
+            screenCopy = Op.suma(screen, constante);
+            repaint(screen, screenCopy);
+            System.out.println("Si Suma Constante");
+        }
+
+        if (respuesta == 1) {
+            BufferedImage bmp = null;
+            JFileChooser fileChooser = new JFileChooser();
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG", "jpg", "png");
+            fileChooser.setFileFilter(filter);
+            fileChooser.setAcceptAllFileFilterUsed(false);
+            int respu = fileChooser.showOpenDialog(this);
+
+            if (respu == JFileChooser.APPROVE_OPTION && fileChooser.getSelectedFile().exists()) {
+                try {
+                    //Devuelve el fichero seleccionado
+                    File imagenSeleccionada = fileChooser.getSelectedFile();
+                    //Asignamos a la variable bmp la imagen leida
+                    bmp = ImageIO.read(imagenSeleccionada);
+                } catch (IOException ex) {
+                    Logger.getLogger(Editar.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            imageSegunda = p.escalaGrises(bmp);
+
+            if (screen.getWidth() == imageSegunda.getWidth() && screen.getHeight() == imageSegunda.getHeight()) {
+
+            
+                p.normalizarImagenGris(screenCopy);
+                repaint(screen, screenCopy);
+            } else {
+                JOptionPane.showConfirmDialog(this, "Las imágenes no coinciden");
+            }
+
+
+    }//GEN-LAST:event_menuSumaActionPerformed
+    }
+
+    private void menuRestaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuRestaActionPerformed
+        // TODO add your handling code here:
+
+        int respuesta = JOptionPane.showConfirmDialog(this, "Restar Una Constante?", "Restar Constante O Imagen", JOptionPane.YES_NO_CANCEL_OPTION);
+        // si respuesta es si, suma constante
+        if (respuesta == 0) {
+            String valor = JOptionPane.showInputDialog(this, "Valor", "Restar Valor A Imagen", JOptionPane.INFORMATION_MESSAGE);
+            int constante = Integer.parseInt(valor);
+            screen = p.escalaGrises();
+            for (int i = 0; i < screen.getWidth(); i++) {
+                for (int j = 0; j < screen.getHeight(); j++) {
+                    int suma = screen.getRGB(i, j) - constante;
+                    screenCopy.setRGB(i, j, suma);
+                }
+            }
+            p.normalizarImagenGris(screenCopy);
+            repaint(screen, screenCopy);
+            System.out.println("Si Resta Constante");
+        }
+
+        if (respuesta == 1) {
+            BufferedImage bmp = null;
+            JFileChooser fileChooser = new JFileChooser();
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG", "jpg", "png");
+            fileChooser.setFileFilter(filter);
+            fileChooser.setAcceptAllFileFilterUsed(false);
+            int respu = fileChooser.showOpenDialog(this);
+
+            if (respu == JFileChooser.APPROVE_OPTION && fileChooser.getSelectedFile().exists()) {
+                try {
+                    //Devuelve el fichero seleccionado
+                    File imagenSeleccionada = fileChooser.getSelectedFile();
+                    //Asignamos a la variable bmp la imagen leida
+                    bmp = ImageIO.read(imagenSeleccionada);
+                } catch (IOException ex) {
+                    Logger.getLogger(Editar.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            imageSegunda = p.escalaGrises(bmp);
+
+            if (screen.getWidth() == imageSegunda.getWidth() && screen.getHeight() == imageSegunda.getHeight()) {
+
+                for (int i = 0; i < screen.getHeight(); i++) {
+                    for (int j = 0; j < screen.getWidth(); j++) {
+                        int suma = screen.getRGB(i, j) - imageSegunda.getRGB(i, j);
+                        screenCopy.setRGB(i, j, suma);
+
+                    }
+                }
+                p.normalizarImagenGris(screenCopy);
+                repaint(screen, screenCopy);
+            } else {
+                JOptionPane.showConfirmDialog(this, "Las imágenes no coinciden");
+            }
+
+        }
+    }//GEN-LAST:event_menuRestaActionPerformed
+
+    private void menuProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuProductoActionPerformed
+        // TODO add your handling code here:
+        BufferedImage bmp = null;
+        JFileChooser fileChooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG", "jpg", "png");
+        fileChooser.setFileFilter(filter);
+        fileChooser.setAcceptAllFileFilterUsed(false);
+        int respu = fileChooser.showOpenDialog(this);
+
+        if (respu == JFileChooser.APPROVE_OPTION && fileChooser.getSelectedFile().exists()) {
+            try {
+                //Devuelve el fichero seleccionado
+                File imagenSeleccionada = fileChooser.getSelectedFile();
+                //Asignamos a la variable bmp la imagen leida
+                bmp = ImageIO.read(imagenSeleccionada);
+            } catch (IOException ex) {
+                Logger.getLogger(Editar.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        imageSegunda = p.escalaGrises(bmp);
+
+        if (screen.getWidth() == imageSegunda.getWidth() && screen.getHeight() == imageSegunda.getHeight()) {
+
+            for (int i = 0; i < screen.getHeight(); i++) {
+                for (int j = 0; j < screen.getWidth(); j++) {
+                    int mult = screen.getRGB(i, j) * imageSegunda.getRGB(i, j);
+                    if (mult > 255) {
+                        screenCopy.setRGB(i, j, 255);
+                    } else {
+                        screenCopy.setRGB(i, j, mult);
+                    }
+                }
+            }
+
+            repaint(screen, screenCopy);
+            System.out.println("Si multiplica imagenes");
+        } else {
+            JOptionPane.showConfirmDialog(this, "Las imágenes no coinciden");
+        }
+
+
+    }//GEN-LAST:event_menuProductoActionPerformed
+
+    private void menuEscalarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuEscalarActionPerformed
+        // TODO add your handling code here:
+        String valor = JOptionPane.showInputDialog(this, "Valor", "Multiplicar Valor A Imagen", JOptionPane.INFORMATION_MESSAGE);
+        int constante = Integer.parseInt(valor);
+        screen = p.escalaGrises();
+        for (int i = 0; i < screen.getWidth(); i++) {
+            for (int j = 0; j < screen.getHeight(); j++) {
+                int mult = screen.getRGB(i, j) * constante;
+                if (mult > 255 || mult < 0) {
+                    screenCopy.setRGB(i, j, 255);
+                } else {
+                    screenCopy.setRGB(i, j, mult);
+                }
+            }
+        }
+        p.normalizarImagenGris(screenCopy);
+        repaint(screen, screenCopy);
+        System.out.println("Si Multiplica Constante");
+
+    }//GEN-LAST:event_menuEscalarActionPerformed
+
+    private void menuDinamicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuDinamicoActionPerformed
+        // TODO add your handling code here:
+        //R valor máximo de gris en la imágen
+        int R;
+        int max = 0, posX=0, posY=0;
+        for (int i = 0; i < screen.getHeight(); i++) {
+            for (int j = 0; j < screen.getWidth(); j++) {
+                if (screen.getRGB(i, j)> max){
+                max = screen.getRGB(i, j);
+                posX = i;
+                posY = j;
+}
+            }
+        }
+        R = max;
+        
+        for (int i = 0; i < screen.getHeight(); i++) {
+            for (int j = 0; j < screen.getWidth(); j++) {
+                int T, r;
+                r = screen.getRGB(i, j);
+                T = (int) ((255 / Math.log(1+R)) * Math.log(1+r));
+                screenCopy.setRGB(i, j, T);
+            }
+        }
+        
+        repaint(screen, screenCopy);
+        System.out.println("si comprime el Rango dinamico");
+        
+        
+    }//GEN-LAST:event_menuDinamicoActionPerformed
 
     protected static final String EXTENSION = ".jpg";
 
@@ -538,6 +793,7 @@ public class Editar extends javax.swing.JInternalFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu MenuImagen;
     private javax.swing.JButton btnCambierRgb;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -563,6 +819,11 @@ public class Editar extends javax.swing.JInternalFrame {
     private javax.swing.JLabel labelPromG;
     private javax.swing.JLabel labelPromR;
     private javax.swing.JLabel labelPuntoActual;
+    private javax.swing.JMenuItem menuDinamico;
+    private javax.swing.JMenuItem menuEscalar;
+    private javax.swing.JMenuItem menuProducto;
+    private javax.swing.JMenuItem menuResta;
+    private javax.swing.JMenuItem menuSuma;
     private javax.swing.JLabel screenLabel;
     private javax.swing.JTextField txtBuscarX;
     private javax.swing.JTextField txtBuscarY;
