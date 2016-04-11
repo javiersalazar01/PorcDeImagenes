@@ -22,7 +22,7 @@ public class Visor extends javax.swing.JInternalFrame {
     public Visor(ProcImagenes p) {
         initComponents();
         this.p = p;
-        this.labelVisorImagen.setIcon(new ImageIcon(p.getImageActual()));
+        this.labelVisorImagen.setIcon(new ImageIcon(this.p.getImageActual()));
     }
     
     

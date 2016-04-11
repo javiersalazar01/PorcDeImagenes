@@ -58,10 +58,8 @@ public class Editar extends javax.swing.JInternalFrame {
                 screen.getHeight(),
                 screen.getType());
         screenLabel.setIcon(new ImageIcon(screenCopy));
-        screenLabel.setPreferredSize(new Dimension(screen.getWidth(), screen.getHeight()));
+        
         repaint(screen, screenCopy);
-        
-        
         screenLabel.repaint();
     }
 
@@ -128,6 +126,8 @@ public class Editar extends javax.swing.JInternalFrame {
         jMenu3 = new javax.swing.JMenu();
         jMenuItemHistograma = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItemRestaurar = new javax.swing.JMenuItem();
 
         setClosable(true);
         setIconifiable(true);
@@ -388,7 +388,28 @@ public class Editar extends javax.swing.JInternalFrame {
         jMenu3.add(jMenuItemHistograma);
 
         jMenuItem5.setText("Umbralizar");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
         jMenu3.add(jMenuItem5);
+
+        jMenuItem4.setText("Ecualizar");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem4);
+
+        jMenuItemRestaurar.setText("Restaurar Imagen");
+        jMenuItemRestaurar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemRestaurarActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItemRestaurar);
 
         jMenuBar1.add(jMenu3);
 
@@ -446,6 +467,7 @@ public class Editar extends javax.swing.JInternalFrame {
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         
         Visor v = new Visor(p);
+        JDesktopPane parentPanel = (JDesktopPane) this.getParent();
         parentPanel.add(v);
         v.setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
@@ -527,7 +549,7 @@ public class Editar extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_screenLabelMousePressed
 
     private void jMenuItemHistogramaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemHistogramaActionPerformed
-        objHistograma = new Histograma2(p.getImageActual());
+        objHistograma = new Histograma2(screen);
         objVentanaHistograma.canvasHistograma.pintarHistograma(objHistograma.getImageHistograma());
         objVentanaHistograma.pack();
         //parentPanel.add(objVentanaHistograma);
@@ -535,6 +557,30 @@ public class Editar extends javax.swing.JInternalFrame {
         
         
     }//GEN-LAST:event_jMenuItemHistogramaActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        
+        try {
+            String res = JOptionPane.showInputDialog(this, "Valor Del Umbral: ");
+            int resNum = Integer.parseInt(res);
+            if (resNum > -1 && resNum < 256) {
+                seleccionarRectangulo(p.umbralizarGrises(resNum));
+            } else {
+                JOptionPane.showMessageDialog(this, "Ingrese Un Numero Entre 0 y 255");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Ingrese Un Numero Entre 0 y 255");
+        }
+        
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMenuItemRestaurarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemRestaurarActionPerformed
+        seleccionarRectangulo(p.getImageActual());
+    }//GEN-LAST:event_jMenuItemRestaurarActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        seleccionarRectangulo(p.ecualizarGris());
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     protected static final String EXTENSION = ".jpg";
 
@@ -582,8 +628,10 @@ public class Editar extends javax.swing.JInternalFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItemHistograma;
+    private javax.swing.JMenuItem jMenuItemRestaurar;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

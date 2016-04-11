@@ -69,7 +69,7 @@ public class Histograma2 {
         }
     }
     
-     public Imagen getImagenHistogramaGris() {
+     private Imagen getImagenHistogramaGris() {
         Imagen imagenHistograma = new Imagen();
         imagenHistograma.setFormato("P2");
         imagenHistograma.setM((short)256);
@@ -247,6 +247,12 @@ public class Histograma2 {
          }
          
      }
+
+    public int[] getHistogramaGris() {
+        return histogramaGris;
+    }
+     
+     
      
     
 }

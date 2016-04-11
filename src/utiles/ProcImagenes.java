@@ -20,7 +20,6 @@ public class ProcImagenes {
 
     //Imagen actual que se ha cargado
     private BufferedImage imageActual;
-
     //Método que devuelve una imagen abierta desde archivo
     //Retorna un objeto BufferedImagen
     public BufferedImage abrirImagen() {
@@ -75,12 +74,14 @@ public class ProcImagenes {
     }
 
     public BufferedImage umbralizarGrises(int umbral) {
-        
-        BufferedImage copia = imageActual;
+        BufferedImage copia = new BufferedImage(
+                imageActual.getWidth(),
+                imageActual.getHeight(),
+                imageActual.getType());
         Color c;
         for (int i = 0; i < imageActual.getWidth(); i++) {
             for (int j = 0; j < imageActual.getHeight(); j++) {
-                c = valorPixel(j, j);
+                c = valorPixel(i, j);
                 if (c.getRed() <= umbral) {
                     copia.setRGB(i, j, new Color(0, 0, 0).getRGB());
                 } else {
@@ -88,6 +89,43 @@ public class ProcImagenes {
                 }
             }
         }
+        return copia;
+    }
+    
+    public BufferedImage ecualizarGris() {
+        
+        BufferedImage copia = new BufferedImage(
+                imageActual.getWidth(),
+                imageActual.getHeight(),
+                imageActual.getType());
+        
+        Histograma2 histograma = new Histograma2(imageActual);
+        //histograma de la imagen
+        int histogramaGris[] = histograma.getHistogramaGris();
+        int ancho = imageActual.getWidth();
+        int alto = imageActual.getHeight();
+        int L = 255;
+        //histograma normalizado
+        int histogramaNormal[] = new int[L+1];
+        //calcula el nuevo histograma
+        for(int i = 1; i < L+1; i++) {
+            histogramaNormal[i] = histogramaNormal[i-1] + histogramaGris[i];
+        }
+        //crea vector LUT
+        int LUT[] = new int[L+1];
+        for(int i = 0; i < L; i++) {
+            LUT[i] = (int)Math.floor(((L-1)*histogramaNormal[i])/(ancho*alto));
+        }
+       
+        Color c;
+        for(int i = 0; i < alto; i++) {
+            for(int j = 0; j < ancho; j++) {
+                c = valorPixel(i, j);
+                int val = LUT[c.getRed()];
+                copia.setRGB(i, j, new Color(val,val,val).getRGB());
+            }
+        }
+        
         return copia;
     }
 
@@ -107,5 +145,8 @@ public class ProcImagenes {
     public BufferedImage getImageActual() {
         return imageActual;
     }
+
+    
+    
 
 }
