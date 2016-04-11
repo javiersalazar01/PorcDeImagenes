@@ -129,11 +129,16 @@ public class Editar extends javax.swing.JInternalFrame {
         jMenuItemHistograma = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
+        jMenuItemRestaurar = new javax.swing.JMenuItem();
+        jMenu4 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
-        jMenuItemRestaurar = new javax.swing.JMenuItem();
+        jMenuItemSalYPimienta = new javax.swing.JMenuItem();
+        jMenu5 = new javax.swing.JMenu();
+        jMenuItem9 = new javax.swing.JMenuItem();
+        jMenuItem10 = new javax.swing.JMenuItem();
+        jMenuItem11 = new javax.swing.JMenuItem();
 
         setClosable(true);
         setIconifiable(true);
@@ -383,7 +388,7 @@ public class Editar extends javax.swing.JInternalFrame {
 
         jMenuBar1.add(jMenu1);
 
-        jMenu3.setText("Ver");
+        jMenu3.setText("Herramientas");
 
         jMenuItemHistograma.setText("Histograma");
         jMenuItemHistograma.addActionListener(new java.awt.event.ActionListener() {
@@ -409,34 +414,6 @@ public class Editar extends javax.swing.JInternalFrame {
         });
         jMenu3.add(jMenuItem4);
 
-        jMenu2.setText("Filtros");
-
-        jMenuItem6.setText("Gaussiano");
-        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem6ActionPerformed(evt);
-            }
-        });
-        jMenu2.add(jMenuItem6);
-
-        jMenuItem7.setText("Rayleigh");
-        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem7ActionPerformed(evt);
-            }
-        });
-        jMenu2.add(jMenuItem7);
-
-        jMenuItem8.setText("Exponencial");
-        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem8ActionPerformed(evt);
-            }
-        });
-        jMenu2.add(jMenuItem8);
-
-        jMenu3.add(jMenu2);
-
         jMenuItemRestaurar.setText("Restaurar Imagen");
         jMenuItemRestaurar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -446,6 +423,70 @@ public class Editar extends javax.swing.JInternalFrame {
         jMenu3.add(jMenuItemRestaurar);
 
         jMenuBar1.add(jMenu3);
+
+        jMenu4.setText("Ruido");
+
+        jMenuItem6.setText("Gaussiano");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem6);
+
+        jMenuItem7.setText("Rayleigh");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem7);
+
+        jMenuItem8.setText("Exponencial");
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem8);
+
+        jMenuItemSalYPimienta.setText("Sal Y Pimienta");
+        jMenuItemSalYPimienta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemSalYPimientaActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItemSalYPimienta);
+
+        jMenu5.setText("Sinteticas");
+
+        jMenuItem9.setText("Gaussiano");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItem9);
+
+        jMenuItem10.setText("Rayleigh");
+        jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem10ActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItem10);
+
+        jMenuItem11.setText("Exponencial");
+        jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem11ActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItem11);
+
+        jMenu4.add(jMenu5);
+
+        jMenuBar1.add(jMenu4);
 
         setJMenuBar(jMenuBar1);
 
@@ -647,7 +688,7 @@ public class Editar extends javax.swing.JInternalFrame {
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
         
         try {
-            String lamba = JOptionPane.showInputDialog(this, "Valor De Phi");
+            String lamba = JOptionPane.showInputDialog(this, "Valor De Lambda");
             int lambaInt = Integer.parseInt(lamba);
             seleccionarRectangulo(GeneradorDeRuido.generarRuidoExponencialMultiplicativo(screen, lambaInt));
         } catch (Exception e) {
@@ -655,6 +696,53 @@ public class Editar extends javax.swing.JInternalFrame {
             e.printStackTrace();
         }
     }//GEN-LAST:event_jMenuItem8ActionPerformed
+
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+        try {
+            String sigma = JOptionPane.showInputDialog(this, "Valor De Sigma");
+            String mu = JOptionPane.showInputDialog(this, "Valor De Mu");
+            int sigmaInt = Integer.parseInt(sigma);          
+            int muInt = Integer.parseInt(mu);
+            seleccionarRectangulo(GeneradorDeRuido.generarRuidoGauss(new BufferedImage(100, 100, BufferedImage.TYPE_3BYTE_BGR), sigmaInt, muInt));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Ingrese Solo Valores Numericos.");
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
+
+    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
+        try {
+            String phi = JOptionPane.showInputDialog(this, "Valor De Phi");
+            int phiInt = Integer.parseInt(phi);   
+            seleccionarRectangulo(GeneradorDeRuido.generarRuidoRayleighMultiplicativo(p.generarImagenSinteticaMultiplicativa(100, 100,1), phiInt));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Ingrese Solo Valores Numericos.");
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_jMenuItem10ActionPerformed
+
+    private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
+        try {
+            String lamba = JOptionPane.showInputDialog(this, "Valor De Lambda");
+            int lambaInt = Integer.parseInt(lamba);
+            seleccionarRectangulo(GeneradorDeRuido.generarRuidoExponencialMultiplicativo(p.generarImagenSinteticaMultiplicativa(100, 100,100), lambaInt));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Ingrese Solo Valores Numericos.");
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_jMenuItem11ActionPerformed
+
+    private void jMenuItemSalYPimientaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSalYPimientaActionPerformed
+        try {
+            String por = JOptionPane.showInputDialog(this, "Porcentage De Pixeles");
+            int porInt = Integer.parseInt(por);
+            seleccionarRectangulo(GeneradorDeRuido.generarRuidoSaltAndPepper(screen, porInt));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Ingrese Solo Valores Numericos.");
+            e.printStackTrace();
+        }
+        
+    }//GEN-LAST:event_jMenuItemSalYPimientaActionPerformed
 
     protected static final String EXTENSION = ".jpg";
 
@@ -697,10 +785,13 @@ public class Editar extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem10;
+    private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
@@ -708,8 +799,10 @@ public class Editar extends javax.swing.JInternalFrame {
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JMenuItem jMenuItemHistograma;
     private javax.swing.JMenuItem jMenuItemRestaurar;
+    private javax.swing.JMenuItem jMenuItemSalYPimienta;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

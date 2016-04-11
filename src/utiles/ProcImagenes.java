@@ -128,6 +128,18 @@ public class ProcImagenes {
         
         return copia;
     }
+    
+    public BufferedImage generarImagenSinteticaMultiplicativa(int ancho,int largo,int valor){
+        BufferedImage res = new BufferedImage(ancho, largo, BufferedImage.TYPE_3BYTE_BGR);
+        
+        for (int i = 0; i < res.getHeight(); i++) {
+            for (int j = 0; j < res.getWidth(); j++) {
+                res.setRGB(i, j, new Color(valor,valor,valor).getRGB());
+            }
+        }
+        
+        return res;
+    }
 
     public Color valorPixel(int x, int y) {
         Color res;
@@ -145,6 +157,7 @@ public class ProcImagenes {
     public BufferedImage getImageActual() {
         return imageActual;
     }
+    
 
     
     
