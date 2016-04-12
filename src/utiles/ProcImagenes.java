@@ -18,8 +18,15 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class ProcImagenes {
 
-    //Imagen actual que se ha cargado
+     //Imagen actual que se ha cargado
     private BufferedImage imageActual;
+    private BufferedImage screen = imageActual;
+    private int nivelIntensidad;
+    private Operaciones Op;
+    
+    public ProcImagenes(){
+        this.Op = new Operaciones();
+    }
 
     //Método que devuelve una imagen abierta desde archivo
     //Retorna un objeto BufferedImagen
@@ -90,5 +97,130 @@ public class ProcImagenes {
     public BufferedImage getImageActual() {
         return imageActual;
     }
+    
+    public BufferedImage sumaConstante(int constante){
+       
+        BufferedImage screenCopy = new BufferedImage(
+                screen.getWidth(),
+                screen.getHeight(),
+                screen.getType());
+        
+        screenCopy = escalaGrises();
+        screenCopy = Op.suma(screenCopy, constante);
+        //normalizarImagenGris(imageActual);
+        System.out.println("suma constante");
+        return screenCopy;        
+    }
+    
+    public BufferedImage sumaImagen (BufferedImage imageSegunda){
+        BufferedImage screenCopy = new BufferedImage(
+                screen.getWidth(),
+                screen.getHeight(),
+                screen.getType());
+        escalaGrises();      
+        screenCopy = Op.suma(screenCopy, imageSegunda);
+       // normalizarImagenGris(screenCopy);
+        return screenCopy;  
+    }
+    
+     public BufferedImage restaConstante(int constante){
+         BufferedImage screenCopy = new BufferedImage(
+                screen.getWidth(),
+                screen.getHeight(),
+                screen.getType());
+        escalaGrises();
+        screenCopy = Op.resta(screenCopy, constante);
+       // normalizarImagenGris(screenCopy);
+        return screenCopy;
+        
+    }
+    
+    public BufferedImage restaImagen (BufferedImage imageSegunda){
+        BufferedImage screenCopy = new BufferedImage(
+                screen.getWidth(),
+                screen.getHeight(),
+                screen.getType());
+        escalaGrises();      
+        screenCopy = Op.resta(screenCopy, imageSegunda);
+       // normalizarImagenGris(screenCopy);
+        return screenCopy;
+        
+    }
+    
+    public BufferedImage productoImagen (BufferedImage imageSegunda){
+        BufferedImage screenCopy = new BufferedImage(
+                screen.getWidth(),
+                screen.getHeight(),
+                screen.getType());
+        escalaGrises();
+        screenCopy = Op.producto(screenCopy, imageSegunda);
+       // normalizarImagenGris(screenCopy);
+        return screenCopy;
+    }
+    
+      public BufferedImage productoEscalar (int escalar){
+          BufferedImage screenCopy = new BufferedImage(
+                screen.getWidth(),
+                screen.getHeight(),
+                screen.getType());
+        escalaGrises();
+        screenCopy = Op.producto(screenCopy, escalar);
+        //normalizarImagenGris(screenCopy);
+        return screenCopy;
+    
+      }
+      
+     public BufferedImage rangoDin(){
+         BufferedImage screenCopy = new BufferedImage(
+                screen.getWidth(),
+                screen.getHeight(),
+                screen.getType());
+         escalaGrises();
+         Op.rangoDinamico(screenCopy);
+         return screenCopy;
+     }
+     
+     
+     public BufferedImage potenciaGamma(int gamma){
+         BufferedImage screenCopy = new BufferedImage(
+                screen.getWidth(),
+                screen.getHeight(),
+                screen.getType());
+         escalaGrises();
+         Op.powerLaw(screenCopy, gamma);
+         normalizarImagenGris(screenCopy);
+         
+         return screenCopy;
+                 
+     }
+    
+    
+    
+    public void normalizarImagenGris(BufferedImage imageSegunda) {
+        // nivel intensidad
+        if(nivelIntensidad > 255) {
+            nivelIntensidad = 255;
+        }
+        if(nivelIntensidad < 0) {
+            nivelIntensidad = 0;
+        }
+        // matriz
+        for(int fila = 0; fila < imageSegunda.getHeight(); fila++) {
+            for(int columna = 0; columna < imageSegunda.getWidth(); columna++) {
+               
+                int pixel = imageSegunda.getRGB(fila, columna);
+                // pixeles
+                if(pixel > nivelIntensidad) {
+                    pixel = nivelIntensidad;
+                }
+                if(pixel < 0) {
+                    pixel = 0;
+                }
+               imageSegunda.setRGB(fila, columna, pixel);
+            }
+        }
+    }
+    
+
 
 }
