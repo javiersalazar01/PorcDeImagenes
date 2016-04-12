@@ -20,7 +20,6 @@ public class ProcImagenes {
 
     //Imagen actual que se ha cargado
     private BufferedImage imageActual;
-
     //Método que devuelve una imagen abierta desde archivo
     //Retorna un objeto BufferedImagen
     public BufferedImage abrirImagen() {
@@ -31,7 +30,7 @@ public class ProcImagenes {
         //Le damos un título
         selector.setDialogTitle("Seleccione una imagen");
         //Filtramos los tipos de archivos
-        FileNameExtensionFilter filtroImagen = new FileNameExtensionFilter("JPG, GIF, BMP, JPG, PGM, BPM, jpeg", "jpeg","jpg", "gif", "bmp", "pgm", "ppm", "raw");
+        FileNameExtensionFilter filtroImagen = new FileNameExtensionFilter("JPG, GIF, BMP, JPG, PGM, BPM, jpeg", "jpeg", "jpg", "gif", "bmp", "pgm", "ppm", "raw");
         selector.setFileFilter(filtroImagen);
         //Abrimos el cuadro de diálog
         int flag = selector.showOpenDialog(null);
@@ -74,13 +73,81 @@ public class ProcImagenes {
         return imageActual;
     }
 
+    public BufferedImage umbralizarGrises(BufferedImage screen,int umbral) {
+        BufferedImage copia = new BufferedImage(
+                screen.getWidth(),
+                screen.getHeight(),
+                screen.getType());
+        Color c;
+        for (int i = 0; i < screen.getWidth(); i++) {
+            for (int j = 0; j < screen.getHeight(); j++) {
+                c = valorPixel(i, j);
+                if (c.getRed() <= umbral) {
+                    copia.setRGB(i, j, new Color(0, 0, 0).getRGB());
+                } else {
+                    copia.setRGB(i, j, new Color(255, 255, 255).getRGB());
+                }
+            }
+        }
+        return copia;
+    }
+    
+    public BufferedImage ecualizarGris(BufferedImage screen) {
+        
+        BufferedImage copia = new BufferedImage(
+                screen.getWidth(),
+                screen.getHeight(),
+                screen.getType());
+        
+        Histograma2 histograma = new Histograma2(screen);
+        //histograma de la imagen
+        int histogramaGris[] = histograma.getHistogramaGris();
+        int ancho = screen.getWidth();
+        int alto = screen.getHeight();
+        int L = 255;
+        //histograma normalizado
+        int histogramaNormal[] = new int[L+1];
+        //calcula el nuevo histograma
+        for(int i = 1; i < L+1; i++) {
+            histogramaNormal[i] = histogramaNormal[i-1] + histogramaGris[i];
+        }
+        //crea vector LUT
+        int LUT[] = new int[L+1];
+        for(int i = 0; i < L; i++) {
+            LUT[i] = (int)Math.floor(((L-1)*histogramaNormal[i])/(ancho*alto));
+        }
+       
+        Color c;
+        for(int i = 0; i < alto; i++) {
+            for(int j = 0; j < ancho; j++) {
+                c = valorPixel(i, j);
+                int val = LUT[c.getRed()];
+                copia.setRGB(i, j, new Color(val,val,val).getRGB());
+            }
+        }
+        
+        return copia;
+    }
+    
+    public BufferedImage generarImagenSinteticaMultiplicativa(int ancho,int largo,int valor){
+        BufferedImage res = new BufferedImage(ancho, largo, BufferedImage.TYPE_3BYTE_BGR);
+        
+        for (int i = 0; i < res.getHeight(); i++) {
+            for (int j = 0; j < res.getWidth(); j++) {
+                res.setRGB(i, j, new Color(valor,valor,valor).getRGB());
+            }
+        }
+        
+        return res;
+    }
+
     public Color valorPixel(int x, int y) {
         Color res;
         res = new Color(this.imageActual.getRGB(x, y));
         return res;
     }
 
-    public BufferedImage cambiarPixel(int x,int y,int r,int g, int b) {
+    public BufferedImage cambiarPixel(int x, int y, int r, int g, int b) {
         Color c = new Color(r, g, b);
         imageActual.setRGB(x, y, c.getRGB());
         //Retornamos la imagen
@@ -90,5 +157,9 @@ public class ProcImagenes {
     public BufferedImage getImageActual() {
         return imageActual;
     }
+    
+
+    
+    
 
 }
