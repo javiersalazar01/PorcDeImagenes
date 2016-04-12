@@ -94,8 +94,9 @@ public class ProcImagenes {
             }
         }
         //Retornamos la imagen
-        return imageActual;
+        return imgSegunda;
     }
+    
     public Color valorPixel(int x, int y) {
         Color res;
         res = new Color(this.imageActual.getRGB(x, y));
@@ -114,19 +115,18 @@ public class ProcImagenes {
     }
     
     public BufferedImage sumaConstante(int constante){
-        escalaGrises();
+        imageActual = escalaGrises();
         imageActual = Op.suma(imageActual, constante);
-        normalizarImagenGris(imageActual);
-        return imageActual;
-        
+        //normalizarImagenGris(imageActual);
+        System.out.println("suma constante");
+        return imageActual;        
     }
     
     public BufferedImage sumaImagen (BufferedImage imageSegunda){
         escalaGrises();      
         imageActual = Op.suma(imageActual, escalaGrises(imageSegunda));
         normalizarImagenGris(imageActual);
-        return imageActual;
-        
+        return imageActual;  
     }
     
      public BufferedImage restaConstante(int constante){

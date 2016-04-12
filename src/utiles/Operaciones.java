@@ -15,27 +15,25 @@ import java.awt.image.BufferedImage;
 public class Operaciones {
 
     // private BufferedImage imageActual;
-    private int nivelIntensidad;
+    //private int nivelIntensidad;
     ProcImagenes p = new ProcImagenes();
 
     public BufferedImage suma(BufferedImage imageActual, int valor) {
-        for (int i = 0; i < imageActual.getWidth(); i++) {
-            for (int j = 0; j < imageActual.getHeight(); j++) {
+        for (int i = 0; i < imageActual.getHeight(); i++) {
+            for (int j = 0; j < imageActual.getWidth(); j++) {
                 Color color = new Color(imageActual.getRGB(i, j));
-                int suma = color.getAlpha() + valor;
+                int suma = color.getRed()+ valor;
                 if (suma > 255) {
 
-                    imageActual.setRGB(i, j, 255);
+                    imageActual.setRGB(i, j, new Color (255,255,255).getRGB());
                 } else {
-                    imageActual.setRGB(i, j, suma);
+                    imageActual.setRGB(i, j, new Color (suma, suma, suma).getRGB());
                 }
 
             }
         }
         return imageActual;
 
-      //  p.normalizarImagenGris(imageActual);
-        // repaint(screen, screenCopy);
     }
 
     public BufferedImage suma(BufferedImage imageActual, BufferedImage imageOperando) {
@@ -47,11 +45,11 @@ public class Operaciones {
                 for (int j = 0; j < imageActual.getWidth(); j++) {
                     Color color1 = new Color(imageActual.getRGB(i, j));
                     Color color2 = new Color(imageOperando.getRGB(i, j));
-                    int suma = color1.getAlpha() + color2.getAlpha();
+                    int suma = color1.getRed() + color2.getRed();
                     if (suma > 255) {
-                        imagenResultado.setRGB(i, j, 255);
+                        imagenResultado.setRGB(i, j, new Color(255,255,255).getRGB());
                     } else {
-                        imagenResultado.setRGB(i, j, suma);
+                        imagenResultado.setRGB(i, j, new Color(suma,suma,suma).getRGB());
                     }
                 }
             }
@@ -64,12 +62,12 @@ public class Operaciones {
         for (int i = 0; i < imageActual.getWidth(); i++) {
             for (int j = 0; j < imageActual.getHeight(); j++) {
                 Color color = new Color(imageActual.getRGB(i, j));
-                int suma = color.getAlpha() - valor;
+                int suma = color.getRed() - valor;
                 if (suma > 255) {
 
-                    imageActual.setRGB(i, j, 255);
+                    imageActual.setRGB(i, j, new Color(255,255,255).getRGB());
                 } else {
-                    imageActual.setRGB(i, j, suma);
+                    imageActual.setRGB(i, j, new Color(suma,suma,suma).getRGB());
                 }
 
             }
@@ -86,11 +84,11 @@ public class Operaciones {
                 for (int j = 0; j < imageActual.getWidth(); j++) {
                     Color color1 = new Color(imageActual.getRGB(i, j));
                     Color color2 = new Color(imageOperando.getRGB(i, j));
-                    int suma = color1.getAlpha() - color2.getAlpha();
+                    int suma = color1.getRed() - color2.getRed();
                     if (suma > 255) {
-                        imagenResultado.setRGB(i, j, 255);
+                        imagenResultado.setRGB(i, j, new Color(255,255,255).getRGB());
                     } else {
-                        imagenResultado.setRGB(i, j, suma);
+                        imagenResultado.setRGB(i, j, new Color(suma,suma,suma).getRGB());
                     }
                 }
             }
@@ -105,11 +103,11 @@ public class Operaciones {
                 Color c1 = new Color(imageActual.getRGB(i, j));
                 Color c2 = new Color(imageOperando.getRGB(i, j));
 
-                int mult = c1.getAlpha() * c2.getAlpha();
+                int mult = c1.getRed() * c2.getRed();
                 if (mult > 255) {
-                    imageActual.setRGB(i, j, 255);
+                    imageActual.setRGB(i, j, new Color(255,255,255).getRGB());
                 } else {
-                    imageActual.setRGB(i, j, mult);
+                    imageActual.setRGB(i, j, new Color(mult,mult,mult).getRGB());
                 }
             }
         }
@@ -124,9 +122,9 @@ public class Operaciones {
 
                 int mult = c1.getRed() * escalar;
                 if (mult > 255 || mult < 0) {
-                    imageActual.setRGB(i, j, 255);
+                    imageActual.setRGB(i, j, new Color(255,255,255).getRGB());
                 } else {
-                    imageActual.setRGB(i, j, mult);
+                    imageActual.setRGB(i, j, new Color(mult, mult, mult).getRGB());
                 }
             }
         }
@@ -155,7 +153,7 @@ public class Operaciones {
                 Color c = new Color(image.getRGB(i, j));
                 r = c.getRed();
                 T = (int) ((255 / Math.log(1 + R)) * Math.log(1 + r));
-                image.setRGB(i, j, T);
+                image.setRGB(i, j, new Color(T,T,T).getRGB());
             }
         }
         return image;
@@ -187,7 +185,7 @@ public class Operaciones {
                 r = color.getRed();
                 T = (int) (c * Math.pow(r, gamma));
                 
-                image.setRGB(i, j, T);
+                image.setRGB(i, j, new Color(T,T,T).getRGB());
             }
         }
         return image;
