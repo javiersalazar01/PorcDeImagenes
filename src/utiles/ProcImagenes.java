@@ -21,7 +21,7 @@ public class ProcImagenes {
     //Imagen actual que se ha cargado
     private BufferedImage imageActual;
     private int nivelIntensidad;
-
+    Operaciones Op;
     //Método que devuelve una imagen abierta desde archivo
     //Retorna un objeto BufferedImagen
     public BufferedImage abrirImagen() {
@@ -112,6 +112,70 @@ public class ProcImagenes {
     public BufferedImage getImageActual() {
         return imageActual;
     }
+    
+    public BufferedImage sumaConstante(int constante){
+        escalaGrises();
+        imageActual = Op.suma(imageActual, constante);
+        normalizarImagenGris(imageActual);
+        return imageActual;
+        
+    }
+    
+    public BufferedImage sumaImagen (BufferedImage imageSegunda){
+        escalaGrises();      
+        imageActual = Op.suma(imageActual, escalaGrises(imageSegunda));
+        normalizarImagenGris(imageActual);
+        return imageActual;
+        
+    }
+    
+     public BufferedImage restaConstante(int constante){
+        escalaGrises();
+        imageActual = Op.resta(imageActual, constante);
+        normalizarImagenGris(imageActual);
+        return imageActual;
+        
+    }
+    
+    public BufferedImage restaImagen (BufferedImage imageSegunda){
+        escalaGrises();      
+        imageActual = Op.resta(imageActual, escalaGrises(imageSegunda));
+        normalizarImagenGris(imageActual);
+        return imageActual;
+        
+    }
+    
+    public BufferedImage productoImagen (BufferedImage imageSegunda){
+        escalaGrises();
+        imageActual = Op.producto(imageActual, imageSegunda);
+        normalizarImagenGris(imageActual);
+        return imageActual;
+    }
+    
+      public BufferedImage productoEscalar (int escalar){
+        escalaGrises();
+        imageActual = Op.producto(imageActual, escalar);
+        normalizarImagenGris(imageActual);
+        return imageActual;
+    }
+      
+     public BufferedImage rangoDin(){
+         escalaGrises();
+         Op.rangoDinamico(imageActual);
+         return imageActual;
+     }
+     
+     
+     public BufferedImage potenciaGamma(int gamma){
+         escalaGrises();
+         Op.powerLaw(imageActual, gamma);
+         normalizarImagenGris(imageActual);
+         
+         return imageActual;
+                 
+     }
+    
+    
     
     public void normalizarImagenGris(BufferedImage imageSegunda) {
         // nivel intensidad

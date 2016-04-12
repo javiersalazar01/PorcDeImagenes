@@ -8,11 +8,8 @@ package tp0;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -24,7 +21,6 @@ import javax.swing.JDesktopPane;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.plaf.OptionPaneUI;
 import utiles.ExtensionFileFilter;
 import utiles.LayoutFileFilter;
 import utiles.Operaciones;
@@ -135,6 +131,7 @@ public class Editar extends javax.swing.JInternalFrame {
         menuProducto = new javax.swing.JMenuItem();
         menuEscalar = new javax.swing.JMenuItem();
         menuDinamico = new javax.swing.JMenuItem();
+        menuPotencia = new javax.swing.JMenuItem();
 
         setClosable(true);
         setIconifiable(true);
@@ -427,6 +424,14 @@ public class Editar extends javax.swing.JInternalFrame {
         });
         MenuImagen.add(menuDinamico);
 
+        menuPotencia.setText("Tranformar Potencia");
+        menuPotencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuPotenciaActionPerformed(evt);
+            }
+        });
+        MenuImagen.add(menuPotencia);
+
         jMenuBar1.add(MenuImagen);
 
         setJMenuBar(jMenuBar1);
@@ -571,7 +576,7 @@ public class Editar extends javax.swing.JInternalFrame {
         if (respuesta == 0) {
             String valor = JOptionPane.showInputDialog(this, "Valor", "Sumar Valor A Imagen", JOptionPane.INFORMATION_MESSAGE);
             int constante = Integer.parseInt(valor);
-            screenCopy = Op.suma(screen, constante);
+            screenCopy = p.sumaConstante(constante);
             repaint(screen, screenCopy);
             System.out.println("Si Suma Constante");
         }
@@ -590,6 +595,7 @@ public class Editar extends javax.swing.JInternalFrame {
                     File imagenSeleccionada = fileChooser.getSelectedFile();
                     //Asignamos a la variable bmp la imagen leida
                     bmp = ImageIO.read(imagenSeleccionada);
+                    
                 } catch (IOException ex) {
                     Logger.getLogger(Editar.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -598,7 +604,7 @@ public class Editar extends javax.swing.JInternalFrame {
 
             if (screen.getWidth() == imageSegunda.getWidth() && screen.getHeight() == imageSegunda.getHeight()) {
 
-            
+               screenCopy = Op.suma(screen, imageSegunda);
                 p.normalizarImagenGris(screenCopy);
                 repaint(screen, screenCopy);
             } else {
@@ -617,14 +623,7 @@ public class Editar extends javax.swing.JInternalFrame {
         if (respuesta == 0) {
             String valor = JOptionPane.showInputDialog(this, "Valor", "Restar Valor A Imagen", JOptionPane.INFORMATION_MESSAGE);
             int constante = Integer.parseInt(valor);
-            screen = p.escalaGrises();
-            for (int i = 0; i < screen.getWidth(); i++) {
-                for (int j = 0; j < screen.getHeight(); j++) {
-                    int suma = screen.getRGB(i, j) - constante;
-                    screenCopy.setRGB(i, j, suma);
-                }
-            }
-            p.normalizarImagenGris(screenCopy);
+            p.restaConstante(constante);
             repaint(screen, screenCopy);
             System.out.println("Si Resta Constante");
         }
@@ -651,14 +650,7 @@ public class Editar extends javax.swing.JInternalFrame {
 
             if (screen.getWidth() == imageSegunda.getWidth() && screen.getHeight() == imageSegunda.getHeight()) {
 
-                for (int i = 0; i < screen.getHeight(); i++) {
-                    for (int j = 0; j < screen.getWidth(); j++) {
-                        int suma = screen.getRGB(i, j) - imageSegunda.getRGB(i, j);
-                        screenCopy.setRGB(i, j, suma);
-
-                    }
-                }
-                p.normalizarImagenGris(screenCopy);
+               p.restaImagen(imageSegunda);
                 repaint(screen, screenCopy);
             } else {
                 JOptionPane.showConfirmDialog(this, "Las imágenes no coinciden");
@@ -690,17 +682,7 @@ public class Editar extends javax.swing.JInternalFrame {
 
         if (screen.getWidth() == imageSegunda.getWidth() && screen.getHeight() == imageSegunda.getHeight()) {
 
-            for (int i = 0; i < screen.getHeight(); i++) {
-                for (int j = 0; j < screen.getWidth(); j++) {
-                    int mult = screen.getRGB(i, j) * imageSegunda.getRGB(i, j);
-                    if (mult > 255) {
-                        screenCopy.setRGB(i, j, 255);
-                    } else {
-                        screenCopy.setRGB(i, j, mult);
-                    }
-                }
-            }
-
+            p.productoImagen(imageSegunda);
             repaint(screen, screenCopy);
             System.out.println("Si multiplica imagenes");
         } else {
@@ -714,17 +696,7 @@ public class Editar extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         String valor = JOptionPane.showInputDialog(this, "Valor", "Multiplicar Valor A Imagen", JOptionPane.INFORMATION_MESSAGE);
         int constante = Integer.parseInt(valor);
-        screen = p.escalaGrises();
-        for (int i = 0; i < screen.getWidth(); i++) {
-            for (int j = 0; j < screen.getHeight(); j++) {
-                int mult = screen.getRGB(i, j) * constante;
-                if (mult > 255 || mult < 0) {
-                    screenCopy.setRGB(i, j, 255);
-                } else {
-                    screenCopy.setRGB(i, j, mult);
-                }
-            }
-        }
+        p.productoEscalar(constante);
         p.normalizarImagenGris(screenCopy);
         repaint(screen, screenCopy);
         System.out.println("Si Multiplica Constante");
@@ -734,33 +706,24 @@ public class Editar extends javax.swing.JInternalFrame {
     private void menuDinamicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuDinamicoActionPerformed
         // TODO add your handling code here:
         //R valor máximo de gris en la imágen
-        int R;
-        int max = 0, posX=0, posY=0;
-        for (int i = 0; i < screen.getHeight(); i++) {
-            for (int j = 0; j < screen.getWidth(); j++) {
-                if (screen.getRGB(i, j)> max){
-                max = screen.getRGB(i, j);
-                posX = i;
-                posY = j;
-}
-            }
-        }
-        R = max;
-        
-        for (int i = 0; i < screen.getHeight(); i++) {
-            for (int j = 0; j < screen.getWidth(); j++) {
-                int T, r;
-                r = screen.getRGB(i, j);
-                T = (int) ((255 / Math.log(1+R)) * Math.log(1+r));
-                screenCopy.setRGB(i, j, T);
-            }
-        }
-        
+        screenCopy = p.rangoDin();
         repaint(screen, screenCopy);
         System.out.println("si comprime el Rango dinamico");
         
         
     }//GEN-LAST:event_menuDinamicoActionPerformed
+
+    private void menuPotenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPotenciaActionPerformed
+        // TODO add your handling code here:
+        
+        String valor = JOptionPane.showInputDialog(this, "Valor", "Definir el valor de ɣ", JOptionPane.INFORMATION_MESSAGE);
+        int gamma = Integer.parseInt(valor);
+        screenCopy = p.potenciaGamma(gamma);
+        p.normalizarImagenGris(screenCopy);
+        repaint(screen, screenCopy);
+        System.out.println("Si transforma potencia");
+        
+    }//GEN-LAST:event_menuPotenciaActionPerformed
 
     protected static final String EXTENSION = ".jpg";
 
@@ -821,6 +784,7 @@ public class Editar extends javax.swing.JInternalFrame {
     private javax.swing.JLabel labelPuntoActual;
     private javax.swing.JMenuItem menuDinamico;
     private javax.swing.JMenuItem menuEscalar;
+    private javax.swing.JMenuItem menuPotencia;
     private javax.swing.JMenuItem menuProducto;
     private javax.swing.JMenuItem menuResta;
     private javax.swing.JMenuItem menuSuma;
