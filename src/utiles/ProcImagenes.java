@@ -20,8 +20,13 @@ public class ProcImagenes {
 
     //Imagen actual que se ha cargado
     private BufferedImage imageActual;
+    private BufferedImage screen = imageActual;
     private int nivelIntensidad;
-    Operaciones Op;
+    private Operaciones Op;
+    
+    public ProcImagenes(){
+        this.Op = new Operaciones();
+    }
     //Método que devuelve una imagen abierta desde archivo
     //Retorna un objeto BufferedImagen
     public BufferedImage abrirImagen() {
@@ -115,11 +120,17 @@ public class ProcImagenes {
     }
     
     public BufferedImage sumaConstante(int constante){
-        imageActual = escalaGrises();
-        imageActual = Op.suma(imageActual, constante);
+       
+        BufferedImage screenCopy = new BufferedImage(
+                screen.getWidth(),
+                screen.getHeight(),
+                screen.getType());
+        
+        screenCopy = escalaGrises();
+        screenCopy = Op.suma(screenCopy, constante);
         //normalizarImagenGris(imageActual);
         System.out.println("suma constante");
-        return imageActual;        
+        return screenCopy;        
     }
     
     public BufferedImage sumaImagen (BufferedImage imageSegunda){

@@ -48,12 +48,12 @@ public class Editar extends javax.swing.JInternalFrame {
     public Editar(ProcImagenes pro) {
         initComponents();
         this.p = pro;
-        seleccionarRectangulo();
+        seleccionarRectangulo(p.getImageActual());
 
     }
 
-    public void seleccionarRectangulo() {
-        screen = p.getImageActual();
+    public void seleccionarRectangulo(BufferedImage newScreen) {
+        screen = newScreen;
         screenCopy = new BufferedImage(
                 screen.getWidth(),
                 screen.getHeight(),
@@ -132,6 +132,11 @@ public class Editar extends javax.swing.JInternalFrame {
         menuEscalar = new javax.swing.JMenuItem();
         menuDinamico = new javax.swing.JMenuItem();
         menuPotencia = new javax.swing.JMenuItem();
+        menuFiltrado = new javax.swing.JMenu();
+        menuMedia = new javax.swing.JMenuItem();
+        menuMediana = new javax.swing.JMenuItem();
+        menuGaussiano = new javax.swing.JMenuItem();
+        menuBordes = new javax.swing.JMenuItem();
 
         setClosable(true);
         setIconifiable(true);
@@ -434,6 +439,27 @@ public class Editar extends javax.swing.JInternalFrame {
 
         jMenuBar1.add(MenuImagen);
 
+        menuFiltrado.setText("Filtrado");
+
+        menuMedia.setText("Media");
+        menuMedia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuMediaActionPerformed(evt);
+            }
+        });
+        menuFiltrado.add(menuMedia);
+
+        menuMediana.setText("Mediana");
+        menuFiltrado.add(menuMediana);
+
+        menuGaussiano.setText("Gaussiano");
+        menuFiltrado.add(menuGaussiano);
+
+        menuBordes.setText("Pasaaltos");
+        menuFiltrado.add(menuBordes);
+
+        jMenuBar1.add(menuFiltrado);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -576,8 +602,9 @@ public class Editar extends javax.swing.JInternalFrame {
         if (respuesta == 0) {
             String valor = JOptionPane.showInputDialog(this, "Valor", "Sumar Valor A Imagen", JOptionPane.INFORMATION_MESSAGE);
             int constante = Integer.parseInt(valor);
-            screenCopy = p.sumaConstante(constante);
-            repaint(screen, screenCopy);
+            //screenCopy = p.sumaConstante(constante);
+            //repaint(screen, screenCopy);
+            seleccionarRectangulo(p.sumaConstante(constante));
             System.out.println("Si Suma Constante");
         }
 
@@ -725,6 +752,19 @@ public class Editar extends javax.swing.JInternalFrame {
         
     }//GEN-LAST:event_menuPotenciaActionPerformed
 
+    private void menuMediaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuMediaActionPerformed
+        // TODO add your handling code here:
+         String valor = JOptionPane.showInputDialog(this, "Tamaño de máscara", "Definir el tamaño de mascara", JOptionPane.INFORMATION_MESSAGE);
+        int sizeM = Integer.parseInt(valor);
+        
+        if(sizeM%2 == 0 || sizeM==1){
+            JOptionPane.showMessageDialog(null,"Favor ingresar un numero IMPAR o mayor a 1");
+        } else {
+        
+        
+        }
+    }//GEN-LAST:event_menuMediaActionPerformed
+
     protected static final String EXTENSION = ".jpg";
 
     protected static final String FORMAT_NAME = "jpg";
@@ -782,8 +822,13 @@ public class Editar extends javax.swing.JInternalFrame {
     private javax.swing.JLabel labelPromG;
     private javax.swing.JLabel labelPromR;
     private javax.swing.JLabel labelPuntoActual;
+    private javax.swing.JMenuItem menuBordes;
     private javax.swing.JMenuItem menuDinamico;
     private javax.swing.JMenuItem menuEscalar;
+    private javax.swing.JMenu menuFiltrado;
+    private javax.swing.JMenuItem menuGaussiano;
+    private javax.swing.JMenuItem menuMedia;
+    private javax.swing.JMenuItem menuMediana;
     private javax.swing.JMenuItem menuPotencia;
     private javax.swing.JMenuItem menuProducto;
     private javax.swing.JMenuItem menuResta;

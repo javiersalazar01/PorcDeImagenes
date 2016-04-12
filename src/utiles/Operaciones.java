@@ -16,7 +16,7 @@ public class Operaciones {
 
     // private BufferedImage imageActual;
     //private int nivelIntensidad;
-    ProcImagenes p = new ProcImagenes();
+    //ProcImagenes p = new ProcImagenes();
 
     public BufferedImage suma(BufferedImage imageActual, int valor) {
         for (int i = 0; i < imageActual.getHeight(); i++) {
