@@ -23,6 +23,7 @@ public class ProcImagenes {
     private BufferedImage screen = imageActual;
     private int nivelIntensidad;
     private Operaciones Op;
+    private Filtros f = new Filtros();
     
     public ProcImagenes(){
         this.Op = new Operaciones();
@@ -145,7 +146,6 @@ public class ProcImagenes {
                 res.setRGB(i, j, new Color(valor,valor,valor).getRGB());
             }
         }
-        
         return res;
     }
 
@@ -249,6 +249,8 @@ public class ProcImagenes {
      }
      
      
+     
+     
      public BufferedImage potenciaGamma(int gamma){
          BufferedImage screenCopy = new BufferedImage(
                 screen.getWidth(),
@@ -288,5 +290,52 @@ public class ProcImagenes {
             }
         }
     }
+    
+    
+    
+    public BufferedImage filtroMedia(int size){
+        BufferedImage copia = new BufferedImage(
+                screen.getWidth(),
+                screen.getHeight(),
+                screen.getType());
+        copia = f.media(copia, size);
+        
+        return copia;
+  
+    }
+    
+      public BufferedImage filtroMediana(int size){
+        BufferedImage copia = new BufferedImage(
+                screen.getWidth(),
+                screen.getHeight(),
+                screen.getType());
+        copia = f.mediana(copia, size);
+        
+        return copia;
+  
+    }
+      
+       public BufferedImage filtroGaussiano(int size){
+        BufferedImage copia = new BufferedImage(
+                screen.getWidth(),
+                screen.getHeight(),
+                screen.getType());
+        copia = f.gauss(copia, size);
+        
+        return copia;
+  
+    }
+       
+         public BufferedImage filtroBordes(){
+        BufferedImage copia = new BufferedImage(
+                screen.getWidth(),
+                screen.getHeight(),
+                screen.getType());
+        copia = f.bordes(copia);
+        
+        return copia;
+  
+    }
+    
     
 }

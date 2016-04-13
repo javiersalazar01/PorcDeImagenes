@@ -22,6 +22,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import utiles.ExtensionFileFilter;
+import utiles.Filtros;
 import utiles.GeneradorDeRuido;
 import utiles.Histograma2;
 import utiles.LayoutFileFilter;
@@ -39,6 +40,7 @@ public class Editar extends javax.swing.JInternalFrame {
      */
     private ProcImagenes p;
     private Operaciones Op = new Operaciones();
+    private Filtros f = new Filtros();
     private Rectangle captureRect = new Rectangle();
     private Point start = new Point();
     private Point end;
@@ -154,8 +156,8 @@ public class Editar extends javax.swing.JInternalFrame {
         menuPotencia = new javax.swing.JMenuItem();
         menuFiltros = new javax.swing.JMenu();
         menuMediana = new javax.swing.JMenuItem();
-        jMenuItem13 = new javax.swing.JMenuItem();
-        jMenuItem14 = new javax.swing.JMenuItem();
+        menuMedia = new javax.swing.JMenuItem();
+        menuGauss = new javax.swing.JMenuItem();
         menuBordes = new javax.swing.JMenuItem();
 
         setClosable(true);
@@ -560,7 +562,7 @@ public class Editar extends javax.swing.JInternalFrame {
 
         menuFiltros.setText("Filtros");
 
-        menuMediana.setText("Media");
+        menuMediana.setText("Mediana");
         menuMediana.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuMedianaActionPerformed(evt);
@@ -568,13 +570,28 @@ public class Editar extends javax.swing.JInternalFrame {
         });
         menuFiltros.add(menuMediana);
 
-        jMenuItem13.setText("Mediana");
-        menuFiltros.add(jMenuItem13);
+        menuMedia.setText("Media");
+        menuMedia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuMediaActionPerformed(evt);
+            }
+        });
+        menuFiltros.add(menuMedia);
 
-        jMenuItem14.setText("Gauss");
-        menuFiltros.add(jMenuItem14);
+        menuGauss.setText("Gauss");
+        menuGauss.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuGaussActionPerformed(evt);
+            }
+        });
+        menuFiltros.add(menuGauss);
 
         menuBordes.setText("Realce de Bordes");
+        menuBordes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuBordesActionPerformed(evt);
+            }
+        });
         menuFiltros.add(menuBordes);
 
         jMenuBar1.add(menuFiltros);
@@ -996,9 +1013,59 @@ public class Editar extends javax.swing.JInternalFrame {
     private void menuMedianaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuMedianaActionPerformed
         // TODO add your handling code here:
         
+        String valor = JOptionPane.showInputDialog(this, "Tamaño de máscara", "Definir el tamaño de mascara", JOptionPane.INFORMATION_MESSAGE);
+        int sizeM = Integer.parseInt(valor);
+        
+        if(sizeM%2 == 0 || sizeM==1){
+            JOptionPane.showMessageDialog(null,"Favor ingresar un numero IMPAR o mayor a 1");
+        } else {
+            seleccionarRectangulo(p.filtroMediana(sizeM));
+            System.out.println("Filtro Mediana OK");
+            
+        }
+        
         
         
     }//GEN-LAST:event_menuMedianaActionPerformed
+
+    private void menuGaussActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuGaussActionPerformed
+        // TODO add your handling code here:
+        
+         String valor = JOptionPane.showInputDialog(this, "Tamaño de máscara", "Definir el tamaño de mascara", JOptionPane.INFORMATION_MESSAGE);
+        int sizeM = Integer.parseInt(valor);
+        
+        if(sizeM%2 == 0 || sizeM==1){
+            JOptionPane.showMessageDialog(null,"Favor ingresar un numero IMPAR o mayor a 1");
+        } else {
+            seleccionarRectangulo(p.filtroGaussiano(sizeM));
+            System.out.println("Filtro Gaussiano OK");
+            
+        }
+    }//GEN-LAST:event_menuGaussActionPerformed
+
+    private void menuMediaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuMediaActionPerformed
+        // TODO add your handling code here:
+        
+         String valor = JOptionPane.showInputDialog(this, "Tamaño de máscara", "Definir el tamaño de mascara", JOptionPane.INFORMATION_MESSAGE);
+        int sizeM = Integer.parseInt(valor);
+        
+        if(sizeM%2 == 0 || sizeM==1){
+            JOptionPane.showMessageDialog(null,"Favor ingresar un numero IMPAR o mayor a 1");
+        } else {
+            seleccionarRectangulo(p.filtroMedia(sizeM));
+            System.out.println("Filtro Media OK");
+            
+        }
+        
+        
+    }//GEN-LAST:event_menuMediaActionPerformed
+
+    private void menuBordesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuBordesActionPerformed
+        // TODO add your handling code here:
+        
+        seleccionarRectangulo(p.filtroBordes());
+        System.out.println("Filtro PasaAltos OK");
+    }//GEN-LAST:event_menuBordesActionPerformed
 
     protected static final String EXTENSION = ".jpg";
 
@@ -1045,8 +1112,6 @@ public class Editar extends javax.swing.JInternalFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem11;
-    private javax.swing.JMenuItem jMenuItem13;
-    private javax.swing.JMenuItem jMenuItem14;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
@@ -1074,7 +1139,9 @@ public class Editar extends javax.swing.JInternalFrame {
     private javax.swing.JMenuItem menuDinamico;
     private javax.swing.JMenuItem menuEscalar;
     private javax.swing.JMenu menuFiltros;
+    private javax.swing.JMenuItem menuGauss;
     private javax.swing.JMenu menuHerramientas;
+    private javax.swing.JMenuItem menuMedia;
     private javax.swing.JMenuItem menuMediana;
     private javax.swing.JMenu menuOperaciones;
     private javax.swing.JMenuItem menuPotencia;

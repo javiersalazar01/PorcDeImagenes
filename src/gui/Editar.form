@@ -203,26 +203,35 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="menuMediana">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Media"/>
+                <Property name="text" type="java.lang.String" value="Mediana"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuMedianaActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem13">
+            <MenuItem class="javax.swing.JMenuItem" name="menuMedia">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Mediana"/>
+                <Property name="text" type="java.lang.String" value="Media"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuMediaActionPerformed"/>
+              </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem14">
+            <MenuItem class="javax.swing.JMenuItem" name="menuGauss">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Gauss"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuGaussActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="menuBordes">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Realce de Bordes"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuBordesActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
