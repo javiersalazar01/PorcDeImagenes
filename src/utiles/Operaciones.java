@@ -18,124 +18,164 @@ public class Operaciones {
     //private int nivelIntensidad;
     //ProcImagenes p = new ProcImagenes();
 
-    public BufferedImage suma(BufferedImage imageActual, int valor) {
-        for (int i = 0; i < imageActual.getHeight(); i++) {
-            for (int j = 0; j < imageActual.getWidth(); j++) {
+    public static BufferedImage suma(BufferedImage imageActual, int valor) {
+        int nrows, ncols;
+		BufferedImage imageFinal;
+		nrows = imageActual.getWidth();
+		ncols = imageActual.getHeight();
+		imageFinal = new BufferedImage(nrows, ncols, BufferedImage.TYPE_3BYTE_BGR);
+
+        
+        for (int i = 0; i < nrows; i++) {
+            for (int j = 0; j < ncols; j++) {
                 Color color = new Color(imageActual.getRGB(i, j));
                 int suma = color.getRed()+ valor;
                 if (suma > 255) {
 
-                    imageActual.setRGB(i, j, new Color (255,255,255).getRGB());
+                    imageFinal.setRGB(i, j, new Color (255,255,255).getRGB());
                 } else {
-                    imageActual.setRGB(i, j, new Color (suma, suma, suma).getRGB());
+                    imageFinal.setRGB(i, j, new Color (suma, suma, suma).getRGB());
                 }
 
             }
         }
-        return imageActual;
+        return imageFinal;
 
     }
 
-    public BufferedImage suma(BufferedImage imageActual, BufferedImage imageOperando) {
-        BufferedImage imagenResultado;
-        imagenResultado = imageActual;
+    public static BufferedImage suma(BufferedImage imageActual, BufferedImage imageOperando) {
+        int nrows, ncols;
+		BufferedImage imageFinal;
+		nrows = imageActual.getWidth();
+		ncols = imageActual.getHeight();
+		imageFinal = new BufferedImage(nrows, ncols, BufferedImage.TYPE_3BYTE_BGR);
+
         if (imageActual.getHeight() == imageOperando.getHeight() && imageActual.getWidth() == imageOperando.getWidth()) {
 
-            for (int i = 0; i < imageActual.getHeight(); i++) {
-                for (int j = 0; j < imageActual.getWidth(); j++) {
+            for (int i = 0; i < nrows; i++) {
+                for (int j = 0; j < ncols; j++) {
                     Color color1 = new Color(imageActual.getRGB(i, j));
                     Color color2 = new Color(imageOperando.getRGB(i, j));
                     int suma = color1.getRed() + color2.getRed();
                     if (suma > 255) {
-                        imagenResultado.setRGB(i, j, new Color(255,255,255).getRGB());
+                        imageFinal.setRGB(i, j, new Color(255,255,255).getRGB());
                     } else {
-                        imagenResultado.setRGB(i, j, new Color(suma,suma,suma).getRGB());
+                        imageFinal.setRGB(i, j, new Color(suma,suma,suma).getRGB());
                     }
                 }
             }
         }
 
-        return imagenResultado;
+        return imageFinal;
     }
 
-    public BufferedImage resta(BufferedImage imageActual, int valor) {
-        for (int i = 0; i < imageActual.getWidth(); i++) {
-            for (int j = 0; j < imageActual.getHeight(); j++) {
+    public static BufferedImage resta(BufferedImage imageActual, int valor) {
+        int nrows, ncols;
+		BufferedImage imageFinal;
+		nrows = imageActual.getWidth();
+		ncols = imageActual.getHeight();
+		imageFinal = new BufferedImage(nrows, ncols, BufferedImage.TYPE_3BYTE_BGR);
+        
+        for (int i = 0; i < nrows; i++) {
+            for (int j = 0; j < ncols; j++) {
                 Color color = new Color(imageActual.getRGB(i, j));
                 int suma = color.getRed() - valor;
                 if (suma > 255) {
 
-                    imageActual.setRGB(i, j, new Color(255,255,255).getRGB());
+                    imageFinal.setRGB(i, j, new Color(255,255,255).getRGB());
                 } else {
-                    imageActual.setRGB(i, j, new Color(suma,suma,suma).getRGB());
+                    imageFinal.setRGB(i, j, new Color(suma,suma,suma).getRGB());
                 }
 
             }
         }
-        return imageActual;
+        return imageFinal;
     }
 
-    public BufferedImage resta(BufferedImage imageActual, BufferedImage imageOperando) {
-        BufferedImage imagenResultado;
-        imagenResultado = imageActual;
+    public static BufferedImage resta(BufferedImage imageActual, BufferedImage imageOperando) {
+       int nrows, ncols;
+		BufferedImage imageFinal;
+		nrows = imageActual.getWidth();
+		ncols = imageActual.getHeight();
+		imageFinal = new BufferedImage(nrows, ncols, BufferedImage.TYPE_3BYTE_BGR);
+
         if (imageActual.getHeight() == imageOperando.getHeight() && imageActual.getWidth() == imageOperando.getWidth()) {
 
-            for (int i = 0; i < imageActual.getHeight(); i++) {
-                for (int j = 0; j < imageActual.getWidth(); j++) {
+            for (int i = 0; i < nrows; i++) {
+                for (int j = 0; j < ncols; j++) {
                     Color color1 = new Color(imageActual.getRGB(i, j));
                     Color color2 = new Color(imageOperando.getRGB(i, j));
                     int suma = color1.getRed() - color2.getRed();
                     if (suma > 255) {
-                        imagenResultado.setRGB(i, j, new Color(255,255,255).getRGB());
+                        imageFinal.setRGB(i, j, new Color(255,255,255).getRGB());
                     } else {
-                        imagenResultado.setRGB(i, j, new Color(suma,suma,suma).getRGB());
+                        imageFinal.setRGB(i, j, new Color(suma,suma,suma).getRGB());
                     }
                 }
             }
         }
 
-        return imagenResultado;
+        return imageFinal;
     }
 
-    public BufferedImage producto(BufferedImage imageActual, BufferedImage imageOperando) {
-        for (int i = 0; i < imageActual.getHeight(); i++) {
-            for (int j = 0; j < imageActual.getWidth(); j++) {
+    public static BufferedImage producto(BufferedImage imageActual, BufferedImage imageOperando) {
+                int nrows, ncols;
+		BufferedImage imageFinal;
+		nrows = imageActual.getWidth();
+		ncols = imageActual.getHeight();
+		imageFinal = new BufferedImage(nrows, ncols, BufferedImage.TYPE_3BYTE_BGR);
+        
+        for (int i = 0; i < nrows; i++) {
+            for (int j = 0; j < ncols; j++) {
                 Color c1 = new Color(imageActual.getRGB(i, j));
                 Color c2 = new Color(imageOperando.getRGB(i, j));
 
                 int mult = c1.getRed() * c2.getRed();
                 if (mult > 255) {
-                    imageActual.setRGB(i, j, new Color(255,255,255).getRGB());
+                    imageFinal.setRGB(i, j, new Color(255,255,255).getRGB());
                 } else {
-                    imageActual.setRGB(i, j, new Color(mult,mult,mult).getRGB());
+                    imageFinal.setRGB(i, j, new Color(mult,mult,mult).getRGB());
                 }
             }
         }
-        return imageActual;
+        return imageFinal;
     }
 
-    public BufferedImage producto(BufferedImage imageActual, int escalar) {
-
-        for (int i = 0; i < imageActual.getWidth(); i++) {
-            for (int j = 0; j < imageActual.getHeight(); j++) {
+    public static BufferedImage producto(BufferedImage imageActual, int escalar) {
+int nrows, ncols;
+		BufferedImage imageFinal;
+		nrows = imageActual.getWidth();
+		ncols = imageActual.getHeight();
+		imageFinal = new BufferedImage(nrows, ncols, BufferedImage.TYPE_3BYTE_BGR);
+                
+                
+        for (int i = 0; i < nrows; i++) {
+            for (int j = 0; j < ncols; j++) {
                 Color c1 = new Color(imageActual.getRGB(i, j));
 
                 int mult = c1.getRed() * escalar;
                 if (mult > 255 || mult < 0) {
-                    imageActual.setRGB(i, j, new Color(255,255,255).getRGB());
+                    imageFinal.setRGB(i, j, new Color(255,255,255).getRGB());
                 } else {
-                    imageActual.setRGB(i, j, new Color(mult, mult, mult).getRGB());
+                    imageFinal.setRGB(i, j, new Color(mult, mult, mult).getRGB());
                 }
             }
         }
-        return imageActual;
+        return imageFinal;
     }
 
-    public BufferedImage rangoDinamico(BufferedImage image) {
+    public static BufferedImage rangoDinamico(BufferedImage image) {
+        
+        int nrows, ncols;
+		BufferedImage imageFinal;
+		nrows = image.getWidth();
+		ncols = image.getHeight();
+		imageFinal = new BufferedImage(nrows, ncols, BufferedImage.TYPE_3BYTE_BGR);
+
         int R;
         int max = 0, posX = 0, posY = 0;
-        for (int i = 0; i < image.getHeight(); i++) {
-            for (int j = 0; j < image.getWidth(); j++) {
+        for (int i = 0; i < image.getWidth(); i++) {
+            for (int j = 0; j < image.getHeight(); j++) {
                 Color c = new Color(image.getRGB(i, j));
 
                 if (c.getRed() > max) {
@@ -147,25 +187,37 @@ public class Operaciones {
         }
         R = max;
 
-        for (int i = 0; i < image.getHeight(); i++) {
-            for (int j = 0; j < image.getWidth(); j++) {
+        for (int i = 0; i < image.getWidth(); i++) {
+            for (int j = 0; j < image.getHeight(); j++) {
                 int T, r;
                 Color c = new Color(image.getRGB(i, j));
                 r = c.getRed();
                 T = (int) ((255 / Math.log(1 + R)) * Math.log(1 + r));
-                image.setRGB(i, j, new Color(T,T,T).getRGB());
+                
+                if (T > 255) {
+                    imageFinal.setRGB(i, j, new Color(255,255,255).getRGB());
+                } else {
+                    imageFinal.setRGB(i, j, new Color(T,T,T).getRGB());
+                }
+                
             }
         }
-        return image;
+        return imageFinal;
     }
 
-    public BufferedImage powerLaw(BufferedImage image, int gamma) {
+    public static BufferedImage powerLaw(BufferedImage imageActual, double gamma) {
 
-        int R = 0;
+        int nrows, ncols;
+		BufferedImage imageFinal;
+		nrows = imageActual.getWidth();
+		ncols = imageActual.getHeight();
+		imageFinal = new BufferedImage(nrows, ncols, BufferedImage.TYPE_3BYTE_BGR);
+                
+     /*   int R = 0;
         int max = 0, posX = 0, posY = 0;
-        for (int i = 0; i < image.getHeight(); i++) {
-            for (int j = 0; j < image.getWidth(); j++) {
-                Color c = new Color(image.getRGB(i, j));
+        for (int i = 0; i < nrows; i++) {
+            for (int j = 0; j < ncols; j++) {
+                Color c = new Color(imageActual.getRGB(i, j));
 
                 if (c.getRed() > max) {
                     max = c.getRed();
@@ -177,20 +229,26 @@ public class Operaciones {
         R = max;
 
         double c = 255 / Math.exp(gamma * R);
-
-        for (int i = 0; i < image.getHeight(); i++) {
-            for (int j = 0; j < image.getWidth(); j++) {
+*/      int c = 1;
+        for (int i = 0; i < nrows; i++) {
+            for (int j = 0; j < ncols; j++) {
                 int T, r;
-                Color color = new Color(image.getRGB(i, j));
+                Color color = new Color(imageActual.getRGB(i, j));
                 r = color.getRed();
-                T = (int) (c * Math.pow(r, gamma));
+                T = (int) (c * Math.exp(r*gamma));
                 
-                image.setRGB(i, j, new Color(T,T,T).getRGB());
+                if (T > 255) {
+                    imageFinal.setRGB(i, j, new Color(255,255,255).getRGB());
+                } else {
+                    imageFinal.setRGB(i, j, new Color(T,T,T).getRGB());
+                }
+         
             }
         }
-        return image;
-
+        return imageFinal;
     }
+    
+  
 }
 
 

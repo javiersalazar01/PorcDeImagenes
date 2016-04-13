@@ -101,6 +101,37 @@ public class ProcImagenes {
         return copia;
     }
     
+      public BufferedImage contraste(BufferedImage imageActual, int rango) {
+         BufferedImage copia = new BufferedImage(
+                imageActual.getWidth(),
+                imageActual.getHeight(),
+                imageActual.getType());
+        Color c;
+        
+        int r1 = (255/2)-(rango/2);
+        int r2 = r1+rango;
+        
+        for (int i = 0; i < imageActual.getWidth(); i++) {
+            for (int j = 0; j < imageActual.getHeight(); j++) {
+                c = valorPixel(i, j);
+                int g=c.getRed();
+                if (g <= r1) {
+                    copia.setRGB(i, j, new Color(g/2, g/2, g/2).getRGB());
+                } else if (g>= r2){
+                    g = (int) (g*1.5);
+                    if (g>255) {
+                        copia.setRGB(i, j, new Color(255, 255, 255).getRGB());
+                    }else{
+                        copia.setRGB(i, j, new Color(g, g, g).getRGB());
+
+                    }
+                    
+                }
+            }
+        }
+        return copia;
+    }
+      
     public BufferedImage ecualizarGris(BufferedImage screen) {
         
         BufferedImage copia = new BufferedImage(

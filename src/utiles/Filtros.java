@@ -9,7 +9,6 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Arrays;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -19,10 +18,7 @@ public class Filtros {
    // private short[][] matrizGris = null;
    // private short[][] matrizGrisOriginal=null;
     
-    private short matrizR[][] = null;
-    private short matrizG[][] = null;
-    private short matrizB[][] = null;
-
+   
     
     public BufferedImage mediana (BufferedImage image, int size){
         //mascara seleccionada para realizar el filtro
@@ -30,10 +26,11 @@ public class Filtros {
             //arreglo con los pixeles tomados de la mascara ordenados
             short[] mascaraOrdena = new short[size * size];
             
-            BufferedImage copy = new BufferedImage(
-                image.getWidth(),
-                image.getHeight(),
-                image.getType());
+            int nrows, ncols;
+		BufferedImage imageFinal;
+		nrows = image.getWidth();
+		ncols = image.getHeight();
+		imageFinal = new BufferedImage(nrows, ncols, BufferedImage.TYPE_3BYTE_BGR);
             
                 //inicializacion de los datos de la matriz gris
                 /*for(int i=0; i<this.matrizGris.length;i++)
@@ -42,12 +39,12 @@ public class Filtros {
             
                 int tope = size/2; //variable que sirve de control para evitar que se desborde la mascara de la matriz
                 
-                for (int i = tope; i < image.getHeight()-tope; i++) {
-                    for (int j = tope; j < image.getWidth()-tope; j++) {
+                for (int i = tope; i < nrows-tope; i++) {
+                    for (int j = tope; j < ncols-tope; j++) {
                         //llenado de la mascara
                         for(int y = 0; y < mascara.length; y++){
                             for(int x = 0; x < mascara[0].length; x++){
-                                Color c1 = new Color(copy.getRGB(i-tope+y, j-tope+x));
+                                Color c1 = new Color(image.getRGB(i-tope+y, j-tope+x));
                                 mascara[y][x] = (short) c1.getRed();
                                       //  this.imagen.getMatrizGris()[i-tope+y][j-tope+x];
                             }
@@ -72,12 +69,12 @@ public class Filtros {
                         //***********************************************
                         //Se le asigna a la posicion i,j la mediana de la mascara
                         int mediana = mascaraOrdena[(int)Math.ceil(mascaraOrdena.length/2)];   
-                        copy.setRGB(i, j, new Color(mediana, mediana, mediana).getRGB());
+                        imageFinal.setRGB(i, j, new Color(mediana, mediana, mediana).getRGB());
                      //  this.matrizGris[i][j] = 
                     }
                 }  
                 }
-        return copy;
+        return imageFinal;
     }
     
     
@@ -88,10 +85,11 @@ public class Filtros {
             //arreglo con los pixeles tomados de la mascara ordenados
             short[] mascaraOrdena = new short[size * size];
             
-            BufferedImage copy = new BufferedImage(
-                image.getWidth(),
-                image.getHeight(),
-                image.getType());
+            int nrows, ncols;
+		BufferedImage imageFinal;
+		nrows = image.getWidth();
+		ncols = image.getHeight();
+		imageFinal = new BufferedImage(nrows, ncols, BufferedImage.TYPE_3BYTE_BGR);
             
                 //inicializacion de los datos de la matriz gris
                 /*for(int i=0; i<this.matrizGris.length;i++)
@@ -100,14 +98,14 @@ public class Filtros {
             
                 int tope = size/2; //variable que sirve de control para evitar que se desborde la mascara de la matriz
                 int acumulado;
-                for (int i = tope; i < image.getHeight()-tope; i++) {
-                    for (int j = tope; j < image.getWidth()-tope; j++) {
+                for (int i = tope; i < nrows-tope; i++) {
+                    for (int j = tope; j < ncols-tope; j++) {
                         //llenado de la mascara
                         acumulado = 0;
                         for(int y = 0; y < mascara.length; y++){
                             for(int x = 0; x < mascara[0].length; x++){
                                 
-                                Color c1 = new Color(copy.getRGB(i-tope+y, j-tope+x));
+                                Color c1 = new Color(image.getRGB(i-tope+y, j-tope+x));
                                 mascara[y][x] = (short) c1.getRed();
                                 acumulado = acumulado + c1.getRed();
                                       //  this.imagen.getMatrizGris()[i-tope+y][j-tope+x];
@@ -133,27 +131,31 @@ public class Filtros {
                         
                         //***********************************************
                         //Se le asigna a la posicion i,j la mediana de la mascara
-                        copy.setRGB(i, j, new Color(promedio, promedio, promedio).getRGB());
+                        imageFinal.setRGB(i, j, new Color(promedio, promedio, promedio).getRGB());
                      //  this.matrizGris[i][j] = 
                     }
                 }  
                 }
-        return copy;
+        return imageFinal;
     }
     
      public BufferedImage gauss(BufferedImage image, int tamanoMascara){
         
-         BufferedImage screenCopy = new BufferedImage(
-                image.getWidth(),
-                image.getHeight(),
-                image.getType());
+         int nrows, ncols;
+		BufferedImage imageFinal;
+		nrows = image.getWidth();
+		ncols = image.getHeight();
+		imageFinal = new BufferedImage(nrows, ncols, BufferedImage.TYPE_3BYTE_BGR);
+            
+                        //this.matrizGris = new short[imagen.getMatrizGris().length][imagen.getMatrizGris()[0].length];
+
             
             Convolucion cv = new Convolucion();
-            short[][] matrizGris = null;
+            short[][] matrizGris = new short[nrows][ncols];
             //inicializacion de los datos de la matriz gris
-            for (int i = 0; i < image.getHeight(); i++) {
-                for (int j = 0; j < image.getWidth(); j++) {
-                    Color c1 = new Color(screenCopy.getRGB(i, j));
+            for (int i = 0; i < nrows; i++) {
+                for (int j = 0; j < ncols; j++) {
+                    Color c1 = new Color(image.getRGB(i, j));
                     int ng = c1.getRed();
                     matrizGris[i][j] = (short) ng;
                 }
@@ -165,37 +167,39 @@ public class Filtros {
             int tope = tamanoMascara / 2; //variable que sirve de control para evitar que se desborde la mascara de la matriz
             //JOptionPane.showMessageDialog(null, "tope: "+tope);   
 
-            for (int i = tope; i < screenCopy.getHeight() - tope; i++) {
-                for (int j = tope; j < screenCopy.getWidth() - tope; j++) {
+            for (int i = tope; i < nrows - tope; i++) {
+                for (int j = tope; j < ncols - tope; j++) {
                    // this.matrizGris[i][j] = cv.convolucionar(this.matrizGrisOriginal, mascara, i, j);              
                     short intensidad = cv.convolucionar(matrizGris, mascara, i, j);  
                     if(255<intensidad)
-                        screenCopy.setRGB(i, j, new Color(255,255,255).getRGB());
+                        imageFinal.setRGB(i, j, new Color(255,255,255).getRGB());
                         //matrizGris[i][j] = (short)this.imagen.getNivelIntensidad();
                     else if (intensidad<0)
-                        screenCopy.setRGB(i, j, new Color(0,0,0).getRGB());
+                        imageFinal.setRGB(i, j, new Color(0,0,0).getRGB());
                         //matrizGris[i][j] = 0;
                     else
-                        screenCopy.setRGB(i, j, new Color(intensidad,intensidad,intensidad).getRGB());
+                        imageFinal.setRGB(i, j, new Color(intensidad,intensidad,intensidad).getRGB());
                       //  matrizGris[i][j] = intensidad;
                 }
             }
-        return screenCopy;
+        return imageFinal;
     }
      
      public BufferedImage bordes(BufferedImage image){
         
-         BufferedImage screenCopy = new BufferedImage(
-                image.getWidth(),
-                image.getHeight(),
-                image.getType());
+     int nrows, ncols;
+		BufferedImage imageFinal;
+		nrows = image.getWidth();
+		ncols = image.getHeight();
+		imageFinal = new BufferedImage(nrows, ncols, BufferedImage.TYPE_3BYTE_BGR);
+            
             
             //Convolucion cv = new Convolucion();
-            short[][] matrizGris = null;
+            short[][] matrizGris = new short[nrows][ncols];
             //inicializacion de los datos de la matriz gris
-            for (int i = 0; i < image.getHeight(); i++) {
-                for (int j = 0; j < image.getWidth(); j++) {
-                    Color c1 = new Color(screenCopy.getRGB(i, j));
+            for (int i = 0; i < nrows; i++) {
+                for (int j = 0; j < ncols; j++) {
+                    Color c1 = new Color(image.getRGB(i, j));
                     int ng = c1.getRed();
                     matrizGris[i][j] = (short) ng;
                 }
@@ -207,12 +211,12 @@ public class Filtros {
             int tope = 1; //variable que sirve de control para evitar que se desborde la mascara de la matriz
             //JOptionPane.showMessageDialog(null, "tope: "+tope);   
 
-            for (int i = tope; i < image.getHeight()-tope; i++) {
-                    for (int j = tope; j < image.getWidth()-tope; j++) {
+            for (int i = tope; i < nrows-tope; i++) {
+                    for (int j = tope; j < ncols-tope; j++) {
                         //llenado de la mascara
                         for(int y = 0; y < mascara.length; y++){
                             for(int x = 0; x < mascara[0].length; x++){
-                                Color c1 = new Color(screenCopy.getRGB(i-tope+y, j-tope+x));
+                                Color c1 = new Color(image.getRGB(i-tope+y, j-tope+x));
                                 mascara[y][x] = (short) c1.getRed();
                                       //  this.imagen.getMatrizGris()[i-tope+y][j-tope+x];
                             }
@@ -231,18 +235,18 @@ public class Filtros {
                         //Se le asigna a la posicion i,j laplace de la mascara
                         
                           if(255<intensidad)
-                        screenCopy.setRGB(i, j, new Color(255,255,255).getRGB());
+                        imageFinal.setRGB(i, j, new Color(255,255,255).getRGB());
                         //matrizGris[i][j] = (short)this.imagen.getNivelIntensidad();
                     else if (intensidad<0)
-                        screenCopy.setRGB(i, j, new Color(0,0,0).getRGB());
+                        imageFinal.setRGB(i, j, new Color(0,0,0).getRGB());
                         //matrizGris[i][j] = 0;
                     else
-                        screenCopy.setRGB(i, j, new Color(intensidad,intensidad,intensidad).getRGB());
+                        imageFinal.setRGB(i, j, new Color(intensidad,intensidad,intensidad).getRGB());
                       //  matrizGris[i][j] = intensidad;
    
                     }
                 }  
-        return screenCopy;
+        return imageFinal;
 
             }
  

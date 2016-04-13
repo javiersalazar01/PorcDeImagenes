@@ -138,6 +138,7 @@ public class Editar extends javax.swing.JInternalFrame {
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItemRestaurar = new javax.swing.JMenuItem();
+        jMenuItem12 = new javax.swing.JMenuItem();
         menuRuido = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
@@ -441,6 +442,14 @@ public class Editar extends javax.swing.JInternalFrame {
             }
         });
         menuHerramientas.add(jMenuItemRestaurar);
+
+        jMenuItem12.setText("Aumentar Contraste");
+        jMenuItem12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem12ActionPerformed(evt);
+            }
+        });
+        menuHerramientas.add(jMenuItem12);
 
         jMenuBar1.add(menuHerramientas);
 
@@ -862,7 +871,7 @@ public class Editar extends javax.swing.JInternalFrame {
             int constante = Integer.parseInt(valor);
             //screenCopy = p.sumaConstante(constante);
             //repaint(screen, screenCopy);
-            seleccionarRectangulo(p.sumaConstante(constante));
+            seleccionarRectangulo(Op.suma(screen, constante));
             System.out.println("Si Suma Constante");
         }
 
@@ -889,7 +898,7 @@ public class Editar extends javax.swing.JInternalFrame {
 
             if (screen.getWidth() == screenCopy.getWidth() && screen.getHeight() == screenCopy.getHeight()) {
 
-              seleccionarRectangulo(p.sumaImagen(screen));
+              seleccionarRectangulo(Op.suma(screen, bmp));
             } else {
                 JOptionPane.showConfirmDialog(this, "Las imágenes no coinciden");
             }
@@ -906,7 +915,7 @@ public class Editar extends javax.swing.JInternalFrame {
         if (respuesta == 0) {
             String valor = JOptionPane.showInputDialog(this, "Valor", "Restar Valor A Imagen", JOptionPane.INFORMATION_MESSAGE);
             int constante = Integer.parseInt(valor);
-            seleccionarRectangulo(p.restaConstante(constante));
+            seleccionarRectangulo(Op.resta(screen, constante));
            
             System.out.println("Si Resta Constante");
         }
@@ -933,7 +942,7 @@ public class Editar extends javax.swing.JInternalFrame {
 
             if (screen.getWidth() == bmp.getWidth() && screen.getHeight() == bmp.getHeight()) {
 
-                seleccionarRectangulo(p.restaImagen(bmp));
+                seleccionarRectangulo(Op.resta(screen, bmp));
                 //repaint(screen, screenCopy);
             } else {
                 JOptionPane.showConfirmDialog(this, "Las imágenes no coinciden");
@@ -965,7 +974,7 @@ public class Editar extends javax.swing.JInternalFrame {
 
         if (screen.getWidth() == bmp.getWidth() && screen.getHeight() == bmp.getHeight()) {
 
-            seleccionarRectangulo(p.productoImagen(bmp));
+            seleccionarRectangulo(Op.producto(screen, bmp));
            // repaint(screen, screenCopy);
             System.out.println("Si multiplica imagenes");
         } else {
@@ -983,7 +992,7 @@ public class Editar extends javax.swing.JInternalFrame {
         
         String valor = JOptionPane.showInputDialog(this, "Valor", "Multiplicar Valor A Imagen", JOptionPane.INFORMATION_MESSAGE);
         int constante = Integer.parseInt(valor);
-        seleccionarRectangulo(p.productoEscalar(constante));
+        seleccionarRectangulo(Op.producto(screen, constante));
         System.out.println("Si Multiplica Constante");
 
         
@@ -993,7 +1002,7 @@ public class Editar extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         
           //R valor máximo de gris en la imágen
-        seleccionarRectangulo(p.rangoDin());
+        seleccionarRectangulo(Op.rangoDinamico(screen));
        // repaint(screen, screenCopy);
         System.out.println("si comprime el Rango dinamico");
         
@@ -1004,8 +1013,10 @@ public class Editar extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         
         String valor = JOptionPane.showInputDialog(this, "Valor", "Definir el valor de ɣ", JOptionPane.INFORMATION_MESSAGE);
-        int gamma = Integer.parseInt(valor);
-        seleccionarRectangulo(p.potenciaGamma(gamma));
+        double gamma;
+        gamma = Double.parseDouble(valor);
+    
+        seleccionarRectangulo(Op.powerLaw(screen,gamma));
         System.out.println("Si transforma potencia");
 
     }//GEN-LAST:event_menuPotenciaActionPerformed
@@ -1019,7 +1030,7 @@ public class Editar extends javax.swing.JInternalFrame {
         if(sizeM%2 == 0 || sizeM==1){
             JOptionPane.showMessageDialog(null,"Favor ingresar un numero IMPAR o mayor a 1");
         } else {
-            seleccionarRectangulo(p.filtroMediana(sizeM));
+            seleccionarRectangulo(f.mediana(screen, sizeM));
             System.out.println("Filtro Mediana OK");
             
         }
@@ -1037,7 +1048,7 @@ public class Editar extends javax.swing.JInternalFrame {
         if(sizeM%2 == 0 || sizeM==1){
             JOptionPane.showMessageDialog(null,"Favor ingresar un numero IMPAR o mayor a 1");
         } else {
-            seleccionarRectangulo(p.filtroGaussiano(sizeM));
+            seleccionarRectangulo(f.gauss(screen, sizeM));
             System.out.println("Filtro Gaussiano OK");
             
         }
@@ -1052,7 +1063,7 @@ public class Editar extends javax.swing.JInternalFrame {
         if(sizeM%2 == 0 || sizeM==1){
             JOptionPane.showMessageDialog(null,"Favor ingresar un numero IMPAR o mayor a 1");
         } else {
-            seleccionarRectangulo(p.filtroMedia(sizeM));
+            seleccionarRectangulo(f.media(screen, sizeM));
             System.out.println("Filtro Media OK");
             
         }
@@ -1063,9 +1074,25 @@ public class Editar extends javax.swing.JInternalFrame {
     private void menuBordesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuBordesActionPerformed
         // TODO add your handling code here:
         
-        seleccionarRectangulo(p.filtroBordes());
+        seleccionarRectangulo(f.bordes(screen));
         System.out.println("Filtro PasaAltos OK");
     }//GEN-LAST:event_menuBordesActionPerformed
+
+    private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
+        // TODO add your handling code here:
+        try {
+            String res = JOptionPane.showInputDialog(this, "Valor Del rango: ");
+            int resNum = Integer.parseInt(res);
+            if (resNum > -1 && resNum < 256) {
+                seleccionarRectangulo(p.contraste(screen, resNum));
+            } else {
+                JOptionPane.showMessageDialog(this, "Ingrese Un Numero Entre 0 y 255");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Ingrese Un Numero Entre 0 y 255");
+        }
+    
+    }//GEN-LAST:event_jMenuItem12ActionPerformed
 
     protected static final String EXTENSION = ".jpg";
 
@@ -1112,6 +1139,7 @@ public class Editar extends javax.swing.JInternalFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem11;
+    private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
