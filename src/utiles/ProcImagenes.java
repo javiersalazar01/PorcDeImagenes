@@ -20,7 +20,6 @@ public class ProcImagenes {
 
      //Imagen actual que se ha cargado
     private BufferedImage imageActual;
-<<<<<<< HEAD
     private BufferedImage screen = imageActual;
     private int nivelIntensidad;
     private Operaciones Op;
@@ -29,8 +28,6 @@ public class ProcImagenes {
         this.Op = new Operaciones();
     }
 
-=======
->>>>>>> origin/master
     //Método que devuelve una imagen abierta desde archivo
     //Retorna un objeto BufferedImagen
     public BufferedImage abrirImagen() {
@@ -169,7 +166,6 @@ public class ProcImagenes {
         return imageActual;
     }
     
-<<<<<<< HEAD
     public BufferedImage sumaConstante(int constante){
        
         BufferedImage screenCopy = new BufferedImage(
@@ -293,11 +289,4 @@ public class ProcImagenes {
         }
     }
     
-
-=======
-
-    
-    
->>>>>>> origin/master
-
 }

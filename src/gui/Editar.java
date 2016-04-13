@@ -13,15 +13,19 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import utiles.ExtensionFileFilter;
 import utiles.GeneradorDeRuido;
 import utiles.Histograma2;
 import utiles.LayoutFileFilter;
+import utiles.Operaciones;
 import utiles.ProcImagenes;
 
 /**
@@ -34,6 +38,7 @@ public class Editar extends javax.swing.JInternalFrame {
      * Creates new form Editar
      */
     private ProcImagenes p;
+    private Operaciones Op = new Operaciones();
     private Rectangle captureRect = new Rectangle();
     private Point start = new Point();
     private Point end;
@@ -46,6 +51,7 @@ public class Editar extends javax.swing.JInternalFrame {
     
     public Editar(ProcImagenes pro) {
         initComponents();
+        
         this.p = pro;
         this.gdr = new GeneradorDeRuido();
         objVentanaHistograma = new VentanaHistograma();
@@ -121,16 +127,16 @@ public class Editar extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         screenLabel = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
+        menuArchivo = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
+        menuHerramientas = new javax.swing.JMenu();
         jMenuItemHistograma = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItemRestaurar = new javax.swing.JMenuItem();
-        jMenu4 = new javax.swing.JMenu();
+        menuRuido = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
@@ -139,6 +145,18 @@ public class Editar extends javax.swing.JInternalFrame {
         jMenuItem9 = new javax.swing.JMenuItem();
         jMenuItem10 = new javax.swing.JMenuItem();
         jMenuItem11 = new javax.swing.JMenuItem();
+        menuOperaciones = new javax.swing.JMenu();
+        menuSuma = new javax.swing.JMenuItem();
+        menuResta = new javax.swing.JMenuItem();
+        menuProducto = new javax.swing.JMenuItem();
+        menuEscalar = new javax.swing.JMenuItem();
+        menuDinamico = new javax.swing.JMenuItem();
+        menuPotencia = new javax.swing.JMenuItem();
+        menuFiltros = new javax.swing.JMenu();
+        menuMediana = new javax.swing.JMenuItem();
+        jMenuItem13 = new javax.swing.JMenuItem();
+        jMenuItem14 = new javax.swing.JMenuItem();
+        menuBordes = new javax.swing.JMenuItem();
 
         setClosable(true);
         setIconifiable(true);
@@ -362,10 +380,10 @@ public class Editar extends javax.swing.JInternalFrame {
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 407, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 302, Short.MAX_VALUE))))
+                        .addGap(0, 66, Short.MAX_VALUE))))
         );
 
-        jMenu1.setText("Archivo");
+        menuArchivo.setText("Archivo");
 
         jMenuItem1.setText("Guardar");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
@@ -373,10 +391,10 @@ public class Editar extends javax.swing.JInternalFrame {
                 jMenuItem1ActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
+        menuArchivo.add(jMenuItem1);
 
         jMenuItem2.setText("Guardar como");
-        jMenu1.add(jMenuItem2);
+        menuArchivo.add(jMenuItem2);
 
         jMenuItem3.setText("Mostrar Imagen");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
@@ -384,11 +402,11 @@ public class Editar extends javax.swing.JInternalFrame {
                 jMenuItem3ActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem3);
+        menuArchivo.add(jMenuItem3);
 
-        jMenuBar1.add(jMenu1);
+        jMenuBar1.add(menuArchivo);
 
-        jMenu3.setText("Herramientas");
+        menuHerramientas.setText("Herramientas");
 
         jMenuItemHistograma.setText("Histograma");
         jMenuItemHistograma.addActionListener(new java.awt.event.ActionListener() {
@@ -396,7 +414,7 @@ public class Editar extends javax.swing.JInternalFrame {
                 jMenuItemHistogramaActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItemHistograma);
+        menuHerramientas.add(jMenuItemHistograma);
 
         jMenuItem5.setText("Umbralizar");
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
@@ -404,7 +422,7 @@ public class Editar extends javax.swing.JInternalFrame {
                 jMenuItem5ActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItem5);
+        menuHerramientas.add(jMenuItem5);
 
         jMenuItem4.setText("Ecualizar");
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
@@ -412,7 +430,7 @@ public class Editar extends javax.swing.JInternalFrame {
                 jMenuItem4ActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItem4);
+        menuHerramientas.add(jMenuItem4);
 
         jMenuItemRestaurar.setText("Restaurar Imagen");
         jMenuItemRestaurar.addActionListener(new java.awt.event.ActionListener() {
@@ -420,11 +438,11 @@ public class Editar extends javax.swing.JInternalFrame {
                 jMenuItemRestaurarActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItemRestaurar);
+        menuHerramientas.add(jMenuItemRestaurar);
 
-        jMenuBar1.add(jMenu3);
+        jMenuBar1.add(menuHerramientas);
 
-        jMenu4.setText("Ruido");
+        menuRuido.setText("Ruido");
 
         jMenuItem6.setText("Gaussiano");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
@@ -432,7 +450,7 @@ public class Editar extends javax.swing.JInternalFrame {
                 jMenuItem6ActionPerformed(evt);
             }
         });
-        jMenu4.add(jMenuItem6);
+        menuRuido.add(jMenuItem6);
 
         jMenuItem7.setText("Rayleigh");
         jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
@@ -440,7 +458,7 @@ public class Editar extends javax.swing.JInternalFrame {
                 jMenuItem7ActionPerformed(evt);
             }
         });
-        jMenu4.add(jMenuItem7);
+        menuRuido.add(jMenuItem7);
 
         jMenuItem8.setText("Exponencial");
         jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
@@ -448,7 +466,7 @@ public class Editar extends javax.swing.JInternalFrame {
                 jMenuItem8ActionPerformed(evt);
             }
         });
-        jMenu4.add(jMenuItem8);
+        menuRuido.add(jMenuItem8);
 
         jMenuItemSalYPimienta.setText("Sal Y Pimienta");
         jMenuItemSalYPimienta.addActionListener(new java.awt.event.ActionListener() {
@@ -456,7 +474,7 @@ public class Editar extends javax.swing.JInternalFrame {
                 jMenuItemSalYPimientaActionPerformed(evt);
             }
         });
-        jMenu4.add(jMenuItemSalYPimienta);
+        menuRuido.add(jMenuItemSalYPimienta);
 
         jMenu5.setText("Sinteticas");
 
@@ -484,9 +502,82 @@ public class Editar extends javax.swing.JInternalFrame {
         });
         jMenu5.add(jMenuItem11);
 
-        jMenu4.add(jMenu5);
+        menuRuido.add(jMenu5);
 
-        jMenuBar1.add(jMenu4);
+        jMenuBar1.add(menuRuido);
+
+        menuOperaciones.setText("Operaciones");
+
+        menuSuma.setText("Sumar");
+        menuSuma.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuSumaActionPerformed(evt);
+            }
+        });
+        menuOperaciones.add(menuSuma);
+
+        menuResta.setText("Restar");
+        menuResta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuRestaActionPerformed(evt);
+            }
+        });
+        menuOperaciones.add(menuResta);
+
+        menuProducto.setText("Producto");
+        menuProducto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuProductoActionPerformed(evt);
+            }
+        });
+        menuOperaciones.add(menuProducto);
+
+        menuEscalar.setText("Producto Escalar");
+        menuEscalar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuEscalarActionPerformed(evt);
+            }
+        });
+        menuOperaciones.add(menuEscalar);
+
+        menuDinamico.setText("Rango Dinamico");
+        menuDinamico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuDinamicoActionPerformed(evt);
+            }
+        });
+        menuOperaciones.add(menuDinamico);
+
+        menuPotencia.setText("Potencia Gamma");
+        menuPotencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuPotenciaActionPerformed(evt);
+            }
+        });
+        menuOperaciones.add(menuPotencia);
+
+        jMenuBar1.add(menuOperaciones);
+
+        menuFiltros.setText("Filtros");
+
+        menuMediana.setText("Media");
+        menuMediana.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuMedianaActionPerformed(evt);
+            }
+        });
+        menuFiltros.add(menuMediana);
+
+        jMenuItem13.setText("Mediana");
+        menuFiltros.add(jMenuItem13);
+
+        jMenuItem14.setText("Gauss");
+        menuFiltros.add(jMenuItem14);
+
+        menuBordes.setText("Realce de Bordes");
+        menuFiltros.add(menuBordes);
+
+        jMenuBar1.add(menuFiltros);
 
         setJMenuBar(jMenuBar1);
 
@@ -744,6 +835,171 @@ public class Editar extends javax.swing.JInternalFrame {
         
     }//GEN-LAST:event_jMenuItemSalYPimientaActionPerformed
 
+    private void menuSumaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSumaActionPerformed
+        // TODO add your handling code here:
+        
+         int respuesta = JOptionPane.showConfirmDialog(this, "Sumar Una Constante?", "Sumar Constante O Imagen", JOptionPane.YES_NO_CANCEL_OPTION);
+        // si respuesta es si, suma constante
+        if (respuesta == 0) {
+            String valor = JOptionPane.showInputDialog(this, "Valor", "Sumar Valor A Imagen", JOptionPane.INFORMATION_MESSAGE);
+            int constante = Integer.parseInt(valor);
+            //screenCopy = p.sumaConstante(constante);
+            //repaint(screen, screenCopy);
+            seleccionarRectangulo(p.sumaConstante(constante));
+            System.out.println("Si Suma Constante");
+        }
+
+        if (respuesta == 1) {
+            BufferedImage bmp = null;
+            JFileChooser fileChooser = new JFileChooser();
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG", "PNG", "jpg", "png");
+            fileChooser.setFileFilter(filter);
+            fileChooser.setAcceptAllFileFilterUsed(false);
+            int respu = fileChooser.showOpenDialog(this);
+
+            if (respu == JFileChooser.APPROVE_OPTION && fileChooser.getSelectedFile().exists()) {
+                try {
+                    //Devuelve el fichero seleccionado
+                    File imagenSeleccionada = fileChooser.getSelectedFile();
+                    //Asignamos a la variable bmp la imagen leida
+                    bmp = ImageIO.read(imagenSeleccionada);
+                    
+                } catch (IOException ex) {
+                    Logger.getLogger(Editar.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+//            screenCopy = p.escalaGrises(bmp);
+
+            if (screen.getWidth() == screenCopy.getWidth() && screen.getHeight() == screenCopy.getHeight()) {
+
+              seleccionarRectangulo(p.sumaImagen(screen));
+            } else {
+                JOptionPane.showConfirmDialog(this, "Las imágenes no coinciden");
+            }
+
+
+    }                      
+    }//GEN-LAST:event_menuSumaActionPerformed
+
+    private void menuRestaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuRestaActionPerformed
+        // TODO add your handling code here:
+        
+        int respuesta = JOptionPane.showConfirmDialog(this, "Restar Una Constante?", "Restar Constante O Imagen", JOptionPane.YES_NO_CANCEL_OPTION);
+        // si respuesta es si, suma constante
+        if (respuesta == 0) {
+            String valor = JOptionPane.showInputDialog(this, "Valor", "Restar Valor A Imagen", JOptionPane.INFORMATION_MESSAGE);
+            int constante = Integer.parseInt(valor);
+            seleccionarRectangulo(p.restaConstante(constante));
+           
+            System.out.println("Si Resta Constante");
+        }
+
+        if (respuesta == 1) {
+            BufferedImage bmp = null;
+            JFileChooser fileChooser = new JFileChooser();
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG", "jpg", "png");
+            fileChooser.setFileFilter(filter);
+            fileChooser.setAcceptAllFileFilterUsed(false);
+            int respu = fileChooser.showOpenDialog(this);
+
+            if (respu == JFileChooser.APPROVE_OPTION && fileChooser.getSelectedFile().exists()) {
+                try {
+                    //Devuelve el fichero seleccionado
+                    File imagenSeleccionada = fileChooser.getSelectedFile();
+                    //Asignamos a la variable bmp la imagen leida
+                    bmp = ImageIO.read(imagenSeleccionada);
+                } catch (IOException ex) {
+                    Logger.getLogger(Editar.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            //imageSegunda = p.escalaGrises(bmp);
+
+            if (screen.getWidth() == bmp.getWidth() && screen.getHeight() == bmp.getHeight()) {
+
+                seleccionarRectangulo(p.restaImagen(bmp));
+                //repaint(screen, screenCopy);
+            } else {
+                JOptionPane.showConfirmDialog(this, "Las imágenes no coinciden");
+            }
+
+        }
+    }//GEN-LAST:event_menuRestaActionPerformed
+
+    private void menuProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuProductoActionPerformed
+        // TODO add your handling code here:
+         BufferedImage bmp = null;
+        JFileChooser fileChooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG", "jpg", "png");
+        fileChooser.setFileFilter(filter);
+        fileChooser.setAcceptAllFileFilterUsed(false);
+        int respu = fileChooser.showOpenDialog(this);
+
+        if (respu == JFileChooser.APPROVE_OPTION && fileChooser.getSelectedFile().exists()) {
+            try {
+                //Devuelve el fichero seleccionado
+                File imagenSeleccionada = fileChooser.getSelectedFile();
+                //Asignamos a la variable bmp la imagen leida
+                bmp = ImageIO.read(imagenSeleccionada);
+            } catch (IOException ex) {
+                Logger.getLogger(Editar.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        //imageSegunda = p.escalaGrises(bmp);
+
+        if (screen.getWidth() == bmp.getWidth() && screen.getHeight() == bmp.getHeight()) {
+
+            seleccionarRectangulo(p.productoImagen(bmp));
+           // repaint(screen, screenCopy);
+            System.out.println("Si multiplica imagenes");
+        } else {
+            JOptionPane.showConfirmDialog(this, "Las imágenes no coinciden");
+        }
+
+
+
+        
+        
+    }//GEN-LAST:event_menuProductoActionPerformed
+
+    private void menuEscalarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuEscalarActionPerformed
+        // TODO add your handling code here:
+        
+        String valor = JOptionPane.showInputDialog(this, "Valor", "Multiplicar Valor A Imagen", JOptionPane.INFORMATION_MESSAGE);
+        int constante = Integer.parseInt(valor);
+        seleccionarRectangulo(p.productoEscalar(constante));
+        System.out.println("Si Multiplica Constante");
+
+        
+    }//GEN-LAST:event_menuEscalarActionPerformed
+
+    private void menuDinamicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuDinamicoActionPerformed
+        // TODO add your handling code here:
+        
+          //R valor máximo de gris en la imágen
+        seleccionarRectangulo(p.rangoDin());
+       // repaint(screen, screenCopy);
+        System.out.println("si comprime el Rango dinamico");
+        
+
+    }//GEN-LAST:event_menuDinamicoActionPerformed
+
+    private void menuPotenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPotenciaActionPerformed
+        // TODO add your handling code here:
+        
+        String valor = JOptionPane.showInputDialog(this, "Valor", "Definir el valor de ɣ", JOptionPane.INFORMATION_MESSAGE);
+        int gamma = Integer.parseInt(valor);
+        seleccionarRectangulo(p.potenciaGamma(gamma));
+        System.out.println("Si transforma potencia");
+
+    }//GEN-LAST:event_menuPotenciaActionPerformed
+
+    private void menuMedianaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuMedianaActionPerformed
+        // TODO add your handling code here:
+        
+        
+        
+    }//GEN-LAST:event_menuMedianaActionPerformed
+
     protected static final String EXTENSION = ".jpg";
 
     protected static final String FORMAT_NAME = "jpg";
@@ -784,14 +1040,13 @@ public class Editar extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem11;
+    private javax.swing.JMenuItem jMenuItem13;
+    private javax.swing.JMenuItem jMenuItem14;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
@@ -814,6 +1069,19 @@ public class Editar extends javax.swing.JInternalFrame {
     private javax.swing.JLabel labelPromG;
     private javax.swing.JLabel labelPromR;
     private javax.swing.JLabel labelPuntoActual;
+    private javax.swing.JMenu menuArchivo;
+    private javax.swing.JMenuItem menuBordes;
+    private javax.swing.JMenuItem menuDinamico;
+    private javax.swing.JMenuItem menuEscalar;
+    private javax.swing.JMenu menuFiltros;
+    private javax.swing.JMenu menuHerramientas;
+    private javax.swing.JMenuItem menuMediana;
+    private javax.swing.JMenu menuOperaciones;
+    private javax.swing.JMenuItem menuPotencia;
+    private javax.swing.JMenuItem menuProducto;
+    private javax.swing.JMenuItem menuResta;
+    private javax.swing.JMenu menuRuido;
+    private javax.swing.JMenuItem menuSuma;
     private javax.swing.JLabel screenLabel;
     private javax.swing.JTextField txtBuscarX;
     private javax.swing.JTextField txtBuscarY;
