@@ -213,7 +213,7 @@ int nrows, ncols;
 		ncols = imageActual.getHeight();
 		imageFinal = new BufferedImage(nrows, ncols, BufferedImage.TYPE_3BYTE_BGR);
                 
-     /*   int R = 0;
+       int R = 0;
         int max = 0, posX = 0, posY = 0;
         for (int i = 0; i < nrows; i++) {
             for (int j = 0; j < ncols; j++) {
@@ -228,8 +228,8 @@ int nrows, ncols;
         }
         R = max;
 
-        double c = 255 / Math.exp(gamma * R);
-*/      int c = 1;
+        double c = 255 / Math.pow(R, gamma);
+     
         for (int i = 0; i < nrows; i++) {
             for (int j = 0; j < ncols; j++) {
                 int T, r;

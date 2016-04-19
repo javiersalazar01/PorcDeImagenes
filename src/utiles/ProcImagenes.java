@@ -119,7 +119,8 @@ public class ProcImagenes {
                     copia.setRGB(i, j, new Color(g/2, g/2, g/2).getRGB());
                 } else if (g>= r2){
                     g = (int) (g*1.5);
-                    if (g>255) {
+                    if (g > 255) {
+                        
                         copia.setRGB(i, j, new Color(255, 255, 255).getRGB());
                     }else{
                         copia.setRGB(i, j, new Color(g, g, g).getRGB());
