@@ -6,8 +6,10 @@
             <file>file:/Users/karlagutz/Documents/PorcDeImagenes/src/gui/Principal.java</file>
             <file>file:/Users/karlagutz/Documents/PorcDeImagenes/src/utiles/ProcImagenes.java</file>
             <file>file:/Users/karlagutz/Documents/PorcDeImagenes/src/gui/Editar.java</file>
+            <file>file:/Users/karlagutz/Documents/PorcDeImagenes/src/utiles/Imagen.java</file>
             <file>file:/Users/karlagutz/Documents/PorcDeImagenes/src/utiles/Filtros.java</file>
             <file>file:/Users/karlagutz/Documents/PorcDeImagenes/src/utiles/Operaciones.java</file>
+            <file>file:/Users/karlagutz/Documents/PorcDeImagenes/src/utiles/Convolucion.java</file>
         </group>
     </open-files>
 </project-private>
