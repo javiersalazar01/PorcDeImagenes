@@ -102,36 +102,43 @@ public class ProcImagenes {
     }
 
     public BufferedImage contraste(BufferedImage imageActual, int rango) {
-        BufferedImage copia = new BufferedImage(
-                imageActual.getWidth(),
-                imageActual.getHeight(),
-                imageActual.getType());
+        int nrows, ncols;
+        BufferedImage copia;
+        nrows = imageActual.getWidth();
+        ncols = imageActual.getHeight();
+        copia = new BufferedImage(nrows, ncols, BufferedImage.TYPE_3BYTE_BGR);
         Color c;
 
         int r1 = (255 / 2) - (rango);
-        int r2 = r1 + 2*rango;
+        int r2 = r1 + (2 * rango);
+        int[][] matrizGris = new int[nrows][ncols];
+        int max = 0, min = 9999;
 
-        for (int i = 0; i < imageActual.getWidth(); i++) {
-            for (int j = 0; j < imageActual.getHeight(); j++) {
+        for (int i = 0; i < nrows; i++) {
+            for (int j = 0; j < ncols; j++) {
                 c = valorPixel(imageActual, i, j);
                 int g = c.getRed();
+
                 if (g <= r1) {
-                    copia.setRGB(i, j, new Color(g / 2, g / 2, g / 2).getRGB());
+                    matrizGris[i][j] = (int)(g / 2);
+
+                    //  copia.setRGB(i, j, new Color(g / 2, g / 2, g / 2).getRGB());
                 } else if (g >= r2) {
-                    g = (int) (g * 1.5);
-                    if (g > 255) {
-
-                        copia.setRGB(i, j, new Color(255, 255, 255).getRGB());
-                    } else {
-                        copia.setRGB(i, j, new Color(g, g, g).getRGB());
-
-                    }
-
+                    //  g = (int) (g * 1.5);
+                    matrizGris[i][j] = (int) (g * 1.5);
                 } else {
-                    copia.setRGB(i, j, new Color(g, g, g).getRGB());
+                    matrizGris[i][j] = g;
+                    //copia.setRGB(i, j, new Color(g, g, g).getRGB());
+                }
+
+                if (g > max) {
+                    max = g;
+                } else if (g < min) {
+                    min = g;
                 }
             }
         }
+        copia = Op.normalizaRango(matrizGris, max, min);
         return copia;
     }
 

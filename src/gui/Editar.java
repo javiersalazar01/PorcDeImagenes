@@ -1070,13 +1070,16 @@ public class Editar extends javax.swing.JInternalFrame {
         try {
             String res = JOptionPane.showInputDialog(this, "Valor Del rango: ");
             int resNum = Integer.parseInt(res);
-            if (resNum > -1 && resNum < 256) {
+            
+            if (resNum > 0 && resNum < 128) {
                 seleccionarRectangulo(p.contraste(screen, resNum));
             } else {
-                JOptionPane.showMessageDialog(this, "Ingrese Un Numero Entre 0 y 255");
+                
+                JOptionPane.showMessageDialog(this, "Ingrese Un Numero Entre 0 y 128");
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Ingrese Un Numero Entre 0 y 255");
+            e.printStackTrace();
         }
     
     }//GEN-LAST:event_jMenuItem12ActionPerformed
