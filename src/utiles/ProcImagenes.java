@@ -18,8 +18,17 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class ProcImagenes {
 
-    //Imagen actual que se ha cargado
+     //Imagen actual que se ha cargado
     private BufferedImage imageActual;
+    private BufferedImage screen = imageActual;
+    private int nivelIntensidad;
+    private Operaciones Op;
+    private Filtros f = new Filtros();
+    
+    public ProcImagenes(){
+        this.Op = new Operaciones();
+    }
+
     //Método que devuelve una imagen abierta desde archivo
     //Retorna un objeto BufferedImagen
     public BufferedImage abrirImagen() {
@@ -92,6 +101,38 @@ public class ProcImagenes {
         return copia;
     }
     
+      public BufferedImage contraste(BufferedImage imageActual, int rango) {
+         BufferedImage copia = new BufferedImage(
+                imageActual.getWidth(),
+                imageActual.getHeight(),
+                imageActual.getType());
+        Color c;
+        
+        int r1 = (255/2)-(rango/2);
+        int r2 = r1+rango;
+        
+        for (int i = 0; i < imageActual.getWidth(); i++) {
+            for (int j = 0; j < imageActual.getHeight(); j++) {
+                c = valorPixel(i, j);
+                int g=c.getRed();
+                if (g <= r1) {
+                    copia.setRGB(i, j, new Color(g/2, g/2, g/2).getRGB());
+                } else if (g>= r2){
+                    g = (int) (g*1.5);
+                    if (g > 255) {
+                        
+                        copia.setRGB(i, j, new Color(255, 255, 255).getRGB());
+                    }else{
+                        copia.setRGB(i, j, new Color(g, g, g).getRGB());
+
+                    }
+                    
+                }
+            }
+        }
+        return copia;
+    }
+      
     public BufferedImage ecualizarGris(BufferedImage screen) {
         
         BufferedImage copia = new BufferedImage(
@@ -137,7 +178,6 @@ public class ProcImagenes {
                 res.setRGB(i, j, new Color(valor,valor,valor).getRGB());
             }
         }
-        
         return res;
     }
 
@@ -158,8 +198,180 @@ public class ProcImagenes {
         return imageActual;
     }
     
-
+    public BufferedImage sumaConstante(int constante){
+       
+        BufferedImage screenCopy = new BufferedImage(
+                screen.getWidth(),
+                screen.getHeight(),
+                screen.getType());
+        
+        screenCopy = escalaGrises();
+       // screenCopy = Op.suma(screenCopy, constante);
+        //normalizarImagenGris(imageActual);
+        System.out.println("suma constante");
+        return screenCopy;        
+    }
+    
+    public BufferedImage sumaImagen (BufferedImage imageSegunda){
+        BufferedImage screenCopy = new BufferedImage(
+                screen.getWidth(),
+                screen.getHeight(),
+                screen.getType());
+        escalaGrises();      
+        screenCopy = Op.suma(screenCopy, imageSegunda);
+       // normalizarImagenGris(screenCopy);
+        return screenCopy;  
+    }
+    
+     public BufferedImage restaConstante(int constante){
+         BufferedImage screenCopy = new BufferedImage(
+                screen.getWidth(),
+                screen.getHeight(),
+                screen.getType());
+        escalaGrises();
+        screenCopy = Op.resta(screenCopy, constante);
+       // normalizarImagenGris(screenCopy);
+        return screenCopy;
+        
+    }
+    
+    public BufferedImage restaImagen (BufferedImage imageSegunda){
+        BufferedImage screenCopy = new BufferedImage(
+                screen.getWidth(),
+                screen.getHeight(),
+                screen.getType());
+        escalaGrises();      
+        screenCopy = Op.resta(screenCopy, imageSegunda);
+       // normalizarImagenGris(screenCopy);
+        return screenCopy;
+        
+    }
+    
+    public BufferedImage productoImagen (BufferedImage imageSegunda){
+        BufferedImage screenCopy = new BufferedImage(
+                screen.getWidth(),
+                screen.getHeight(),
+                screen.getType());
+        escalaGrises();
+        screenCopy = Op.producto(screenCopy, imageSegunda);
+       // normalizarImagenGris(screenCopy);
+        return screenCopy;
+    }
+    
+      public BufferedImage productoEscalar (int escalar){
+          BufferedImage screenCopy = new BufferedImage(
+                screen.getWidth(),
+                screen.getHeight(),
+                screen.getType());
+        escalaGrises();
+        screenCopy = Op.producto(screenCopy, escalar);
+        //normalizarImagenGris(screenCopy);
+        return screenCopy;
+    
+      }
+      
+     public BufferedImage rangoDin(){
+         BufferedImage screenCopy = new BufferedImage(
+                screen.getWidth(),
+                screen.getHeight(),
+                screen.getType());
+         escalaGrises();
+         Op.rangoDinamico(screenCopy);
+         return screenCopy;
+     }
+     
+     
+     
+     
+     public BufferedImage potenciaGamma(int gamma){
+         BufferedImage screenCopy = new BufferedImage(
+                screen.getWidth(),
+                screen.getHeight(),
+                screen.getType());
+         escalaGrises();
+         Op.powerLaw(screenCopy, gamma);
+         normalizarImagenGris(screenCopy);
+         
+         return screenCopy;
+                 
+     }
     
     
-
+    
+    public void normalizarImagenGris(BufferedImage imageSegunda) {
+        // nivel intensidad
+        if(nivelIntensidad > 255) {
+            nivelIntensidad = 255;
+        }
+        if(nivelIntensidad < 0) {
+            nivelIntensidad = 0;
+        }
+        // matriz
+        for(int fila = 0; fila < imageSegunda.getHeight(); fila++) {
+            for(int columna = 0; columna < imageSegunda.getWidth(); columna++) {
+               
+                int pixel = imageSegunda.getRGB(fila, columna);
+                // pixeles
+                if(pixel > nivelIntensidad) {
+                    pixel = nivelIntensidad;
+                }
+                if(pixel < 0) {
+                    pixel = 0;
+                }
+               imageSegunda.setRGB(fila, columna, pixel);
+            }
+        }
+    }
+    
+    
+    
+    public BufferedImage filtroMedia(int size){
+        BufferedImage copia = new BufferedImage(
+                screen.getWidth(),
+                screen.getHeight(),
+                screen.getType());
+        copia = f.media(copia, size);
+        
+        return copia;
+  
+    }
+    
+      public BufferedImage filtroMediana(int size){
+        BufferedImage copia = new BufferedImage(
+                screen.getWidth(),
+                screen.getHeight(),
+                screen.getType());
+        copia = f.mediana(copia, size);
+        
+        return copia;
+  
+    }
+      
+       public BufferedImage filtroGaussiano(int size){
+        BufferedImage copia = new BufferedImage(
+                screen.getWidth(),
+                screen.getHeight(),
+                screen.getType());
+        copia = f.gauss(copia, size);
+        
+        return copia;
+  
+    }
+       
+         public BufferedImage filtroBordes(){
+        BufferedImage copia = new BufferedImage(
+                screen.getWidth(),
+                screen.getHeight(),
+                screen.getType());
+        copia = f.bordes(copia);
+        
+        return copia;
+  
+    }
+    
+         
+ 
+         
+         
+    
 }

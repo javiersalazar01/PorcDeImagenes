@@ -13,15 +13,20 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import utiles.ExtensionFileFilter;
+import utiles.Filtros;
 import utiles.GeneradorDeRuido;
 import utiles.Histograma2;
 import utiles.LayoutFileFilter;
+import utiles.Operaciones;
 import utiles.ProcImagenes;
 
 /**
@@ -34,6 +39,8 @@ public class Editar extends javax.swing.JInternalFrame {
      * Creates new form Editar
      */
     private ProcImagenes p;
+    private Operaciones Op = new Operaciones();
+    private Filtros f = new Filtros();
     private Rectangle captureRect = new Rectangle();
     private Point start = new Point();
     private Point end;
@@ -46,6 +53,7 @@ public class Editar extends javax.swing.JInternalFrame {
     
     public Editar(ProcImagenes pro) {
         initComponents();
+        
         this.p = pro;
         this.gdr = new GeneradorDeRuido();
         objVentanaHistograma = new VentanaHistograma();
@@ -121,16 +129,18 @@ public class Editar extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         screenLabel = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
+        menuArchivo = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
+        menuHerramientas = new javax.swing.JMenu();
         jMenuItemHistograma = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItemRestaurar = new javax.swing.JMenuItem();
-        jMenu4 = new javax.swing.JMenu();
+        jMenuItem12 = new javax.swing.JMenuItem();
+        menuNegativo = new javax.swing.JMenuItem();
+        menuRuido = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
@@ -139,6 +149,18 @@ public class Editar extends javax.swing.JInternalFrame {
         jMenuItem9 = new javax.swing.JMenuItem();
         jMenuItem10 = new javax.swing.JMenuItem();
         jMenuItem11 = new javax.swing.JMenuItem();
+        menuOperaciones = new javax.swing.JMenu();
+        menuSuma = new javax.swing.JMenuItem();
+        menuResta = new javax.swing.JMenuItem();
+        menuProducto = new javax.swing.JMenuItem();
+        menuEscalar = new javax.swing.JMenuItem();
+        menuDinamico = new javax.swing.JMenuItem();
+        menuPotencia = new javax.swing.JMenuItem();
+        menuFiltros = new javax.swing.JMenu();
+        menuMediana = new javax.swing.JMenuItem();
+        menuMedia = new javax.swing.JMenuItem();
+        menuGauss = new javax.swing.JMenuItem();
+        menuBordes = new javax.swing.JMenuItem();
 
         setClosable(true);
         setIconifiable(true);
@@ -294,7 +316,7 @@ public class Editar extends javax.swing.JInternalFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(36, 36, 36)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(148, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -317,7 +339,7 @@ public class Editar extends javax.swing.JInternalFrame {
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(186, Short.MAX_VALUE))
         );
 
         screenLabel.setBackground(new java.awt.Color(255, 255, 255));
@@ -348,9 +370,9 @@ public class Editar extends javax.swing.JInternalFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(6, 6, 6)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 476, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -359,13 +381,13 @@ public class Editar extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 407, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 302, Short.MAX_VALUE))))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
-        jMenu1.setText("Archivo");
+        menuArchivo.setText("Archivo");
 
         jMenuItem1.setText("Guardar");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
@@ -373,10 +395,10 @@ public class Editar extends javax.swing.JInternalFrame {
                 jMenuItem1ActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
+        menuArchivo.add(jMenuItem1);
 
         jMenuItem2.setText("Guardar como");
-        jMenu1.add(jMenuItem2);
+        menuArchivo.add(jMenuItem2);
 
         jMenuItem3.setText("Mostrar Imagen");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
@@ -384,11 +406,11 @@ public class Editar extends javax.swing.JInternalFrame {
                 jMenuItem3ActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem3);
+        menuArchivo.add(jMenuItem3);
 
-        jMenuBar1.add(jMenu1);
+        jMenuBar1.add(menuArchivo);
 
-        jMenu3.setText("Herramientas");
+        menuHerramientas.setText("Herramientas");
 
         jMenuItemHistograma.setText("Histograma");
         jMenuItemHistograma.addActionListener(new java.awt.event.ActionListener() {
@@ -396,7 +418,7 @@ public class Editar extends javax.swing.JInternalFrame {
                 jMenuItemHistogramaActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItemHistograma);
+        menuHerramientas.add(jMenuItemHistograma);
 
         jMenuItem5.setText("Umbralizar");
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
@@ -404,7 +426,7 @@ public class Editar extends javax.swing.JInternalFrame {
                 jMenuItem5ActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItem5);
+        menuHerramientas.add(jMenuItem5);
 
         jMenuItem4.setText("Ecualizar");
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
@@ -412,19 +434,36 @@ public class Editar extends javax.swing.JInternalFrame {
                 jMenuItem4ActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItem4);
+        menuHerramientas.add(jMenuItem4);
 
+        jMenuItemRestaurar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItemRestaurar.setText("Restaurar Imagen");
         jMenuItemRestaurar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemRestaurarActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItemRestaurar);
+        menuHerramientas.add(jMenuItemRestaurar);
 
-        jMenuBar1.add(jMenu3);
+        jMenuItem12.setText("Aumentar Contraste");
+        jMenuItem12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem12ActionPerformed(evt);
+            }
+        });
+        menuHerramientas.add(jMenuItem12);
 
-        jMenu4.setText("Ruido");
+        menuNegativo.setText("Negativo");
+        menuNegativo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuNegativoActionPerformed(evt);
+            }
+        });
+        menuHerramientas.add(menuNegativo);
+
+        jMenuBar1.add(menuHerramientas);
+
+        menuRuido.setText("Ruido");
 
         jMenuItem6.setText("Gaussiano");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
@@ -432,7 +471,7 @@ public class Editar extends javax.swing.JInternalFrame {
                 jMenuItem6ActionPerformed(evt);
             }
         });
-        jMenu4.add(jMenuItem6);
+        menuRuido.add(jMenuItem6);
 
         jMenuItem7.setText("Rayleigh");
         jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
@@ -440,7 +479,7 @@ public class Editar extends javax.swing.JInternalFrame {
                 jMenuItem7ActionPerformed(evt);
             }
         });
-        jMenu4.add(jMenuItem7);
+        menuRuido.add(jMenuItem7);
 
         jMenuItem8.setText("Exponencial");
         jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
@@ -448,7 +487,7 @@ public class Editar extends javax.swing.JInternalFrame {
                 jMenuItem8ActionPerformed(evt);
             }
         });
-        jMenu4.add(jMenuItem8);
+        menuRuido.add(jMenuItem8);
 
         jMenuItemSalYPimienta.setText("Sal Y Pimienta");
         jMenuItemSalYPimienta.addActionListener(new java.awt.event.ActionListener() {
@@ -456,7 +495,7 @@ public class Editar extends javax.swing.JInternalFrame {
                 jMenuItemSalYPimientaActionPerformed(evt);
             }
         });
-        jMenu4.add(jMenuItemSalYPimienta);
+        menuRuido.add(jMenuItemSalYPimienta);
 
         jMenu5.setText("Sinteticas");
 
@@ -484,9 +523,97 @@ public class Editar extends javax.swing.JInternalFrame {
         });
         jMenu5.add(jMenuItem11);
 
-        jMenu4.add(jMenu5);
+        menuRuido.add(jMenu5);
 
-        jMenuBar1.add(jMenu4);
+        jMenuBar1.add(menuRuido);
+
+        menuOperaciones.setText("Operaciones");
+
+        menuSuma.setText("Sumar");
+        menuSuma.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuSumaActionPerformed(evt);
+            }
+        });
+        menuOperaciones.add(menuSuma);
+
+        menuResta.setText("Restar");
+        menuResta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuRestaActionPerformed(evt);
+            }
+        });
+        menuOperaciones.add(menuResta);
+
+        menuProducto.setText("Producto");
+        menuProducto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuProductoActionPerformed(evt);
+            }
+        });
+        menuOperaciones.add(menuProducto);
+
+        menuEscalar.setText("Producto Escalar");
+        menuEscalar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuEscalarActionPerformed(evt);
+            }
+        });
+        menuOperaciones.add(menuEscalar);
+
+        menuDinamico.setText("Rango Dinamico");
+        menuDinamico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuDinamicoActionPerformed(evt);
+            }
+        });
+        menuOperaciones.add(menuDinamico);
+
+        menuPotencia.setText("Potencia Gamma");
+        menuPotencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuPotenciaActionPerformed(evt);
+            }
+        });
+        menuOperaciones.add(menuPotencia);
+
+        jMenuBar1.add(menuOperaciones);
+
+        menuFiltros.setText("Filtros");
+
+        menuMediana.setText("Mediana");
+        menuMediana.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuMedianaActionPerformed(evt);
+            }
+        });
+        menuFiltros.add(menuMediana);
+
+        menuMedia.setText("Media");
+        menuMedia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuMediaActionPerformed(evt);
+            }
+        });
+        menuFiltros.add(menuMedia);
+
+        menuGauss.setText("Gauss");
+        menuGauss.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuGaussActionPerformed(evt);
+            }
+        });
+        menuFiltros.add(menuGauss);
+
+        menuBordes.setText("Realce de Bordes");
+        menuBordes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuBordesActionPerformed(evt);
+            }
+        });
+        menuFiltros.add(menuBordes);
+
+        jMenuBar1.add(menuFiltros);
 
         setJMenuBar(jMenuBar1);
 
@@ -744,6 +871,224 @@ public class Editar extends javax.swing.JInternalFrame {
         
     }//GEN-LAST:event_jMenuItemSalYPimientaActionPerformed
 
+    private void menuSumaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSumaActionPerformed
+        // TODO add your handling code here:
+        
+    
+            BufferedImage bmp = null;
+            JFileChooser fileChooser = new JFileChooser();
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG", "PNG", "jpg", "png");
+            fileChooser.setFileFilter(filter);
+            fileChooser.setAcceptAllFileFilterUsed(false);
+            int respu = fileChooser.showOpenDialog(this);
+
+            if (respu == JFileChooser.APPROVE_OPTION && fileChooser.getSelectedFile().exists()) {
+                try {
+                    //Devuelve el fichero seleccionado
+                    File imagenSeleccionada = fileChooser.getSelectedFile();
+                    //Asignamos a la variable bmp la imagen leida
+                    bmp = ImageIO.read(imagenSeleccionada);
+                    
+                } catch (IOException ex) {
+                    Logger.getLogger(Editar.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+//            screenCopy = p.escalaGrises(bmp);
+
+            if (screen.getWidth() == screenCopy.getWidth() && screen.getHeight() == screenCopy.getHeight()) {
+
+              seleccionarRectangulo(Op.suma(screen, bmp));
+            } else {
+                JOptionPane.showConfirmDialog(this, "Las imágenes no coinciden");
+            }
+
+
+                         
+    }//GEN-LAST:event_menuSumaActionPerformed
+
+    private void menuRestaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuRestaActionPerformed
+        // TODO add your handling code here:
+
+            BufferedImage bmp = null;
+            JFileChooser fileChooser = new JFileChooser();
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG", "jpg", "png");
+            fileChooser.setFileFilter(filter);
+            fileChooser.setAcceptAllFileFilterUsed(false);
+            int respu = fileChooser.showOpenDialog(this);
+
+            if (respu == JFileChooser.APPROVE_OPTION && fileChooser.getSelectedFile().exists()) {
+                try {
+                    //Devuelve el fichero seleccionado
+                    File imagenSeleccionada = fileChooser.getSelectedFile();
+                    //Asignamos a la variable bmp la imagen leida
+                    bmp = ImageIO.read(imagenSeleccionada);
+                } catch (IOException ex) {
+                    Logger.getLogger(Editar.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            //imageSegunda = p.escalaGrises(bmp);
+
+            if (screen.getWidth() == bmp.getWidth() && screen.getHeight() == bmp.getHeight()) {
+
+                seleccionarRectangulo(Op.resta(screen, bmp));
+                //repaint(screen, screenCopy);
+            } else {
+                JOptionPane.showConfirmDialog(this, "Las imágenes no coinciden");
+            }
+
+        
+    }//GEN-LAST:event_menuRestaActionPerformed
+
+    private void menuProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuProductoActionPerformed
+        // TODO add your handling code here:
+         BufferedImage bmp = null;
+        JFileChooser fileChooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG", "jpg", "png");
+        fileChooser.setFileFilter(filter);
+        fileChooser.setAcceptAllFileFilterUsed(false);
+        int respu = fileChooser.showOpenDialog(this);
+
+        if (respu == JFileChooser.APPROVE_OPTION && fileChooser.getSelectedFile().exists()) {
+            try {
+                //Devuelve el fichero seleccionado
+                File imagenSeleccionada = fileChooser.getSelectedFile();
+                //Asignamos a la variable bmp la imagen leida
+                bmp = ImageIO.read(imagenSeleccionada);
+            } catch (IOException ex) {
+                Logger.getLogger(Editar.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        //imageSegunda = p.escalaGrises(bmp);
+
+        if (screen.getWidth() == bmp.getWidth() && screen.getHeight() == bmp.getHeight()) {
+
+            seleccionarRectangulo(Op.producto(screen, bmp));
+           // repaint(screen, screenCopy);
+            System.out.println("Si multiplica imagenes");
+        } else {
+            JOptionPane.showConfirmDialog(this, "Las imágenes no coinciden");
+        }
+
+
+
+        
+        
+    }//GEN-LAST:event_menuProductoActionPerformed
+
+    private void menuEscalarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuEscalarActionPerformed
+        // TODO add your handling code here:
+        
+        String valor = JOptionPane.showInputDialog(this, "Valor", "Multiplicar Valor A Imagen", JOptionPane.INFORMATION_MESSAGE);
+        int constante = Integer.parseInt(valor);
+        seleccionarRectangulo(Op.producto(screen, constante));
+        System.out.println("Si Multiplica Constante");
+
+        
+    }//GEN-LAST:event_menuEscalarActionPerformed
+
+    private void menuDinamicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuDinamicoActionPerformed
+        // TODO add your handling code here:
+        
+          //R valor máximo de gris en la imágen
+        seleccionarRectangulo(Op.rangoDinamico(screen));
+       // repaint(screen, screenCopy);
+        System.out.println("si comprime el Rango dinamico");
+        
+
+    }//GEN-LAST:event_menuDinamicoActionPerformed
+
+    private void menuPotenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPotenciaActionPerformed
+        // TODO add your handling code here:
+        
+        String valor = JOptionPane.showInputDialog(this, "Valor", "Definir el valor de ɣ", JOptionPane.INFORMATION_MESSAGE);
+        double gamma;
+        gamma = Double.parseDouble(valor);
+    
+        seleccionarRectangulo(Op.powerLaw(screen,gamma));
+        System.out.println("Si transforma potencia");
+
+    }//GEN-LAST:event_menuPotenciaActionPerformed
+
+    private void menuMedianaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuMedianaActionPerformed
+        // TODO add your handling code here:
+        
+        String valor = JOptionPane.showInputDialog(this, "Tamaño de máscara", "Definir el tamaño de mascara", JOptionPane.INFORMATION_MESSAGE);
+        int sizeM = Integer.parseInt(valor);
+        
+        if(sizeM%2 == 0 || sizeM==1){
+            JOptionPane.showMessageDialog(null,"Favor ingresar un numero IMPAR o mayor a 1");
+        } else {
+            seleccionarRectangulo(f.mediana(screen, sizeM));
+            System.out.println("Filtro Mediana OK");
+            
+        }
+        
+        
+        
+    }//GEN-LAST:event_menuMedianaActionPerformed
+
+    private void menuGaussActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuGaussActionPerformed
+        // TODO add your handling code here:
+        
+         String valor = JOptionPane.showInputDialog(this, "Tamaño de máscara", "Definir el tamaño de mascara", JOptionPane.INFORMATION_MESSAGE);
+        int sizeM = Integer.parseInt(valor);
+        
+        if(sizeM%2 == 0 || sizeM==1){
+            JOptionPane.showMessageDialog(null,"Favor ingresar un numero IMPAR o mayor a 1");
+        } else {
+            seleccionarRectangulo(f.gauss(screen, sizeM));
+            System.out.println("Filtro Gaussiano OK");           
+        }
+    }//GEN-LAST:event_menuGaussActionPerformed
+
+    private void menuMediaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuMediaActionPerformed
+        // TODO add your handling code here:
+        
+         String valor = JOptionPane.showInputDialog(this, "Tamaño de máscara", "Definir el tamaño de mascara", JOptionPane.INFORMATION_MESSAGE);
+        int sizeM = Integer.parseInt(valor);
+        
+        if(sizeM%2 == 0 || sizeM==1){
+            JOptionPane.showMessageDialog(null,"Favor ingresar un numero IMPAR o mayor a 1");
+        } else {
+            seleccionarRectangulo(f.media(screen, sizeM));
+            System.out.println("Filtro Media OK");
+            
+        }
+        
+        
+    }//GEN-LAST:event_menuMediaActionPerformed
+
+    private void menuBordesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuBordesActionPerformed
+        // TODO add your handling code here:
+        
+        seleccionarRectangulo(f.bordes(screen));
+        System.out.println("Filtro PasaAltos OK");
+    }//GEN-LAST:event_menuBordesActionPerformed
+
+    private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
+        // TODO add your handling code here:
+        try {
+            String res = JOptionPane.showInputDialog(this, "Valor Del rango: ");
+            int resNum = Integer.parseInt(res);
+            if (resNum > -1 && resNum < 256) {
+                seleccionarRectangulo(p.contraste(screen, resNum));
+            } else {
+                JOptionPane.showMessageDialog(this, "Ingrese Un Numero Entre 0 y 255");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Ingrese Un Numero Entre 0 y 255");
+        }
+    
+    }//GEN-LAST:event_jMenuItem12ActionPerformed
+
+    private void menuNegativoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuNegativoActionPerformed
+        // TODO add your handling code here:
+        seleccionarRectangulo(f.negativo(screen));
+        System.out.println("negativo OK");
+        
+        
+    }//GEN-LAST:event_menuNegativoActionPerformed
+
     protected static final String EXTENSION = ".jpg";
 
     protected static final String FORMAT_NAME = "jpg";
@@ -784,14 +1129,12 @@ public class Editar extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem11;
+    private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
@@ -814,6 +1157,22 @@ public class Editar extends javax.swing.JInternalFrame {
     private javax.swing.JLabel labelPromG;
     private javax.swing.JLabel labelPromR;
     private javax.swing.JLabel labelPuntoActual;
+    private javax.swing.JMenu menuArchivo;
+    private javax.swing.JMenuItem menuBordes;
+    private javax.swing.JMenuItem menuDinamico;
+    private javax.swing.JMenuItem menuEscalar;
+    private javax.swing.JMenu menuFiltros;
+    private javax.swing.JMenuItem menuGauss;
+    private javax.swing.JMenu menuHerramientas;
+    private javax.swing.JMenuItem menuMedia;
+    private javax.swing.JMenuItem menuMediana;
+    private javax.swing.JMenuItem menuNegativo;
+    private javax.swing.JMenu menuOperaciones;
+    private javax.swing.JMenuItem menuPotencia;
+    private javax.swing.JMenuItem menuProducto;
+    private javax.swing.JMenuItem menuResta;
+    private javax.swing.JMenu menuRuido;
+    private javax.swing.JMenuItem menuSuma;
     private javax.swing.JLabel screenLabel;
     private javax.swing.JTextField txtBuscarX;
     private javax.swing.JTextField txtBuscarY;
