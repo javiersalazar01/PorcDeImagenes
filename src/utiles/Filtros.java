@@ -305,6 +305,27 @@ public class Filtros {
         } 
         return aux;
     }
+    
+    
+   public BufferedImage negativo(BufferedImage image){
+       int nrows, ncols;
+		BufferedImage imageFinal;
+		nrows = image.getWidth();
+		ncols = image.getHeight();
+		imageFinal = new BufferedImage(nrows, ncols, BufferedImage.TYPE_3BYTE_BGR);
+                int r=0, T=0;
+                 for (int i = 0; i < nrows; i++) {
+                    for (int j = 0; j < ncols; j++) {
+                        Color c1 = new Color(image.getRGB(i, j));
+                        r = c1.getRed();
+                        T = -r+255;
+                        imageFinal.setRGB(i, j, new Color(T,T,T).getRGB());
+                        
+                    }
+                 }
+                 
+       return imageFinal;
+   }
     }
     
  

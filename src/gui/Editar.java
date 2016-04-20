@@ -139,6 +139,7 @@ public class Editar extends javax.swing.JInternalFrame {
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItemRestaurar = new javax.swing.JMenuItem();
         jMenuItem12 = new javax.swing.JMenuItem();
+        menuNegativo = new javax.swing.JMenuItem();
         menuRuido = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
@@ -370,8 +371,8 @@ public class Editar extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(54, 54, 54)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -381,7 +382,7 @@ public class Editar extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
@@ -451,6 +452,14 @@ public class Editar extends javax.swing.JInternalFrame {
             }
         });
         menuHerramientas.add(jMenuItem12);
+
+        menuNegativo.setText("Negativo");
+        menuNegativo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuNegativoActionPerformed(evt);
+            }
+        });
+        menuHerramientas.add(menuNegativo);
 
         jMenuBar1.add(menuHerramientas);
 
@@ -865,18 +874,7 @@ public class Editar extends javax.swing.JInternalFrame {
     private void menuSumaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSumaActionPerformed
         // TODO add your handling code here:
         
-         int respuesta = JOptionPane.showConfirmDialog(this, "Sumar Una Constante?", "Sumar Constante O Imagen", JOptionPane.YES_NO_CANCEL_OPTION);
-        // si respuesta es si, suma constante
-        if (respuesta == 0) {
-            String valor = JOptionPane.showInputDialog(this, "Valor", "Sumar Valor A Imagen", JOptionPane.INFORMATION_MESSAGE);
-            int constante = Integer.parseInt(valor);
-            //screenCopy = p.sumaConstante(constante);
-            //repaint(screen, screenCopy);
-            seleccionarRectangulo(Op.suma(screen, constante));
-            System.out.println("Si Suma Constante");
-        }
-
-        if (respuesta == 1) {
+    
             BufferedImage bmp = null;
             JFileChooser fileChooser = new JFileChooser();
             FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG", "PNG", "jpg", "png");
@@ -905,23 +903,12 @@ public class Editar extends javax.swing.JInternalFrame {
             }
 
 
-    }                      
+                         
     }//GEN-LAST:event_menuSumaActionPerformed
 
     private void menuRestaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuRestaActionPerformed
         // TODO add your handling code here:
-        
-        int respuesta = JOptionPane.showConfirmDialog(this, "Restar Una Constante?", "Restar Constante O Imagen", JOptionPane.YES_NO_CANCEL_OPTION);
-        // si respuesta es si, suma constante
-        if (respuesta == 0) {
-            String valor = JOptionPane.showInputDialog(this, "Valor", "Restar Valor A Imagen", JOptionPane.INFORMATION_MESSAGE);
-            int constante = Integer.parseInt(valor);
-            seleccionarRectangulo(Op.resta(screen, constante));
-           
-            System.out.println("Si Resta Constante");
-        }
 
-        if (respuesta == 1) {
             BufferedImage bmp = null;
             JFileChooser fileChooser = new JFileChooser();
             FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG", "jpg", "png");
@@ -949,7 +936,7 @@ public class Editar extends javax.swing.JInternalFrame {
                 JOptionPane.showConfirmDialog(this, "Las imágenes no coinciden");
             }
 
-        }
+        
     }//GEN-LAST:event_menuRestaActionPerformed
 
     private void menuProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuProductoActionPerformed
@@ -1050,8 +1037,7 @@ public class Editar extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null,"Favor ingresar un numero IMPAR o mayor a 1");
         } else {
             seleccionarRectangulo(f.gauss(screen, sizeM));
-            System.out.println("Filtro Gaussiano OK");
-            
+            System.out.println("Filtro Gaussiano OK");           
         }
     }//GEN-LAST:event_menuGaussActionPerformed
 
@@ -1094,6 +1080,14 @@ public class Editar extends javax.swing.JInternalFrame {
         }
     
     }//GEN-LAST:event_jMenuItem12ActionPerformed
+
+    private void menuNegativoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuNegativoActionPerformed
+        // TODO add your handling code here:
+        seleccionarRectangulo(f.negativo(screen));
+        System.out.println("negativo OK");
+        
+        
+    }//GEN-LAST:event_menuNegativoActionPerformed
 
     protected static final String EXTENSION = ".jpg";
 
@@ -1172,6 +1166,7 @@ public class Editar extends javax.swing.JInternalFrame {
     private javax.swing.JMenu menuHerramientas;
     private javax.swing.JMenuItem menuMedia;
     private javax.swing.JMenuItem menuMediana;
+    private javax.swing.JMenuItem menuNegativo;
     private javax.swing.JMenu menuOperaciones;
     private javax.swing.JMenuItem menuPotencia;
     private javax.swing.JMenuItem menuProducto;

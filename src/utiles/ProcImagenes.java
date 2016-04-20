@@ -206,7 +206,7 @@ public class ProcImagenes {
                 screen.getType());
         
         screenCopy = escalaGrises();
-        screenCopy = Op.suma(screenCopy, constante);
+       // screenCopy = Op.suma(screenCopy, constante);
         //normalizarImagenGris(imageActual);
         System.out.println("suma constante");
         return screenCopy;        
@@ -369,5 +369,9 @@ public class ProcImagenes {
   
     }
     
+         
+ 
+         
+         
     
 }

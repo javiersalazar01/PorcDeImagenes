@@ -13,59 +13,74 @@ import java.awt.image.BufferedImage;
  * @author karlagutz
  */
 public class Operaciones {
+  
+    
 
     //private BufferedImage imageActual;
     //private int nivelIntensidad;
     //ProcImagenes p = new ProcImagenes();
 
-    public static BufferedImage suma(BufferedImage imageActual, int valor) {
+    /*public BufferedImage suma(BufferedImage imageActual, int valor) {
         int nrows, ncols;
 		BufferedImage imageFinal;
 		nrows = imageActual.getWidth();
 		ncols = imageActual.getHeight();
 		imageFinal = new BufferedImage(nrows, ncols, BufferedImage.TYPE_3BYTE_BGR);
 
+        int[][] matrizGris = new int[nrows][ncols];
+        int max = 0, min = 9999;
         
         for (int i = 0; i < nrows; i++) {
             for (int j = 0; j < ncols; j++) {
                 Color color = new Color(imageActual.getRGB(i, j));
-                int suma = color.getRed()+ valor;
-                if (suma > 255) {
-
-                    imageFinal.setRGB(i, j, new Color (255,255,255).getRGB());
-                } else {
-                    imageFinal.setRGB(i, j, new Color (suma, suma, suma).getRGB());
+                int x = color.getRed();
+                int suma = x + valor;
+                matrizGris[i][j] = suma;                
+                if (x > max) {
+                    max = x;
+                } else if(min < x){
+                    min = x;
                 }
-
+   
             }
         }
+        
+       imageFinal = normalizaRango(matrizGris, max, min);
         return imageFinal;
 
     }
-
-    public static BufferedImage suma(BufferedImage imageActual, BufferedImage imageOperando) {
+*/
+    
+    public BufferedImage suma(BufferedImage imageActual, BufferedImage imageOperando) {
         int nrows, ncols;
 		BufferedImage imageFinal;
 		nrows = imageActual.getWidth();
 		ncols = imageActual.getHeight();
 		imageFinal = new BufferedImage(nrows, ncols, BufferedImage.TYPE_3BYTE_BGR);
-
+        int[][] matrizGris = new int[nrows][ncols];
+            int max = 0, min = 9999;
+            
         if (imageActual.getHeight() == imageOperando.getHeight() && imageActual.getWidth() == imageOperando.getWidth()) {
-
+            
+            
             for (int i = 0; i < nrows; i++) {
                 for (int j = 0; j < ncols; j++) {
                     Color color1 = new Color(imageActual.getRGB(i, j));
                     Color color2 = new Color(imageOperando.getRGB(i, j));
+                    
                     int suma = color1.getRed() + color2.getRed();
-                    if (suma > 255) {
-                        imageFinal.setRGB(i, j, new Color(255,255,255).getRGB());
-                    } else {
-                        imageFinal.setRGB(i, j, new Color(suma,suma,suma).getRGB());
-                    }
+                    
+                    if (suma > max) {
+                    max = suma;
+                            } else if(suma < min){  
+                    min = suma;   
+                            }
                 }
             }
+            
+            
         }
-
+        imageFinal = normalizaRango(matrizGris, max, min);
         return imageFinal;
     }
 
@@ -248,7 +263,29 @@ int nrows, ncols;
         return imageFinal;
     }
     
-  
+  public BufferedImage normalizaRango(int [][] matriz, int max, int min ){
+            int nrows, ncols;
+		BufferedImage copia;
+                nrows = matriz.length;
+                ncols = matriz[0].length;
+		//nrows = imageActual.getWidth();
+		//ncols = imageActual.getHeight();
+		copia = new BufferedImage(nrows, ncols, BufferedImage.TYPE_3BYTE_BGR);
+                
+        int x =0, T= 0;
+        
+             for (int i = 0; i < copia.getWidth(); i++) {
+                 for (int j = 0; j < copia.getHeight(); j++) {
+                     //Color c = new Color(copia.getRGB(i, j));
+                     x = matriz[i][j];
+                     T = (int)((255*x)-(255*min))/(max-min);
+                     copia.setRGB(i, j, new Color(T,T,T).getRGB());
+                 }
+             }
+             System.out.println("normaliza OK");
+        return copia;
+          
+         }
 }
 
 
