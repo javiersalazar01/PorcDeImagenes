@@ -643,7 +643,7 @@ public class Editar extends javax.swing.JInternalFrame {
         int x = Integer.parseInt(txtBuscarX.getText());
         int y = Integer.parseInt(txtBuscarY.getText());
 
-        Color c = p.valorPixel(x, y);
+        Color c = p.valorPixel(screen,x, y);
 
         txtValorR.setText(String.valueOf(c.getRed()));
         txtValorG.setText(String.valueOf(c.getGreen()));
@@ -743,7 +743,7 @@ public class Editar extends javax.swing.JInternalFrame {
         txtBuscarX.setText(String.valueOf(x));
         txtBuscarY.setText(String.valueOf(y));
 
-        Color c = p.valorPixel(x, y);
+        Color c = p.valorPixel(screen,x, y);
 
         txtValorR.setText(String.valueOf(c.getRed()));
         txtValorG.setText(String.valueOf(c.getGreen()));

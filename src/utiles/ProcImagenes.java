@@ -18,14 +18,14 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class ProcImagenes {
 
-     //Imagen actual que se ha cargado
+    //Imagen actual que se ha cargado
     private BufferedImage imageActual;
     private BufferedImage screen = imageActual;
     private int nivelIntensidad;
     private Operaciones Op;
     private Filtros f = new Filtros();
-    
-    public ProcImagenes(){
+
+    public ProcImagenes() {
         this.Op = new Operaciones();
     }
 
@@ -82,7 +82,7 @@ public class ProcImagenes {
         return imageActual;
     }
 
-    public BufferedImage umbralizarGrises(BufferedImage screen,int umbral) {
+    public BufferedImage umbralizarGrises(BufferedImage screen, int umbral) {
         BufferedImage copia = new BufferedImage(
                 screen.getWidth(),
                 screen.getHeight(),
@@ -90,7 +90,7 @@ public class ProcImagenes {
         Color c;
         for (int i = 0; i < screen.getWidth(); i++) {
             for (int j = 0; j < screen.getHeight(); j++) {
-                c = valorPixel(i, j);
+                c = valorPixel(screen, i, j);
                 if (c.getRed() <= umbral) {
                     copia.setRGB(i, j, new Color(0, 0, 0).getRGB());
                 } else {
@@ -100,90 +100,92 @@ public class ProcImagenes {
         }
         return copia;
     }
-    
-      public BufferedImage contraste(BufferedImage imageActual, int rango) {
-         BufferedImage copia = new BufferedImage(
+
+    public BufferedImage contraste(BufferedImage imageActual, int rango) {
+        BufferedImage copia = new BufferedImage(
                 imageActual.getWidth(),
                 imageActual.getHeight(),
                 imageActual.getType());
         Color c;
-        
-        int r1 = (255/2)-(rango/2);
-        int r2 = r1+rango;
-        
+
+        int r1 = (255 / 2) - (rango);
+        int r2 = r1 + 2*rango;
+
         for (int i = 0; i < imageActual.getWidth(); i++) {
             for (int j = 0; j < imageActual.getHeight(); j++) {
-                c = valorPixel(i, j);
-                int g=c.getRed();
+                c = valorPixel(imageActual, i, j);
+                int g = c.getRed();
                 if (g <= r1) {
-                    copia.setRGB(i, j, new Color(g/2, g/2, g/2).getRGB());
-                } else if (g>= r2){
-                    g = (int) (g*1.5);
+                    copia.setRGB(i, j, new Color(g / 2, g / 2, g / 2).getRGB());
+                } else if (g >= r2) {
+                    g = (int) (g * 1.5);
                     if (g > 255) {
-                        
+
                         copia.setRGB(i, j, new Color(255, 255, 255).getRGB());
-                    }else{
+                    } else {
                         copia.setRGB(i, j, new Color(g, g, g).getRGB());
 
                     }
-                    
+
+                } else {
+                    copia.setRGB(i, j, new Color(g, g, g).getRGB());
                 }
             }
         }
         return copia;
     }
-      
+
     public BufferedImage ecualizarGris(BufferedImage screen) {
-        
+
         BufferedImage copia = new BufferedImage(
                 screen.getWidth(),
                 screen.getHeight(),
                 screen.getType());
-        
+
         Histograma2 histograma = new Histograma2(screen);
         //histograma de la imagen
         int histogramaGris[] = histograma.getHistogramaGris();
-        int ancho = screen.getWidth();
-        int alto = screen.getHeight();
+        int alto = screen.getWidth();
+        int ancho = screen.getHeight();
         int L = 255;
         //histograma normalizado
-        int histogramaNormal[] = new int[L+1];
+        int histogramaNormal[] = new int[L + 1];
         //calcula el nuevo histograma
-        for(int i = 1; i < L+1; i++) {
-            histogramaNormal[i] = histogramaNormal[i-1] + histogramaGris[i];
+        for (int i = 1; i < L + 1; i++) {
+            histogramaNormal[i] = histogramaNormal[i - 1] + histogramaGris[i];
         }
         //crea vector LUT
-        int LUT[] = new int[L+1];
-        for(int i = 0; i < L; i++) {
-            LUT[i] = (int)Math.floor(((L-1)*histogramaNormal[i])/(ancho*alto));
+        int LUT[] = new int[L + 1];
+        for (int i = 0; i < L; i++) {
+            LUT[i] = (int) Math.floor(((L - 1) * histogramaNormal[i]) / (ancho * alto));
         }
-       
+
         Color c;
-        for(int i = 0; i < alto; i++) {
-            for(int j = 0; j < ancho; j++) {
-                c = valorPixel(i, j);
+        for (int i = 0; i < alto; i++) {
+            for (int j = 0; j < ancho; j++) {
+                c = valorPixel(screen, i, j);
                 int val = LUT[c.getRed()];
-                copia.setRGB(i, j, new Color(val,val,val).getRGB());
+                copia.setRGB(i, j, new Color(val, val, val).getRGB());
             }
         }
-        
+
         return copia;
     }
-    
-    public BufferedImage generarImagenSinteticaMultiplicativa(int ancho,int largo,int valor){
+
+    public BufferedImage generarImagenSinteticaMultiplicativa(int ancho, int largo, int valor) {
         BufferedImage res = new BufferedImage(ancho, largo, BufferedImage.TYPE_3BYTE_BGR);
-        
+
         for (int i = 0; i < res.getHeight(); i++) {
             for (int j = 0; j < res.getWidth(); j++) {
-                res.setRGB(i, j, new Color(valor,valor,valor).getRGB());
+                res.setRGB(i, j, new Color(valor, valor, valor).getRGB());
             }
         }
         return res;
     }
 
-    public Color valorPixel(int x, int y) {
+    public Color valorPixel(BufferedImage imagen, int x, int y) {
         Color res;
-        res = new Color(this.imageActual.getRGB(x, y));
+        res = new Color(imagen.getRGB(x, y));
         return res;
     }
 
@@ -197,69 +199,69 @@ public class ProcImagenes {
     public BufferedImage getImageActual() {
         return imageActual;
     }
-    
-    public BufferedImage sumaConstante(int constante){
-       
+
+    public BufferedImage sumaConstante(int constante) {
+
         BufferedImage screenCopy = new BufferedImage(
                 screen.getWidth(),
                 screen.getHeight(),
                 screen.getType());
-        
+
         screenCopy = escalaGrises();
-       // screenCopy = Op.suma(screenCopy, constante);
+        // screenCopy = Op.suma(screenCopy, constante);
         //normalizarImagenGris(imageActual);
         System.out.println("suma constante");
-        return screenCopy;        
+        return screenCopy;
     }
-    
-    public BufferedImage sumaImagen (BufferedImage imageSegunda){
+
+    public BufferedImage sumaImagen(BufferedImage imageSegunda) {
         BufferedImage screenCopy = new BufferedImage(
                 screen.getWidth(),
                 screen.getHeight(),
                 screen.getType());
-        escalaGrises();      
+        escalaGrises();
         screenCopy = Op.suma(screenCopy, imageSegunda);
-       // normalizarImagenGris(screenCopy);
-        return screenCopy;  
+        // normalizarImagenGris(screenCopy);
+        return screenCopy;
     }
-    
-     public BufferedImage restaConstante(int constante){
-         BufferedImage screenCopy = new BufferedImage(
+
+    public BufferedImage restaConstante(int constante) {
+        BufferedImage screenCopy = new BufferedImage(
                 screen.getWidth(),
                 screen.getHeight(),
                 screen.getType());
         escalaGrises();
         screenCopy = Op.resta(screenCopy, constante);
-       // normalizarImagenGris(screenCopy);
+        // normalizarImagenGris(screenCopy);
         return screenCopy;
-        
+
     }
-    
-    public BufferedImage restaImagen (BufferedImage imageSegunda){
+
+    public BufferedImage restaImagen(BufferedImage imageSegunda) {
         BufferedImage screenCopy = new BufferedImage(
                 screen.getWidth(),
                 screen.getHeight(),
                 screen.getType());
-        escalaGrises();      
+        escalaGrises();
         screenCopy = Op.resta(screenCopy, imageSegunda);
-       // normalizarImagenGris(screenCopy);
+        // normalizarImagenGris(screenCopy);
         return screenCopy;
-        
+
     }
-    
-    public BufferedImage productoImagen (BufferedImage imageSegunda){
+
+    public BufferedImage productoImagen(BufferedImage imageSegunda) {
         BufferedImage screenCopy = new BufferedImage(
                 screen.getWidth(),
                 screen.getHeight(),
                 screen.getType());
         escalaGrises();
         screenCopy = Op.producto(screenCopy, imageSegunda);
-       // normalizarImagenGris(screenCopy);
+        // normalizarImagenGris(screenCopy);
         return screenCopy;
     }
-    
-      public BufferedImage productoEscalar (int escalar){
-          BufferedImage screenCopy = new BufferedImage(
+
+    public BufferedImage productoEscalar(int escalar) {
+        BufferedImage screenCopy = new BufferedImage(
                 screen.getWidth(),
                 screen.getHeight(),
                 screen.getType());
@@ -267,111 +269,99 @@ public class ProcImagenes {
         screenCopy = Op.producto(screenCopy, escalar);
         //normalizarImagenGris(screenCopy);
         return screenCopy;
-    
-      }
-      
-     public BufferedImage rangoDin(){
-         BufferedImage screenCopy = new BufferedImage(
+
+    }
+
+    public BufferedImage rangoDin() {
+        BufferedImage screenCopy = new BufferedImage(
                 screen.getWidth(),
                 screen.getHeight(),
                 screen.getType());
-         escalaGrises();
-         Op.rangoDinamico(screenCopy);
-         return screenCopy;
-     }
-     
-     
-     
-     
-     public BufferedImage potenciaGamma(int gamma){
-         BufferedImage screenCopy = new BufferedImage(
+        escalaGrises();
+        Op.rangoDinamico(screenCopy);
+        return screenCopy;
+    }
+
+    public BufferedImage potenciaGamma(int gamma) {
+        BufferedImage screenCopy = new BufferedImage(
                 screen.getWidth(),
                 screen.getHeight(),
                 screen.getType());
-         escalaGrises();
-         Op.powerLaw(screenCopy, gamma);
-         normalizarImagenGris(screenCopy);
-         
-         return screenCopy;
-                 
-     }
-    
-    
-    
+        escalaGrises();
+        Op.powerLaw(screenCopy, gamma);
+        normalizarImagenGris(screenCopy);
+
+        return screenCopy;
+
+    }
+
     public void normalizarImagenGris(BufferedImage imageSegunda) {
         // nivel intensidad
-        if(nivelIntensidad > 255) {
+        if (nivelIntensidad > 255) {
             nivelIntensidad = 255;
         }
-        if(nivelIntensidad < 0) {
+        if (nivelIntensidad < 0) {
             nivelIntensidad = 0;
         }
         // matriz
-        for(int fila = 0; fila < imageSegunda.getHeight(); fila++) {
-            for(int columna = 0; columna < imageSegunda.getWidth(); columna++) {
-               
+        for (int fila = 0; fila < imageSegunda.getHeight(); fila++) {
+            for (int columna = 0; columna < imageSegunda.getWidth(); columna++) {
+
                 int pixel = imageSegunda.getRGB(fila, columna);
                 // pixeles
-                if(pixel > nivelIntensidad) {
+                if (pixel > nivelIntensidad) {
                     pixel = nivelIntensidad;
                 }
-                if(pixel < 0) {
+                if (pixel < 0) {
                     pixel = 0;
                 }
-               imageSegunda.setRGB(fila, columna, pixel);
+                imageSegunda.setRGB(fila, columna, pixel);
             }
         }
     }
-    
-    
-    
-    public BufferedImage filtroMedia(int size){
+
+    public BufferedImage filtroMedia(int size) {
         BufferedImage copia = new BufferedImage(
                 screen.getWidth(),
                 screen.getHeight(),
                 screen.getType());
         copia = f.media(copia, size);
-        
+
         return copia;
-  
+
     }
-    
-      public BufferedImage filtroMediana(int size){
+
+    public BufferedImage filtroMediana(int size) {
         BufferedImage copia = new BufferedImage(
                 screen.getWidth(),
                 screen.getHeight(),
                 screen.getType());
         copia = f.mediana(copia, size);
-        
+
         return copia;
-  
+
     }
-      
-       public BufferedImage filtroGaussiano(int size){
+
+    public BufferedImage filtroGaussiano(int size) {
         BufferedImage copia = new BufferedImage(
                 screen.getWidth(),
                 screen.getHeight(),
                 screen.getType());
         copia = f.gauss(copia, size);
-        
+
         return copia;
-  
+
     }
-       
-         public BufferedImage filtroBordes(){
+
+    public BufferedImage filtroBordes() {
         BufferedImage copia = new BufferedImage(
                 screen.getWidth(),
                 screen.getHeight(),
                 screen.getType());
         copia = f.bordes(copia);
-        
+
         return copia;
-  
+
     }
-    
-         
- 
-         
-         
-    
+
 }
