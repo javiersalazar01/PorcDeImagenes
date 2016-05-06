@@ -141,7 +141,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void abrirMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abrirMenuItemActionPerformed
         // TODO add your handling code here:
-        p.abrirImagen();
+        p.abrirImagen(this);
         Editar ed = new Editar(p);
         desktopPane.add(ed);
         ed.setVisible(true);
