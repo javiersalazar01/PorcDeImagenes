@@ -1030,15 +1030,12 @@ public class Editar extends javax.swing.JInternalFrame {
     private void menuGaussActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuGaussActionPerformed
         // TODO add your handling code here:
         
-         String valor = JOptionPane.showInputDialog(this, "Tamaño de máscara", "Definir el tamaño de mascara", JOptionPane.INFORMATION_MESSAGE);
-        int sizeM = Integer.parseInt(valor);
-        
-        if(sizeM%2 == 0 || sizeM==1){
-            JOptionPane.showMessageDialog(null,"Favor ingresar un numero IMPAR o mayor a 1");
-        } else {
-            seleccionarRectangulo(f.gauss(screen, sizeM));
+         String valor = JOptionPane.showInputDialog(this, "Valor de sigma", "Definir el valor de sigma", JOptionPane.INFORMATION_MESSAGE);
+        double sSigma = Integer.parseInt(valor);
+       
+            seleccionarRectangulo(f.gauss(screen, sSigma));
             System.out.println("Filtro Gaussiano OK");           
-        }
+        
     }//GEN-LAST:event_menuGaussActionPerformed
 
     private void menuMediaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuMediaActionPerformed

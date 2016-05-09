@@ -135,7 +135,7 @@ public class Filtros {
         return imageFinal;
     }
 
-    public BufferedImage gauss(BufferedImage image, int tamanoMascara) {
+    /*public BufferedImage gauss(BufferedImage image, double sigma) {
 
         int nrows, ncols;
         BufferedImage imageFinal;
@@ -158,7 +158,12 @@ public class Filtros {
         }
 
         //mascara seleccionada para realizar el filtro
-        short[][] mascara = multiplicaVector(trianguloPascal(tamanoMascara));
+        int tamanoMascara = (int) (2* Math.sqrt(2*sigma));
+        
+        if (tamanoMascara%2 == 0) {
+            tamanoMascara+=1;
+            
+                 short[][] mascara = multiplicaVector(trianguloPascal(tamanoMascara));
         int max = 0, min = 9999;
 
         int tope = tamanoMascara / 2; //variable que sirve de control para evitar que se desborde la mascara de la matriz
@@ -180,9 +185,118 @@ public class Filtros {
         }
 
         imageFinal = Op.normalizaRango(matriz, max, min);
-        return imageFinal;
-    }
+        
+        }else{
+               short[][] mascara = multiplicaVector(trianguloPascal(tamanoMascara));
+        int max = 0, min = 9999;
 
+        int tope = tamanoMascara / 2; //variable que sirve de control para evitar que se desborde la mascara de la matriz
+        //JOptionPane.showMessageDialog(null, "tope: "+tope);   
+        for (int i = tope; i < nrows - tope; i++) {
+            for (int j = tope; j < ncols - tope; j++) {
+                // this.matrizGris[i][j] = cv.convolucionar(this.matrizGrisOriginal, mascara, i, j);              
+                short intensidad = cv.convolucionar(matrizGris, mascara, i, j);
+
+                matrizGris[i][j] = intensidad;
+                matriz[i][j] = matrizGris[i][j];
+                if (intensidad > max) {
+                    max = intensidad;
+                } else if (intensidad < min) {
+                    min = intensidad;
+                }
+
+            }
+        }
+
+        imageFinal = Op.normalizaRango(matriz, max, min);
+        
+        }
+
+    return imageFinal; 
+    }
+*/
+    
+    public static BufferedImage gauss(BufferedImage image, double sigma) {
+
+	float[][] mascara = generarMascaraGaussiana((int) sigma);
+		
+	int nrows, ncols;
+        BufferedImage imageFinal;
+        nrows = image.getWidth();
+        ncols = image.getHeight();
+        imageFinal = new BufferedImage(nrows, ncols, BufferedImage.TYPE_3BYTE_BGR);
+		
+	int width = mascara.length;
+        int height = mascara[0].length;
+        int tam = width * height;
+        float filtroK[][] = new float[width][height];
+
+        //Aplicamos el filtro
+        //filtro.filter(image, imagenFiltrada);
+        
+        
+        int max = 0, min = 9999;
+
+           int tope = width / 2; //variable que sirve de control para evitar que se desborde la mascara de la matriz
+
+        for (int i = tope; i < nrows - tope; i++) {
+            for (int j = tope; j < ncols - tope; j++) {
+                //llenado de la mascara
+                for (int y = 0; y < mascara.length; y++) {
+                    for (int x = 0; x < mascara[0].length; x++) {
+                        Color c1 = new Color(image.getRGB(i - tope + y, j - tope + x));
+                        filtroK[y][x] = (short) c1.getRed();
+                        
+                    }
+                }
+                float gau =0;
+                for (int k = 0; k < mascara.length; k++) {
+                    for (int l = 0; l < mascara.length; l++) {
+                         gau = mascara[k][l] * filtroK[k][l];
+                         
+                    }
+                    
+                }
+                
+                
+                
+                
+        
+        
+            }}
+
+		return imageFinal;
+	}
+
+	private static float[][] generarMascaraGaussiana(int sigma) {
+
+		int dimension = sigma*3;
+		if ( dimension%2==0 ){
+			
+			dimension = dimension-1;
+		}
+		
+		float[][] mascara = new float[dimension][dimension];
+
+		for (int j = 0; j < dimension; ++j) {
+			for (int i = 0; i < dimension; ++i) {
+				mascara[i][j] = calcularValorGaussiano(sigma, i - (dimension/2), j - (dimension/2));
+			}
+		}
+
+		return mascara;
+	}
+
+	private static float calcularValorGaussiano(int sigma, int x, int y) {
+		float valor = (float) ((1 / (2 * Math.PI * sigma * sigma)) 
+					* 
+					Math.pow(Math.E,-(x * x + y * y) / (2 * sigma * sigma)));
+		
+		return valor;
+	}
+        
+        
+    
     public BufferedImage bordes(BufferedImage image) {
 
         int nrows, ncols;
