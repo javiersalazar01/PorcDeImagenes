@@ -6,6 +6,7 @@
 package gui;
 
 import bordes.DetectorDeBordes;
+import bordes.DetectorDeBordesDireccionales;
 import enums.Canal;
 import enums.FormatoDeImagen;
 import java.awt.Color;
@@ -1255,19 +1256,27 @@ public class Editar extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jMenuItem18ActionPerformed
 
     private void PersonalizadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PersonalizadoActionPerformed
-        // TODO add your handling code here:
+        Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
+        BufferedImage direccionalPerzonalizado = DetectorDeBordesDireccionales.aplicarDetectorDeBordesDireccional(imagenScreen, "Nueva");
+        seleccionarRectangulo(direccionalPerzonalizado);
     }//GEN-LAST:event_PersonalizadoActionPerformed
 
     private void jMenuKirshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuKirshActionPerformed
-        // TODO add your handling code here:
+        Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
+        BufferedImage direccionalKirsh = DetectorDeBordesDireccionales.aplicarDetectorDeBordesDireccional(imagenScreen, "Kirsh");
+        seleccionarRectangulo(direccionalKirsh);
     }//GEN-LAST:event_jMenuKirshActionPerformed
 
     private void jMenuSobelDireccionalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuSobelDireccionalActionPerformed
-        // TODO add your handling code here:
+        Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
+        BufferedImage direccionalSobel = DetectorDeBordesDireccionales.aplicarDetectorDeBordesDireccional(imagenScreen, "Sobel");
+        seleccionarRectangulo(direccionalSobel);
     }//GEN-LAST:event_jMenuSobelDireccionalActionPerformed
 
     private void jMenuItemPrewittActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemPrewittActionPerformed
-        // TODO add your handling code here:
+        Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
+        BufferedImage direccionalPrewitt = DetectorDeBordesDireccionales.aplicarDetectorDeBordesDireccional(imagenScreen, "Prewitt");
+        seleccionarRectangulo(direccionalPrewitt);
     }//GEN-LAST:event_jMenuItemPrewittActionPerformed
 
     protected static final String EXTENSION = ".jpg";
