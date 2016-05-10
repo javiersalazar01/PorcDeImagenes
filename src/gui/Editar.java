@@ -7,6 +7,8 @@ package gui;
 
 import bordes.DetectorDeBordes;
 import bordes.DetectorDeBordesDireccionales;
+import bordes.DetectorDeBordesLeclerc;
+import bordes.InterfaceDetectorDeBordes;
 import enums.Canal;
 import enums.FormatoDeImagen;
 import java.awt.Color;
@@ -26,6 +28,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import modelo.Imagen;
+import utiles.Difuminador;
 import utiles.ExtensionFileFilter;
 import utiles.Filtros;
 import utiles.GeneradorDeRuido;
@@ -648,9 +651,19 @@ public class Editar extends javax.swing.JInternalFrame {
         menuFiltros.add(menuBordes);
 
         jMenuItem19.setText("Difusión Isotrópica");
+        jMenuItem19.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem19ActionPerformed(evt);
+            }
+        });
         menuFiltros.add(jMenuItem19);
 
         jMenuItem20.setText("Difusión Anisotrópica");
+        jMenuItem20.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem20ActionPerformed(evt);
+            }
+        });
         menuFiltros.add(jMenuItem20);
 
         jMenuBar1.add(menuFiltros);
@@ -1307,6 +1320,48 @@ public class Editar extends javax.swing.JInternalFrame {
     private void jMenuItem23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem23ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem23ActionPerformed
+
+    private void jMenuItem19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem19ActionPerformed
+         try {
+            String repeticiones = JOptionPane.showInputDialog(this, "Numero De Repteciones: ");
+            int repNum = Integer.parseInt(repeticiones);
+            
+            if (repNum > 0) {
+                BufferedImage bufferedImage = Difuminador.aplicarDifusion(screen, null, repNum, true);
+                seleccionarRectangulo(bufferedImage);
+            } else {
+                
+                JOptionPane.showMessageDialog(this, "Ingrese Un Superior a 0");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Ingrese Un Numero Superior a 0");
+            e.printStackTrace();
+        }
+        
+        
+    }//GEN-LAST:event_jMenuItem19ActionPerformed
+
+    private void jMenuItem20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem20ActionPerformed
+        InterfaceDetectorDeBordes detectorDeBordes = null;
+        try {
+            String repeticiones = JOptionPane.showInputDialog(this, "Numero De Repeticiones: ");
+            String sigma = JOptionPane.showInputDialog(this, "Ingrese Sigma");
+            int repNum = Integer.parseInt(repeticiones);
+            int sigmaNum = Integer.parseInt(sigma);
+            
+            if (repNum > 0 || sigmaNum < 0) {
+                detectorDeBordes = new DetectorDeBordesLeclerc(sigmaNum);
+                BufferedImage bufferedImage = Difuminador.aplicarDifusion(screen, detectorDeBordes, repNum, false);
+                seleccionarRectangulo(bufferedImage);
+            } else {
+                
+                JOptionPane.showMessageDialog(this, "Ingrese Un Superior a 0");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Ingrese Un Numero Superior a 0");
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_jMenuItem20ActionPerformed
 
     protected static final String EXTENSION = ".jpg";
 
