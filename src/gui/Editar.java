@@ -187,6 +187,7 @@ public class Editar extends javax.swing.JInternalFrame {
         jMenuLaplaciano = new javax.swing.JMenu();
         jMenuItem23 = new javax.swing.JMenuItem();
         jMenuItem24 = new javax.swing.JMenuItem();
+        jMenuItem25 = new javax.swing.JMenuItem();
 
         setClosable(true);
         setIconifiable(true);
@@ -750,7 +751,7 @@ public class Editar extends javax.swing.JInternalFrame {
 
         jMenuLaplaciano.setText("Laplaciano");
 
-        jMenuItem23.setText("Aplicar");
+        jMenuItem23.setText("Mascara");
         jMenuItem23.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem23ActionPerformed(evt);
@@ -760,6 +761,9 @@ public class Editar extends javax.swing.JInternalFrame {
 
         jMenuItem24.setText("Curces Por Cero");
         jMenuLaplaciano.add(jMenuItem24);
+
+        jMenuItem25.setText("Gausiano (Marr-Hildreth)");
+        jMenuLaplaciano.add(jMenuItem25);
 
         jMenuDetectoresDeBorde.add(jMenuLaplaciano);
 
@@ -1366,6 +1370,7 @@ public class Editar extends javax.swing.JInternalFrame {
     private javax.swing.JMenuItem jMenuItem22;
     private javax.swing.JMenuItem jMenuItem23;
     private javax.swing.JMenuItem jMenuItem24;
+    private javax.swing.JMenuItem jMenuItem25;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
