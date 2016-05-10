@@ -5,8 +5,6 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 
-
-
 public class MatricesManager {
 
     static float[][] matrizRojos;
@@ -145,6 +143,8 @@ public class MatricesManager {
         final boolean hasAlphaChannel = image.getAlphaRaster() != null;
 
         int[][] matriz = new int[height][width];
+        //int[][] matriz2 = new int[width][height];
+
         if (hasAlphaChannel) {
             final int pixelLength = 4;
             for (int pixel = 0, row = 0, col = 0; pixel < pixels.length; pixel += pixelLength) {
@@ -177,33 +177,51 @@ public class MatricesManager {
             }
         } else {
             final int pixelLength = 3;
-            for (int pixel = 0, row = 0, col = 0; pixel < pixels.length; pixel += pixelLength) {
-                int argb = 0;
-                argb += -16777216; // 255 alpha
-                argb += ((int) pixels[pixel] & 0xff); // blue
-                argb += (((int) pixels[pixel + 1] & 0xff) << 8); // green
-                argb += (((int) pixels[pixel + 2] & 0xff) << 16); // red
 
-                Color color = new Color(argb);
-                switch (canal) {
-
-                    case VERDE:
-                        matriz[row][col] = color.getGreen();
-                        break;
-                    case AZUL:
-                        matriz[row][col] = color.getBlue();
-                        break;
-                    default:
-                        matriz[row][col] = color.getRed();
-                        break;
-                }
-
-                col++;
-                if (col == width) {
-                    col = 0;
-                    row++;
+            for (int i = 0; i < image.getWidth(); i++) {
+                for (int j = 0; j < image.getHeight(); j++) {
+                    Color color = new Color(image.getRGB(i, j));
+                    switch (canal) {
+                        case VERDE:
+                            matriz[j][i] = color.getGreen();
+                            break;
+                        case AZUL:
+                            matriz[j][i] = color.getBlue();
+                            break;
+                        default:
+                            matriz[j][i] = color.getRed();
+                            break;
+                    }
                 }
             }
+
+            /*for (int pixel = 0, row = 0, col = 0; pixel < pixels.length; pixel += pixelLength) {
+             int argb = 0;
+             argb += -16777216; // 255 alpha
+             argb += ((int) pixels[pixel] & 0xff); // blue
+             argb += (((int) pixels[pixel + 1] & 0xff) << 8); // green
+             argb += (((int) pixels[pixel + 2] & 0xff) << 16); // red
+
+             Color color = new Color(argb);
+             switch (canal) {
+
+             case VERDE:
+             matriz[row][col] = color.getGreen();
+             break;
+             case AZUL:
+             matriz[row][col] = color.getBlue();
+             break;
+             default:
+             matriz[row][col] = color.getRed();
+             break;
+             }
+
+             col++;
+             if (col == width) {
+             col = 0;
+             row++;
+             }
+             }*/
         }
 
         return matriz;

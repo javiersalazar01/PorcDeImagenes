@@ -5,6 +5,7 @@ package utiles;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import enums.FormatoDeImagen;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.image.BufferedImage;
@@ -15,6 +16,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import modelo.Imagen;
 
 /**
  *
@@ -38,6 +40,7 @@ public class ProcImagenes {
     public BufferedImage abrirImagen(Component frame) {
         //Creamos la variable que será devuelta (la creamos como null)
         BufferedImage bmp = null;
+
         //Creamos un nuevo cuadro de diálogo para seleccionar imagen
         JFileChooser selector = new JFileChooser();
         //Le damos un título
@@ -52,58 +55,59 @@ public class ProcImagenes {
             try {
                 //Devuelve el fichero seleccionado
                 File fileImagenSeleccionada = selector.getSelectedFile();
-                
+
                 if (fileImagenSeleccionada.getName().split("\\.")[1].equalsIgnoreCase("RAW")) {
                     String alto = JOptionPane.showInputDialog(frame, "Alto:");
                     String ancho = JOptionPane.showInputDialog(frame, "Ancho:");
-                    
+
                     bmp = leerUnaImagenRAW(fileImagenSeleccionada, Integer.parseInt(ancho), Integer.parseInt(alto));
                 } else {
                     bmp = ImageIO.read(fileImagenSeleccionada);
                 }
-                //Asignamos a la variable bmp la imagen leida
+
+                imageActual = bmp;
                 
+                //Asignamos a la variable bmp la imagen leida
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
         }
         //Asignamos la imagen cargada a la propiedad imageActual
-        imageActual = bmp;
-        //Retornamos el valor
-        return bmp;
+        //Retornamos el valorDeImagen.BMP
+        return imageActual;
     }
-    
+
     private BufferedImage leerUnaImagenRAW(File archivoActual, int width, int height) {
 
-		BufferedImage imagen = null;
-		byte[] bytes;
-		try {
-			bytes = Files.readAllBytes(archivoActual.toPath());
-                        
-			imagen = new BufferedImage(width, height,
-					BufferedImage.TYPE_3BYTE_BGR);
-			int contador = 0;
-			for (int i = 0; i < height; i++) {
-				for (int j = 0; j < width; j++) {
+        BufferedImage imagen = null;
+        byte[] bytes;
+        try {
+            bytes = Files.readAllBytes(archivoActual.toPath());
 
+            imagen = new BufferedImage(width, height,
+                    BufferedImage.TYPE_3BYTE_BGR);
+            int contador = 0;
+            for (int i = 0; i < height; i++) {
+                for (int j = 0; j < width; j++) {
 
-					int argb = 0;
-					argb += -16777216; // 255 alpha
-					int blue = ((int) bytes[contador] & 0xff);
-					int green = ((int) bytes[contador] & 0xff) << 8;
-					int red = ((int) bytes[contador] & 0xff) << 16;
-					int color = argb + red + green + blue;
-					imagen.setRGB(j, i, color);
-					contador++;
-				}
-			}
-		} catch (IOException e) {
+                    int argb = 0;
+                    argb += -16777216; // 255 alpha
+                    int blue = ((int) bytes[contador] & 0xff);
+                    int green = ((int) bytes[contador] & 0xff) << 8;
+                    int red = ((int) bytes[contador] & 0xff) << 16;
+                    int color = argb + red + green + blue;
+                    imagen.setRGB(j, i, color);
+                    contador++;
+                }
+            }
+        } catch (IOException e) {
 
-			e.printStackTrace();
-		}
-		return imagen;
-	}
+            e.printStackTrace();
+        }
+        return imagen;
+    }
 
     public BufferedImage escalaGrises() {
         //Variables que almacenarán los píxeles
@@ -167,7 +171,7 @@ public class ProcImagenes {
                 if (g <= r1) {
                     //matrizGris[i][j] = (int)(g / 2);
 
-                      copia.setRGB(i, j, new Color(g / 2, g / 2, g / 2).getRGB());
+                    copia.setRGB(i, j, new Color(g / 2, g / 2, g / 2).getRGB());
                 } else if (g >= r2) {
                     g = (int) (g * 1.5);
                     //matrizGris[i][j] = (int) (g * 1.5);
@@ -415,5 +419,6 @@ public class ProcImagenes {
         return copia;
 
     }
+
 
 }
