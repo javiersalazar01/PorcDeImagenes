@@ -5,6 +5,7 @@
  */
 package utiles;
 
+import modelo.Imagen1;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 
@@ -69,8 +70,8 @@ public class Histograma2 {
         }
     }
     
-     private Imagen getImagenHistogramaGris() {
-        Imagen imagenHistograma = new Imagen();
+     private Imagen1 getImagenHistogramaGris() {
+        Imagen1 imagenHistograma = new Imagen1();
         imagenHistograma.setFormato("P2");
         imagenHistograma.setM((short)256);
         imagenHistograma.setN((short)270);
@@ -152,8 +153,8 @@ public class Histograma2 {
         }
     }
      
-     private Imagen getImagenHistogramaRGB() {
-        Imagen imagenHistograma = new Imagen();
+     private Imagen1 getImagenHistogramaRGB() {
+        Imagen1 imagenHistograma = new Imagen1();
         imagenHistograma.setFormato("P3");
         imagenHistograma.setM((short)768);
         imagenHistograma.setN((short)270);
@@ -239,7 +240,7 @@ public class Histograma2 {
         return imagenHistograma;
     }
      
-     public Imagen getImageHistograma(){
+     public Imagen1 getImageHistograma(){
          if (esEscalaDeGrises) {
              return getImagenHistogramaGris();
          } else {

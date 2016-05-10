@@ -17,10 +17,8 @@ public class Principal extends javax.swing.JFrame {
     /**
      * Creates new form Principal
      */
-    ProcImagenes p;
     public Principal() {
         initComponents();
-        p = new ProcImagenes();
         this.setSize(1300, 700);
         
     }
@@ -39,7 +37,6 @@ public class Principal extends javax.swing.JFrame {
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         abrirMenuItem = new javax.swing.JMenuItem();
-        EditarMenuItem = new javax.swing.JMenuItem();
         crearMenuItem = new javax.swing.JMenu();
         circuloMenuItem = new javax.swing.JMenuItem();
         cuadradoMenuItem = new javax.swing.JMenuItem();
@@ -62,15 +59,6 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         fileMenu.add(abrirMenuItem);
-
-        EditarMenuItem.setMnemonic('s');
-        EditarMenuItem.setText("Editar");
-        EditarMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                EditarMenuItemActionPerformed(evt);
-            }
-        });
-        fileMenu.add(EditarMenuItem);
 
         crearMenuItem.setText("Crear");
 
@@ -141,19 +129,13 @@ public class Principal extends javax.swing.JFrame {
 
     private void abrirMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abrirMenuItemActionPerformed
         // TODO add your handling code here:
-        p.abrirImagen(this);
-        Editar ed = new Editar(p);
+        ProcImagenes p2 = new ProcImagenes();
+        p2.abrirImagen(this);
+        Editar ed = new Editar(p2);
         desktopPane.add(ed);
         ed.setVisible(true);
     
     }//GEN-LAST:event_abrirMenuItemActionPerformed
-
-    private void EditarMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditarMenuItemActionPerformed
-        // TODO add your handling code here:
-        Editar ed = new Editar(p);
-        desktopPane.add(ed);
-        ed.setVisible(true);
-    }//GEN-LAST:event_EditarMenuItemActionPerformed
 
     private void circuloMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_circuloMenuItemActionPerformed
         // TODO add your handling code here:
@@ -223,7 +205,6 @@ public class Principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem EditarMenuItem;
     private javax.swing.JMenuItem abrirMenuItem;
     private javax.swing.JMenuItem circuloMenuItem;
     private javax.swing.JMenuItem coloresMenuItem;

@@ -4,13 +4,15 @@
  */
 package utiles;
 
+import modelo.Imagen1;
+
 /**
  *
  * @author jjcarmu
  */
 public class Convolucion {
     
-   private Imagen objImagen;
+   private Imagen1 objImagen;
    //private short [][] matrizMagnitud;  
    //private short [][] matrizDireccion;
     
@@ -26,7 +28,7 @@ public class Convolucion {
      * @return un objeto tipo Imagen al cual fue recorrido por todos sus pixeles y se aplica sobre estos
      * la convolucion con el kernel que recibe como parametro de entrada
      */
-    public Imagen calculoConvolucion(Imagen imagen, short [][] kernel){
+    public Imagen1 calculoConvolucion(Imagen1 imagen, short [][] kernel){
         this.objImagen = imagen;
         //this.matrizDireccion = imagen.getMatrizGris();
         //this.matrizMagnitud = imagen.getMatrizGris();
@@ -75,14 +77,14 @@ public class Convolucion {
     /**
      * @return the objImagen
      */
-    public Imagen getObjImagen() {
+    public Imagen1 getObjImagen() {
         return objImagen;
     }
 
     /**
      * @param objImagen the objImagen to set
      */
-    public void setObjImagen(Imagen objImagen) {
+    public void setObjImagen(Imagen1 objImagen) {
         this.objImagen = objImagen;
     }
 

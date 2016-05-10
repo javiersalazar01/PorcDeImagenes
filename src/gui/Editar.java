@@ -5,6 +5,9 @@
  */
 package gui;
 
+import bordes.DetectorDeBordes;
+import enums.Canal;
+import enums.FormatoDeImagen;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
@@ -21,6 +24,7 @@ import javax.swing.JDesktopPane;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import modelo.Imagen;
 import utiles.ExtensionFileFilter;
 import utiles.Filtros;
 import utiles.GeneradorDeRuido;
@@ -161,10 +165,20 @@ public class Editar extends javax.swing.JInternalFrame {
         menuMedia = new javax.swing.JMenuItem();
         menuGauss = new javax.swing.JMenuItem();
         menuBordes = new javax.swing.JMenuItem();
+        jMenuDetectoresDeBorde = new javax.swing.JMenu();
+        jMenuPrewitt = new javax.swing.JMenu();
+        jMenuItem13 = new javax.swing.JMenuItem();
+        jMenuItem14 = new javax.swing.JMenuItem();
+        jMenuItem15 = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem16 = new javax.swing.JMenuItem();
+        jMenuItem17 = new javax.swing.JMenuItem();
+        jMenuItem18 = new javax.swing.JMenuItem();
 
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
+        setResizable(true);
 
         jPanel1.setName("PanPrincipal"); // NOI18N
 
@@ -614,6 +628,66 @@ public class Editar extends javax.swing.JInternalFrame {
         menuFiltros.add(menuBordes);
 
         jMenuBar1.add(menuFiltros);
+
+        jMenuDetectoresDeBorde.setText("Detectores De Borde");
+
+        jMenuPrewitt.setText("Prewitt");
+
+        jMenuItem13.setText("Aplicar");
+        jMenuItem13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem13ActionPerformed(evt);
+            }
+        });
+        jMenuPrewitt.add(jMenuItem13);
+
+        jMenuItem14.setText("Mostrar En X");
+        jMenuItem14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem14ActionPerformed(evt);
+            }
+        });
+        jMenuPrewitt.add(jMenuItem14);
+
+        jMenuItem15.setText("Mostrar En Y");
+        jMenuItem15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem15ActionPerformed(evt);
+            }
+        });
+        jMenuPrewitt.add(jMenuItem15);
+
+        jMenuDetectoresDeBorde.add(jMenuPrewitt);
+
+        jMenu1.setText("Sobel");
+
+        jMenuItem16.setText("Aplicar");
+        jMenuItem16.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem16ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem16);
+
+        jMenuItem17.setText("Mostrar En X");
+        jMenuItem17.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem17ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem17);
+
+        jMenuItem18.setText("Mostrar En Y");
+        jMenuItem18.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem18ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem18);
+
+        jMenuDetectoresDeBorde.add(jMenu1);
+
+        jMenuBar1.add(jMenuDetectoresDeBorde);
 
         setJMenuBar(jMenuBar1);
 
@@ -1086,8 +1160,45 @@ public class Editar extends javax.swing.JInternalFrame {
         seleccionarRectangulo(f.negativo(screen));
         System.out.println("negativo OK");
         
-        
     }//GEN-LAST:event_menuNegativoActionPerformed
+
+    private void jMenuItem13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem13ActionPerformed
+        
+        Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
+        BufferedImage prewitt = DetectorDeBordes.aplicarDetectorDePrewitt(imagenScreen);
+        seleccionarRectangulo(prewitt);
+        
+    }//GEN-LAST:event_jMenuItem13ActionPerformed
+
+    private void jMenuItem14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem14ActionPerformed
+        Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
+        BufferedImage prewittEnX = DetectorDeBordes.mostrarMascaraDePrewittEnX(imagenScreen);
+        seleccionarRectangulo(prewittEnX);
+    }//GEN-LAST:event_jMenuItem14ActionPerformed
+
+    private void jMenuItem15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem15ActionPerformed
+        Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
+        BufferedImage prewittEnY = DetectorDeBordes.mostrarMascaraDePrewittEnY(imagenScreen);
+        seleccionarRectangulo(prewittEnY);
+    }//GEN-LAST:event_jMenuItem15ActionPerformed
+
+    private void jMenuItem16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem16ActionPerformed
+        Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
+        BufferedImage sobel = DetectorDeBordes.aplicarDetectorDeSobel(imagenScreen);
+        seleccionarRectangulo(sobel);
+    }//GEN-LAST:event_jMenuItem16ActionPerformed
+
+    private void jMenuItem17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem17ActionPerformed
+        Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
+        BufferedImage sobelX = DetectorDeBordes.mostrarMascaraDeSobelEnX(imagenScreen);
+        seleccionarRectangulo(sobelX);
+    }//GEN-LAST:event_jMenuItem17ActionPerformed
+
+    private void jMenuItem18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem18ActionPerformed
+        Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
+        BufferedImage sobelY = DetectorDeBordes.mostrarMascaraDeSobelEnY(imagenScreen);
+        seleccionarRectangulo(sobelY);
+    }//GEN-LAST:event_jMenuItem18ActionPerformed
 
     protected static final String EXTENSION = ".jpg";
 
@@ -1129,12 +1240,20 @@ public class Editar extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenu jMenuDetectoresDeBorde;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem12;
+    private javax.swing.JMenuItem jMenuItem13;
+    private javax.swing.JMenuItem jMenuItem14;
+    private javax.swing.JMenuItem jMenuItem15;
+    private javax.swing.JMenuItem jMenuItem16;
+    private javax.swing.JMenuItem jMenuItem17;
+    private javax.swing.JMenuItem jMenuItem18;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
@@ -1146,6 +1265,7 @@ public class Editar extends javax.swing.JInternalFrame {
     private javax.swing.JMenuItem jMenuItemHistograma;
     private javax.swing.JMenuItem jMenuItemRestaurar;
     private javax.swing.JMenuItem jMenuItemSalYPimienta;
+    private javax.swing.JMenu jMenuPrewitt;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

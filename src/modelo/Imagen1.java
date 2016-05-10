@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package utiles;
+package modelo;
 
 import java.io.*;
 import java.util.Date;
@@ -28,7 +28,7 @@ import java.util.logging.Logger;
  */
 
 
-public class Imagen implements Cloneable {
+public class Imagen1 implements Cloneable {
     
     //Atributos de clase
     private File archivoImagen;
@@ -51,7 +51,7 @@ public class Imagen implements Cloneable {
      * crea una imagen con todos sus
      * atributos a valores nulos
      */
-    public Imagen() {
+    public Imagen1() {
         
     }
     
@@ -63,7 +63,7 @@ public class Imagen implements Cloneable {
      * 
      * @param rutaImagen 
      */
-    public Imagen(String rutaImagen) {
+    public Imagen1(String rutaImagen) {
         FileReader fr = null;
         BufferedReader br;
         try {
@@ -259,8 +259,8 @@ public class Imagen implements Cloneable {
      * 
      * @return imagen
      */
-    public Imagen getEscalaGrises() {
-        Imagen imgGrises = new Imagen();
+    public Imagen1 getEscalaGrises() {
+        Imagen1 imgGrises = new Imagen1();
         if(formato.equals("P3")){
             imgGrises.setFormato("P2");
             imgGrises.setN(n);
@@ -433,12 +433,12 @@ public class Imagen implements Cloneable {
     }
 
     @Override
-    public Imagen clone(){
-        Imagen copia = null;
+    public Imagen1 clone(){
+        Imagen1 copia = null;
         try {
-            copia = (Imagen)super.clone();
+            copia = (Imagen1)super.clone();
         } catch (CloneNotSupportedException ex) {
-            Logger.getLogger(Imagen.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Imagen1.class.getName()).log(Level.SEVERE, null, ex);
         }
         return copia;
     }

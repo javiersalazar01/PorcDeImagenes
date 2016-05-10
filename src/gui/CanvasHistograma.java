@@ -7,9 +7,69 @@ package gui;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
-import utiles.Imagen;
+import modelo.Imagen1;
 
 /**
+ * Esta clase canvas permite
+ * pintar la imagen de un
+ * histograma.
+ * /**
+ * Esta clase canvas permite
+ * pintar la imagen de un
+ * histograma.
+ * /**
+ * Esta clase canvas permite
+ * pintar la imagen de un
+ * histograma.
+ * /**
+ * Esta clase canvas permite
+ * pintar la imagen de un
+ * histograma.
+ * /**
+ * Esta clase canvas permite
+ * pintar la imagen de un
+ * histograma.
+ * /**
+ * Esta clase canvas permite
+ * pintar la imagen de un
+ * histograma.
+ * /**
+ * Esta clase canvas permite
+ * pintar la imagen de un
+ * histograma.
+ * /**
+ * Esta clase canvas permite
+ * pintar la imagen de un
+ * histograma.
+ * /**
+ * Esta clase canvas permite
+ * pintar la imagen de un
+ * histograma.
+ * /**
+ * Esta clase canvas permite
+ * pintar la imagen de un
+ * histograma.
+ * /**
+ * Esta clase canvas permite
+ * pintar la imagen de un
+ * histograma.
+ * /**
+ * Esta clase canvas permite
+ * pintar la imagen de un
+ * histograma.
+ * /**
+ * Esta clase canvas permite
+ * pintar la imagen de un
+ * histograma.
+ * /**
+ * Esta clase canvas permite
+ * pintar la imagen de un
+ * histograma.
+ * /**
+ * Esta clase canvas permite
+ * pintar la imagen de un
+ * histograma.
+ * /**
  * Esta clase canvas permite
  * pintar la imagen de un
  * histograma.
@@ -28,7 +88,7 @@ public class CanvasHistograma extends Canvas implements MouseMotionListener {
         addMouseMotionListener(this);
     }
     
-    public void pintarHistograma(Imagen imgHistograma) {
+    public void pintarHistograma(Imagen1 imgHistograma) {
         if(imgHistograma.getFormato().equals("P2")) {
             System.out.println("pinta histograma P2");
             formato = imgHistograma.getFormato();
