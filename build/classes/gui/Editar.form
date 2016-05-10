@@ -266,7 +266,7 @@
               <SubComponents>
                 <MenuItem class="javax.swing.JMenuItem" name="jMenuItem13">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Aplicar"/>
+                    <Property name="text" type="java.lang.String" value="Mostrar En X,Y"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem13ActionPerformed"/>
@@ -290,14 +290,14 @@
                 </MenuItem>
               </SubComponents>
             </Menu>
-            <Menu class="javax.swing.JMenu" name="jMenu1">
+            <Menu class="javax.swing.JMenu" name="jMenuSobel">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Sobel"/>
               </Properties>
               <SubComponents>
                 <MenuItem class="javax.swing.JMenuItem" name="jMenuItem16">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Aplicar"/>
+                    <Property name="text" type="java.lang.String" value="Mostrar En X,Y"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem16ActionPerformed"/>
@@ -318,6 +318,62 @@
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem18ActionPerformed"/>
                   </Events>
+                </MenuItem>
+              </SubComponents>
+            </Menu>
+            <Menu class="javax.swing.JMenu" name="jMenuDireccionales">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Direccionales"/>
+              </Properties>
+              <SubComponents>
+                <MenuItem class="javax.swing.JMenuItem" name="Personalizado">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Personalizado"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="PersonalizadoActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuKirsh">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Kirsh"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuKirshActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItemPrewitt">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Prewitt"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemPrewittActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuSobelDireccional">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Sobel"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuSobelDireccionalActionPerformed"/>
+                  </Events>
+                </MenuItem>
+              </SubComponents>
+            </Menu>
+            <Menu class="javax.swing.JMenu" name="jMenuLaplaciano">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Laplaciano"/>
+              </Properties>
+              <SubComponents>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItem23">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Aplicar"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItem24">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Curces Por Cero"/>
+                  </Properties>
                 </MenuItem>
               </SubComponents>
             </Menu>

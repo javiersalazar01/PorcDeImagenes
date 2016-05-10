@@ -170,10 +170,18 @@ public class Editar extends javax.swing.JInternalFrame {
         jMenuItem13 = new javax.swing.JMenuItem();
         jMenuItem14 = new javax.swing.JMenuItem();
         jMenuItem15 = new javax.swing.JMenuItem();
-        jMenu1 = new javax.swing.JMenu();
+        jMenuSobel = new javax.swing.JMenu();
         jMenuItem16 = new javax.swing.JMenuItem();
         jMenuItem17 = new javax.swing.JMenuItem();
         jMenuItem18 = new javax.swing.JMenuItem();
+        jMenuDireccionales = new javax.swing.JMenu();
+        Personalizado = new javax.swing.JMenuItem();
+        jMenuKirsh = new javax.swing.JMenuItem();
+        jMenuItemPrewitt = new javax.swing.JMenuItem();
+        jMenuSobelDireccional = new javax.swing.JMenuItem();
+        jMenuLaplaciano = new javax.swing.JMenu();
+        jMenuItem23 = new javax.swing.JMenuItem();
+        jMenuItem24 = new javax.swing.JMenuItem();
 
         setClosable(true);
         setIconifiable(true);
@@ -633,7 +641,7 @@ public class Editar extends javax.swing.JInternalFrame {
 
         jMenuPrewitt.setText("Prewitt");
 
-        jMenuItem13.setText("Aplicar");
+        jMenuItem13.setText("Mostrar En X,Y");
         jMenuItem13.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem13ActionPerformed(evt);
@@ -659,15 +667,15 @@ public class Editar extends javax.swing.JInternalFrame {
 
         jMenuDetectoresDeBorde.add(jMenuPrewitt);
 
-        jMenu1.setText("Sobel");
+        jMenuSobel.setText("Sobel");
 
-        jMenuItem16.setText("Aplicar");
+        jMenuItem16.setText("Mostrar En X,Y");
         jMenuItem16.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem16ActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem16);
+        jMenuSobel.add(jMenuItem16);
 
         jMenuItem17.setText("Mostrar En X");
         jMenuItem17.addActionListener(new java.awt.event.ActionListener() {
@@ -675,7 +683,7 @@ public class Editar extends javax.swing.JInternalFrame {
                 jMenuItem17ActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem17);
+        jMenuSobel.add(jMenuItem17);
 
         jMenuItem18.setText("Mostrar En Y");
         jMenuItem18.addActionListener(new java.awt.event.ActionListener() {
@@ -683,9 +691,55 @@ public class Editar extends javax.swing.JInternalFrame {
                 jMenuItem18ActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem18);
+        jMenuSobel.add(jMenuItem18);
 
-        jMenuDetectoresDeBorde.add(jMenu1);
+        jMenuDetectoresDeBorde.add(jMenuSobel);
+
+        jMenuDireccionales.setText("Direccionales");
+
+        Personalizado.setText("Personalizado");
+        Personalizado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PersonalizadoActionPerformed(evt);
+            }
+        });
+        jMenuDireccionales.add(Personalizado);
+
+        jMenuKirsh.setText("Kirsh");
+        jMenuKirsh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuKirshActionPerformed(evt);
+            }
+        });
+        jMenuDireccionales.add(jMenuKirsh);
+
+        jMenuItemPrewitt.setText("Prewitt");
+        jMenuItemPrewitt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemPrewittActionPerformed(evt);
+            }
+        });
+        jMenuDireccionales.add(jMenuItemPrewitt);
+
+        jMenuSobelDireccional.setText("Sobel");
+        jMenuSobelDireccional.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuSobelDireccionalActionPerformed(evt);
+            }
+        });
+        jMenuDireccionales.add(jMenuSobelDireccional);
+
+        jMenuDetectoresDeBorde.add(jMenuDireccionales);
+
+        jMenuLaplaciano.setText("Laplaciano");
+
+        jMenuItem23.setText("Aplicar");
+        jMenuLaplaciano.add(jMenuItem23);
+
+        jMenuItem24.setText("Curces Por Cero");
+        jMenuLaplaciano.add(jMenuItem24);
+
+        jMenuDetectoresDeBorde.add(jMenuLaplaciano);
 
         jMenuBar1.add(jMenuDetectoresDeBorde);
 
@@ -1200,6 +1254,22 @@ public class Editar extends javax.swing.JInternalFrame {
         seleccionarRectangulo(sobelY);
     }//GEN-LAST:event_jMenuItem18ActionPerformed
 
+    private void PersonalizadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PersonalizadoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PersonalizadoActionPerformed
+
+    private void jMenuKirshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuKirshActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuKirshActionPerformed
+
+    private void jMenuSobelDireccionalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuSobelDireccionalActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuSobelDireccionalActionPerformed
+
+    private void jMenuItemPrewittActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemPrewittActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItemPrewittActionPerformed
+
     protected static final String EXTENSION = ".jpg";
 
     protected static final String FORMAT_NAME = "jpg";
@@ -1231,6 +1301,7 @@ public class Editar extends javax.swing.JInternalFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem Personalizado;
     private javax.swing.JButton btnCambierRgb;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -1240,10 +1311,10 @@ public class Editar extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu jMenuDetectoresDeBorde;
+    private javax.swing.JMenu jMenuDireccionales;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem11;
@@ -1255,6 +1326,8 @@ public class Editar extends javax.swing.JInternalFrame {
     private javax.swing.JMenuItem jMenuItem17;
     private javax.swing.JMenuItem jMenuItem18;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem23;
+    private javax.swing.JMenuItem jMenuItem24;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
@@ -1263,9 +1336,14 @@ public class Editar extends javax.swing.JInternalFrame {
     private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JMenuItem jMenuItemHistograma;
+    private javax.swing.JMenuItem jMenuItemPrewitt;
     private javax.swing.JMenuItem jMenuItemRestaurar;
     private javax.swing.JMenuItem jMenuItemSalYPimienta;
+    private javax.swing.JMenuItem jMenuKirsh;
+    private javax.swing.JMenu jMenuLaplaciano;
     private javax.swing.JMenu jMenuPrewitt;
+    private javax.swing.JMenu jMenuSobel;
+    private javax.swing.JMenuItem jMenuSobelDireccional;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

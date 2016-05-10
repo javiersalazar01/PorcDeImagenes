@@ -5,7 +5,7 @@
  */
 package gui;
 
-import utiles.ProcImagenes;
+
 import utiles.ProcImagenes;
 
 /**
