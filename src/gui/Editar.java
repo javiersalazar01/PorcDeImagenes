@@ -141,6 +141,8 @@ public class Editar extends javax.swing.JInternalFrame {
         menuHerramientas = new javax.swing.JMenu();
         jMenuItemHistograma = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
+        jMenuItem21 = new javax.swing.JMenuItem();
+        jMenuItem22 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItemRestaurar = new javax.swing.JMenuItem();
         jMenuItem12 = new javax.swing.JMenuItem();
@@ -166,6 +168,8 @@ public class Editar extends javax.swing.JInternalFrame {
         menuMedia = new javax.swing.JMenuItem();
         menuGauss = new javax.swing.JMenuItem();
         menuBordes = new javax.swing.JMenuItem();
+        jMenuItem19 = new javax.swing.JMenuItem();
+        jMenuItem20 = new javax.swing.JMenuItem();
         jMenuDetectoresDeBorde = new javax.swing.JMenu();
         jMenuPrewitt = new javax.swing.JMenu();
         jMenuItem13 = new javax.swing.JMenuItem();
@@ -451,6 +455,12 @@ public class Editar extends javax.swing.JInternalFrame {
         });
         menuHerramientas.add(jMenuItem5);
 
+        jMenuItem21.setText("Umbralización Global");
+        menuHerramientas.add(jMenuItem21);
+
+        jMenuItem22.setText("Umbralización de Otsu");
+        menuHerramientas.add(jMenuItem22);
+
         jMenuItem4.setText("Ecualizar");
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -636,6 +646,12 @@ public class Editar extends javax.swing.JInternalFrame {
         });
         menuFiltros.add(menuBordes);
 
+        jMenuItem19.setText("Difusión Isotrópica");
+        menuFiltros.add(jMenuItem19);
+
+        jMenuItem20.setText("Difusión Anisotrópica");
+        menuFiltros.add(jMenuItem20);
+
         jMenuBar1.add(menuFiltros);
 
         jMenuDetectoresDeBorde.setText("Detectores De Borde");
@@ -735,6 +751,11 @@ public class Editar extends javax.swing.JInternalFrame {
         jMenuLaplaciano.setText("Laplaciano");
 
         jMenuItem23.setText("Aplicar");
+        jMenuItem23.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem23ActionPerformed(evt);
+            }
+        });
         jMenuLaplaciano.add(jMenuItem23);
 
         jMenuItem24.setText("Curces Por Cero");
@@ -1279,6 +1300,10 @@ public class Editar extends javax.swing.JInternalFrame {
         seleccionarRectangulo(direccionalPrewitt);
     }//GEN-LAST:event_jMenuItemPrewittActionPerformed
 
+    private void jMenuItem23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem23ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem23ActionPerformed
+
     protected static final String EXTENSION = ".jpg";
 
     protected static final String FORMAT_NAME = "jpg";
@@ -1334,7 +1359,11 @@ public class Editar extends javax.swing.JInternalFrame {
     private javax.swing.JMenuItem jMenuItem16;
     private javax.swing.JMenuItem jMenuItem17;
     private javax.swing.JMenuItem jMenuItem18;
+    private javax.swing.JMenuItem jMenuItem19;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem20;
+    private javax.swing.JMenuItem jMenuItem21;
+    private javax.swing.JMenuItem jMenuItem22;
     private javax.swing.JMenuItem jMenuItem23;
     private javax.swing.JMenuItem jMenuItem24;
     private javax.swing.JMenuItem jMenuItem3;
