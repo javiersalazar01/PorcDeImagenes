@@ -1235,6 +1235,7 @@ public class Editar extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
 
+
          String valor = JOptionPane.showInputDialog(this, "Valor de sigma", "Definir el valor de sigma", JOptionPane.INFORMATION_MESSAGE);
         int sSigma = Integer.parseInt(valor);
                
@@ -1242,6 +1243,7 @@ public class Editar extends javax.swing.JInternalFrame {
         seleccionarRectangulo(imagenFiltrada.getBufferedImage());
 
             System.out.println("Filtro Gaussiano OK");           
+
         
     }//GEN-LAST:event_menuGaussActionPerformed
 
