@@ -5,11 +5,7 @@
         <group>
             <file>file:/Users/karlagutz/Documents/PorcDeImagenes/src/gui/Editar.java</file>
             <file>file:/Users/karlagutz/Documents/PorcDeImagenes/src/bordes/DetectorDeBordes.java</file>
-<<<<<<< HEAD
-            <file>file:/Users/karlagutz/Documents/PorcDeImagenes/src/utiles/Filtros.java</file>
-            <file>file:/Users/karlagutz/Documents/PorcDeImagenes/src/utiles/Convolucion.java</file>
-=======
->>>>>>> origin/master
+            <file>file:/Users/karlagutz/Documents/PorcDeImagenes/src/utiles/Umbralizador.java</file>
         </group>
     </open-files>
 </project-private>

@@ -43,7 +43,7 @@ public class FiltroGaussiano {
 		int dimension = (int) (2*Math.sqrt(2*sigma));
 		if ( dimension%2==0 ){
 			
-			dimension = dimension-1;
+			dimension = dimension+1;
 		}
 		
 		float[][] mascara = new float[dimension][dimension];

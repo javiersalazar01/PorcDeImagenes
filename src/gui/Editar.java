@@ -1436,14 +1436,14 @@ public class Editar extends javax.swing.JInternalFrame {
        Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
         String valor = JOptionPane.showInputDialog(this, "Valor de sigma", "Definir el valor de sigma", JOptionPane.INFORMATION_MESSAGE);
         int sSigma = Integer.parseInt(valor);
-        int longitudMascara = sSigma * 3;
+        int longitudMascara = (int)(2*Math.sqrt(sSigma*2));
        //Imagen imagenOriginal, int sigma, int umbral, int longitudMascara
 
-       BufferedImage Laplaciano = DetectorDeBordes.mostrarMascaraLaplacianoDelGaussiano(imagenScreen, sSigma);
-       Imagen mascaraLaplaciano = new Imagen (Laplaciano, FormatoDeImagen.JPG, "imagen");
+      // BufferedImage Laplaciano = DetectorDeBordes.mostrarMascaraLaplacianoDelGaussiano(imagenScreen, sSigma);
+     //  Imagen mascaraLaplaciano = new Imagen (Laplaciano, FormatoDeImagen.JPG, "imagen");
        
-        BufferedImage LaplacianoGauss = DetectorDeBordes.aplicarDetectorLaplacianoDelGaussiano(mascaraLaplaciano, sSigma, 30,longitudMascara );
-        seleccionarRectangulo(Laplaciano);
+       BufferedImage LaplacianoGauss = DetectorDeBordes.aplicarDetectorLaplacianoDelGaussiano(imagenScreen, sSigma, 128,longitudMascara );
+        seleccionarRectangulo(LaplacianoGauss);
          System.out.println("Detector Laplaciano del Gaussiano OK");  
  
     }//GEN-LAST:event_jMenuItem25ActionPerformed
