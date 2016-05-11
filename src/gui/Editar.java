@@ -1417,6 +1417,7 @@ public class Editar extends javax.swing.JInternalFrame {
     
     private void jMenuItemLeclercActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemLeclercActionPerformed
         aplicarAnisotropica(true);
+        //hola
     }//GEN-LAST:event_jMenuItemLeclercActionPerformed
 
     private void jMenuItem24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem24ActionPerformed
