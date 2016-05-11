@@ -30,6 +30,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import modelo.Imagen;
 import utiles.Difuminador;
 import utiles.ExtensionFileFilter;
+import utiles.FiltroGaussiano;
 import utiles.Filtros;
 import utiles.GeneradorDeRuido;
 import utiles.Histograma2;
@@ -1197,11 +1198,15 @@ public class Editar extends javax.swing.JInternalFrame {
     private void menuGaussActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuGaussActionPerformed
         // TODO add your handling code here:
         
+     Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
+
          String valor = JOptionPane.showInputDialog(this, "Valor de sigma", "Definir el valor de sigma", JOptionPane.INFORMATION_MESSAGE);
-        double sSigma = Integer.parseInt(valor);
-       
-            seleccionarRectangulo(f.gauss(screen, sSigma));
-            System.out.println("Filtro Gaussiano OK");           
+        int sSigma = Integer.parseInt(valor);
+               
+      Imagen imagenFiltrada = FiltroGaussiano.aplicarFiltroGaussiano(imagenScreen, sSigma);
+        seleccionarRectangulo(imagenFiltrada.getBufferedImage());
+
+            System.out.println("Filtro Gaussiano OK");            
         
     }//GEN-LAST:event_menuGaussActionPerformed
 

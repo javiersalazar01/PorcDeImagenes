@@ -40,7 +40,7 @@ public class FiltroGaussiano {
 
 	private static float[][] generarMascaraGaussiana(int sigma) {
 
-		int dimension = sigma*3;
+		int dimension = (int) (2*Math.sqrt(2*sigma));
 		if ( dimension%2==0 ){
 			
 			dimension = dimension-1;

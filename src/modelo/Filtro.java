@@ -122,7 +122,7 @@ public class Filtro implements BufferedImageOp, RasterOp {
 
 					float vTransformado = ((((float)valorMaximo[banda]) / (maximo - minimo)) * v) - ((minimo * (float)valorMaximo[banda]) / (maximo - minimo));
 
-					imagenDestino.setSample(x + kernel.getXOrigin(), y + kernel.getYOrigin(), banda, vTransformado);
+					imagenDestino.setSample(x +kernel.getXOrigin(), y + kernel.getYOrigin(), banda, vTransformado);
 					
 				}
 			}
@@ -167,8 +167,8 @@ public class Filtro implements BufferedImageOp, RasterOp {
 		float[] valoresDeLaMascara = kernel.getKernelData(null);
 		float[] matrizTemporal = new float[anchoMascara * alturaMascara];
 
-		for (int x = 0; x < anchoDeLaRegionAlcanzable; x++) {
-			for (int y = 0; y < altoDeLaRegionAlcanzable; y++) {
+		for (int x = 0; x < anchoDeLaRegionAlcanzable-5; x++) {
+			for (int y = 0; y < altoDeLaRegionAlcanzable-5; y++) {
 
 				for (int banda = 0; banda < imagenInicial.getNumBands(); banda++) {
 					float v = 0;
