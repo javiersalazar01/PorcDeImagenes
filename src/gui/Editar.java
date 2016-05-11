@@ -1357,6 +1357,7 @@ public class Editar extends javax.swing.JInternalFrame {
         Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
         BufferedImage direccionalPrewitt = DetectorDeBordesDireccionales.aplicarDetectorDeBordesDireccional(imagenScreen, "Prewitt");
         seleccionarRectangulo(direccionalPrewitt);
+        
     }//GEN-LAST:event_jMenuItemPrewittActionPerformed
 
     private void jMenuItem23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem23ActionPerformed
