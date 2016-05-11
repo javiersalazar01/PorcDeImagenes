@@ -244,13 +244,13 @@ public class DetectorDeBordes {
         float[][] mascaraDeLaplaciano = new float[3][3];
 
         mascaraDeLaplaciano[0][0] = 0;
-        mascaraDeLaplaciano[0][1] = 1;
+        mascaraDeLaplaciano[0][1] = -1;
         mascaraDeLaplaciano[0][2] = 0;
-        mascaraDeLaplaciano[1][0] = 1;
-        mascaraDeLaplaciano[1][1] = -4;
-        mascaraDeLaplaciano[1][2] = 1;
+        mascaraDeLaplaciano[1][0] = -1;
+        mascaraDeLaplaciano[1][1] = 4;
+        mascaraDeLaplaciano[1][2] = -1;
         mascaraDeLaplaciano[2][0] = 0;
-        mascaraDeLaplaciano[2][1] = 1;
+        mascaraDeLaplaciano[2][1] = -1;
         mascaraDeLaplaciano[2][2] = 0;
 
         return mascaraDeLaplaciano;

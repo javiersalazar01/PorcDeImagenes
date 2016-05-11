@@ -8,6 +8,7 @@ package gui;
 import bordes.DetectorDeBordes;
 import bordes.DetectorDeBordesDireccionales;
 import bordes.DetectorDeBordesLeclerc;
+import bordes.DetectorDeBordesLorentz;
 import bordes.InterfaceDetectorDeBordes;
 import enums.Canal;
 import enums.FormatoDeImagen;
@@ -30,12 +31,14 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import modelo.Imagen;
 import utiles.Difuminador;
 import utiles.ExtensionFileFilter;
+import utiles.FiltroGaussiano;
 import utiles.Filtros;
 import utiles.GeneradorDeRuido;
 import utiles.Histograma2;
 import utiles.LayoutFileFilter;
 import utiles.Operaciones;
 import utiles.ProcImagenes;
+import utiles.Umbralizador;
 
 /**
  *
@@ -172,7 +175,9 @@ public class Editar extends javax.swing.JInternalFrame {
         menuGauss = new javax.swing.JMenuItem();
         menuBordes = new javax.swing.JMenuItem();
         jMenuItem19 = new javax.swing.JMenuItem();
-        jMenuItem20 = new javax.swing.JMenuItem();
+        jMenuAnisotropica = new javax.swing.JMenu();
+        jMenuItemLeclerc = new javax.swing.JMenuItem();
+        jMenuItemLorentz = new javax.swing.JMenuItem();
         jMenuDetectoresDeBorde = new javax.swing.JMenu();
         jMenuPrewitt = new javax.swing.JMenu();
         jMenuItem13 = new javax.swing.JMenuItem();
@@ -460,9 +465,19 @@ public class Editar extends javax.swing.JInternalFrame {
         menuHerramientas.add(jMenuItem5);
 
         jMenuItem21.setText("Umbralización Global");
+        jMenuItem21.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem21ActionPerformed(evt);
+            }
+        });
         menuHerramientas.add(jMenuItem21);
 
         jMenuItem22.setText("Umbralización de Otsu");
+        jMenuItem22.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem22ActionPerformed(evt);
+            }
+        });
         menuHerramientas.add(jMenuItem22);
 
         jMenuItem4.setText("Ecualizar");
@@ -658,13 +673,25 @@ public class Editar extends javax.swing.JInternalFrame {
         });
         menuFiltros.add(jMenuItem19);
 
-        jMenuItem20.setText("Difusión Anisotrópica");
-        jMenuItem20.addActionListener(new java.awt.event.ActionListener() {
+        jMenuAnisotropica.setText("Difusión Anisotropica");
+
+        jMenuItemLeclerc.setText("Detector De Bordes Leclerc");
+        jMenuItemLeclerc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem20ActionPerformed(evt);
+                jMenuItemLeclercActionPerformed(evt);
             }
         });
-        menuFiltros.add(jMenuItem20);
+        jMenuAnisotropica.add(jMenuItemLeclerc);
+
+        jMenuItemLorentz.setText("Detector De Bordes Lorentz");
+        jMenuItemLorentz.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemLorentzActionPerformed(evt);
+            }
+        });
+        jMenuAnisotropica.add(jMenuItemLorentz);
+
+        menuFiltros.add(jMenuAnisotropica);
 
         jMenuBar1.add(menuFiltros);
 
@@ -773,9 +800,19 @@ public class Editar extends javax.swing.JInternalFrame {
         jMenuLaplaciano.add(jMenuItem23);
 
         jMenuItem24.setText("Curces Por Cero");
+        jMenuItem24.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem24ActionPerformed(evt);
+            }
+        });
         jMenuLaplaciano.add(jMenuItem24);
 
         jMenuItem25.setText("Gausiano (Marr-Hildreth)");
+        jMenuItem25.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem25ActionPerformed(evt);
+            }
+        });
         jMenuLaplaciano.add(jMenuItem25);
 
         jMenuDetectoresDeBorde.add(jMenuLaplaciano);
@@ -1196,11 +1233,14 @@ public class Editar extends javax.swing.JInternalFrame {
 
     private void menuGaussActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuGaussActionPerformed
         // TODO add your handling code here:
-        
+        Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
+
          String valor = JOptionPane.showInputDialog(this, "Valor de sigma", "Definir el valor de sigma", JOptionPane.INFORMATION_MESSAGE);
-        double sSigma = Integer.parseInt(valor);
-       
-            seleccionarRectangulo(f.gauss(screen, sSigma));
+        int sSigma = Integer.parseInt(valor);
+               
+      Imagen imagenFiltrada = FiltroGaussiano.aplicarFiltroGaussiano(imagenScreen, sSigma);
+        seleccionarRectangulo(imagenFiltrada.getBufferedImage());
+
             System.out.println("Filtro Gaussiano OK");           
         
     }//GEN-LAST:event_menuGaussActionPerformed
@@ -1319,6 +1359,10 @@ public class Editar extends javax.swing.JInternalFrame {
 
     private void jMenuItem23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem23ActionPerformed
         // TODO add your handling code here:
+        
+        Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
+        BufferedImage mascaraLaplaciano = DetectorDeBordes.mostrarMascaraDeLaplaciano(imagenScreen);
+        seleccionarRectangulo(mascaraLaplaciano);
     }//GEN-LAST:event_jMenuItem23ActionPerformed
 
     private void jMenuItem19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem19ActionPerformed
@@ -1340,17 +1384,23 @@ public class Editar extends javax.swing.JInternalFrame {
         
         
     }//GEN-LAST:event_jMenuItem19ActionPerformed
-
-    private void jMenuItem20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem20ActionPerformed
+    private void aplicarAnisotropica(boolean isLeclerc){
         InterfaceDetectorDeBordes detectorDeBordes = null;
+        
         try {
+            
             String repeticiones = JOptionPane.showInputDialog(this, "Numero De Repeticiones: ");
             String sigma = JOptionPane.showInputDialog(this, "Ingrese Sigma");
             int repNum = Integer.parseInt(repeticiones);
             int sigmaNum = Integer.parseInt(sigma);
             
             if (repNum > 0 || sigmaNum < 0) {
-                detectorDeBordes = new DetectorDeBordesLeclerc(sigmaNum);
+                if (isLeclerc) {
+                    detectorDeBordes = new DetectorDeBordesLeclerc(sigmaNum);
+                } else {
+                    detectorDeBordes = new DetectorDeBordesLorentz(sigmaNum);
+                }
+                
                 BufferedImage bufferedImage = Difuminador.aplicarDifusion(screen, detectorDeBordes, repNum, false);
                 seleccionarRectangulo(bufferedImage);
             } else {
@@ -1361,7 +1411,66 @@ public class Editar extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Ingrese Un Numero Superior a 0");
             e.printStackTrace();
         }
-    }//GEN-LAST:event_jMenuItem20ActionPerformed
+        
+    
+    }
+    
+    private void jMenuItemLeclercActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemLeclercActionPerformed
+        aplicarAnisotropica(true);
+    }//GEN-LAST:event_jMenuItemLeclercActionPerformed
+
+    private void jMenuItem24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem24ActionPerformed
+        // TODO add your handling code here:
+        Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
+        BufferedImage detectorLaplaciano = DetectorDeBordes.aplicarDetectorLaplaciano(imagenScreen);
+        seleccionarRectangulo(detectorLaplaciano);
+        
+    }//GEN-LAST:event_jMenuItem24ActionPerformed
+
+    private void jMenuItem25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem25ActionPerformed
+        // TODO add your handling code here:
+       Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
+        String valor = JOptionPane.showInputDialog(this, "Valor de sigma", "Definir el valor de sigma", JOptionPane.INFORMATION_MESSAGE);
+        int sSigma = Integer.parseInt(valor);
+        int longitudMascara = sSigma * 3;
+       //Imagen imagenOriginal, int sigma, int umbral, int longitudMascara
+
+       BufferedImage Laplaciano = DetectorDeBordes.mostrarMascaraLaplacianoDelGaussiano(imagenScreen, sSigma);
+       Imagen mascaraLaplaciano = new Imagen (Laplaciano, FormatoDeImagen.JPG, "imagen");
+       
+        BufferedImage LaplacianoGauss = DetectorDeBordes.aplicarDetectorLaplacianoDelGaussiano(mascaraLaplaciano, sSigma, 30,longitudMascara );
+        seleccionarRectangulo(Laplaciano);
+         System.out.println("Detector Laplaciano del Gaussiano OK");  
+ 
+    }//GEN-LAST:event_jMenuItem25ActionPerformed
+
+    private void jMenuItem21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem21ActionPerformed
+        // TODO add your handling code here:
+        
+        Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
+        Imagen umbralGlobal = Umbralizador.umbralizarImagen(imagenScreen, Umbralizador.encontrarNuevoUmbralGlobal(imagenScreen, 128));
+                
+        seleccionarRectangulo(umbralGlobal.getBufferedImage());
+        
+    }//GEN-LAST:event_jMenuItem21ActionPerformed
+
+    private void jMenuItem22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem22ActionPerformed
+        // TODO add your handling code here:
+        
+     Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
+
+        int umbralOtsu = Umbralizador.generarUmbralizacionOtsu(imagenScreen, Canal.ROJO, true);
+	 Imagen imagenOtsu = Umbralizador.umbralizarImagen(imagenScreen, umbralOtsu);
+         //Imagen imagenOtsu = Umbralizador.generarUmbralizacionColor(imagenScreen);
+
+        seleccionarRectangulo(imagenOtsu.getBufferedImage());
+        
+    }//GEN-LAST:event_jMenuItem22ActionPerformed
+
+    private void jMenuItemLorentzActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemLorentzActionPerformed
+        aplicarAnisotropica(false);
+    }//GEN-LAST:event_jMenuItemLorentzActionPerformed
+
 
     protected static final String EXTENSION = ".jpg";
 
@@ -1405,6 +1514,7 @@ public class Editar extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JMenu jMenu5;
+    private javax.swing.JMenu jMenuAnisotropica;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu jMenuDetectoresDeBorde;
     private javax.swing.JMenu jMenuDireccionales;
@@ -1420,7 +1530,6 @@ public class Editar extends javax.swing.JInternalFrame {
     private javax.swing.JMenuItem jMenuItem18;
     private javax.swing.JMenuItem jMenuItem19;
     private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem20;
     private javax.swing.JMenuItem jMenuItem21;
     private javax.swing.JMenuItem jMenuItem22;
     private javax.swing.JMenuItem jMenuItem23;
@@ -1434,6 +1543,8 @@ public class Editar extends javax.swing.JInternalFrame {
     private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JMenuItem jMenuItemHistograma;
+    private javax.swing.JMenuItem jMenuItemLeclerc;
+    private javax.swing.JMenuItem jMenuItemLorentz;
     private javax.swing.JMenuItem jMenuItemPrewitt;
     private javax.swing.JMenuItem jMenuItemRestaurar;
     private javax.swing.JMenuItem jMenuItemSalYPimienta;
