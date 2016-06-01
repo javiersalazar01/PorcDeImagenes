@@ -482,16 +482,23 @@ public class DetectorDeBordes {
                         - (longitudMascara / 2), sigma);
             }
         }
+        //System.out.println(Arrays.toString(mascaraDeLaplacianoDeGaussiano));
         return mascaraDeLaplacianoDeGaussiano;
     }
 
     private static float calcularValorMascaraLaplacianoDelGaussiano(int indiceI, int indiceJ, double sigma) {
 
-        float termino1 = (float) ((float) (-1 / ((Math.sqrt(2 * Math.PI)) * Math.pow(sigma, 3))));
-        float termino2 = (float) (2 - ((float) (((float) (Math.pow(indiceI, 2) + Math.pow(indiceJ, 2))) / Math.pow(sigma, 2))));
-        float termino3 = (float) Math.pow(Math.E, (-1 * ((float) (Math.pow(indiceI, 2) + Math.pow(indiceJ, 2)) / (2 * Math.pow(sigma, 2)))));
-        float valor = termino1 * termino2 * termino3;
-
+       /* float termino1 =  (float) (-1 / ((Math.PI) * Math.pow(sigma, 4)));
+        float termino2 = (float) (1 - (((Math.pow(indiceI, 2))+(Math.pow(indiceJ, 2))) / (2 * Math.pow(sigma, 2))));
+        float termino3 = (float) Math.exp(- (((Math.pow(indiceI, 2))+(Math.pow(indiceJ, 2))) / (2 * Math.pow(sigma, 2)))); 
+       // float termino3 = (float) Math.pow(Math.E, (-1 * ((float) (Math.pow(indiceI, 2) + Math.pow(indiceJ, 2)) / (2 * Math.pow(sigma, 2)))));
+       */
+        float termino1 = (float) (((indiceI*indiceI)+(indiceJ*indiceJ)-(2*Math.pow(sigma, 2)))/(Math.pow(sigma, 4)));
+        float termino2 = (float) Math.exp(-1*(((indiceI*indiceI)+(indiceJ*indiceJ))/(2*Math.pow(sigma, 2))));
+        //float termino3 
+        
+        float valor = termino1 * termino2 *10;
+        System.out.println(valor);
         return valor;
     }
 
@@ -499,7 +506,7 @@ public class DetectorDeBordes {
 
         if (longitudMascara % 2 == 0) {
 
-            longitudMascara = longitudMascara - 1;
+            longitudMascara = longitudMascara + 1;
         }
 
         float[][] mascaraLaplacianoDelGaussiano = calcularMascaraDeLaplacianoDelGaussiano(longitudMascara, sigma);
@@ -538,17 +545,17 @@ public class DetectorDeBordes {
         return imagenFiltrada.getBufferedImage();
     }
 
-    public static BufferedImage mostrarMascaraLaplacianoDelGaussiano(Imagen imagenOriginal, int sigma) {
+    public static BufferedImage mostrarMascaraLaplacianoDelGaussiano(Imagen imagenOriginal, double sigma) {
 
-        int longitudMascara = sigma * 3;
+        int longitudMascara = (int) (4+(sigma * 3));
         if (longitudMascara % 2 == 0) {
 
-            longitudMascara = longitudMascara - 1;
+            longitudMascara = longitudMascara + 1;
         }
 
         float[][] mascaraDeLaplacianoDelGaussiano = calcularMascaraDeLaplacianoDelGaussiano(longitudMascara, sigma);
 
-        Imagen imagenFiltrada = FiltroGaussiano.aplicarFiltroGaussiano(imagenOriginal, sigma);
+        Imagen imagenFiltrada = FiltroGaussiano.aplicarFiltroGaussiano(imagenOriginal, (int) sigma);
 
         Imagen imagenResultante = new Imagen(imagenFiltrada.getBufferedImage(), imagenOriginal.getFormato(), imagenOriginal.getNombre(), imagenFiltrada.getMatriz(Canal.ROJO), imagenFiltrada.getMatriz(Canal.VERDE), imagenFiltrada.getMatriz(Canal.AZUL));
         FiltroNuevo filtro = new FiltroNuevo(mascaraDeLaplacianoDelGaussiano);

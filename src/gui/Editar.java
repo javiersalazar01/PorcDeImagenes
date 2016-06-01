@@ -195,6 +195,7 @@ public class Editar extends javax.swing.JInternalFrame {
         jMenuLaplaciano = new javax.swing.JMenu();
         jMenuItem23 = new javax.swing.JMenuItem();
         jMenuItem24 = new javax.swing.JMenuItem();
+        jMenuItem20 = new javax.swing.JMenuItem();
         jMenuItem25 = new javax.swing.JMenuItem();
 
         setClosable(true);
@@ -352,7 +353,7 @@ public class Editar extends javax.swing.JInternalFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(36, 36, 36)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(62, Short.MAX_VALUE))
+                .addContainerGap(54, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -407,8 +408,8 @@ public class Editar extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(196, 196, 196))
         );
@@ -418,7 +419,7 @@ public class Editar extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
@@ -806,6 +807,14 @@ public class Editar extends javax.swing.JInternalFrame {
             }
         });
         jMenuLaplaciano.add(jMenuItem24);
+
+        jMenuItem20.setText("Mascara de LoG");
+        jMenuItem20.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem20ActionPerformed(evt);
+            }
+        });
+        jMenuLaplaciano.add(jMenuItem20);
 
         jMenuItem25.setText("Gausiano (Marr-Hildreth)");
         jMenuItem25.addActionListener(new java.awt.event.ActionListener() {
@@ -1436,7 +1445,7 @@ public class Editar extends javax.swing.JInternalFrame {
        Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
         String valor = JOptionPane.showInputDialog(this, "Valor de sigma", "Definir el valor de sigma", JOptionPane.INFORMATION_MESSAGE);
         double sSigma = Double.parseDouble(valor);
-        int longitudMascara = (int)(2*Math.sqrt(2)*sSigma)*3;
+        int longitudMascara = (int)(4+(sSigma*3));
        //Imagen imagenOriginal, int sigma, int umbral, int longitudMascara
 
       // BufferedImage Laplaciano = DetectorDeBordes.mostrarMascaraLaplacianoDelGaussiano(imagenScreen, sSigma);
@@ -1474,6 +1483,23 @@ public class Editar extends javax.swing.JInternalFrame {
     private void jMenuItemLorentzActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemLorentzActionPerformed
         aplicarAnisotropica(false);
     }//GEN-LAST:event_jMenuItemLorentzActionPerformed
+
+    private void jMenuItem20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem20ActionPerformed
+        // TODO add your handling code here:
+        
+        Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
+        String valor = JOptionPane.showInputDialog(this, "Valor de sigma", "Definir el valor de sigma", JOptionPane.INFORMATION_MESSAGE);
+        double sSigma = Double.parseDouble(valor);
+        int longitudMascara = (int)(4+(sSigma*3));
+       //Imagen imagenOriginal, int sigma, int umbral, int longitudMascara
+
+      BufferedImage Laplaciano = DetectorDeBordes.mostrarMascaraLaplacianoDelGaussiano(imagenScreen, sSigma);
+       
+      // BufferedImage LaplacianoGauss = DetectorDeBordes.aplicarDetectorLaplacianoDelGaussiano(imagenScreen, sSigma, 128,longitudMascara );
+        seleccionarRectangulo(Laplaciano);
+         System.out.println("Mascara Laplaciano del Gaussiano OK");  
+ 
+    }//GEN-LAST:event_jMenuItem20ActionPerformed
 
 
     protected static final String EXTENSION = ".jpg";
@@ -1534,6 +1560,7 @@ public class Editar extends javax.swing.JInternalFrame {
     private javax.swing.JMenuItem jMenuItem18;
     private javax.swing.JMenuItem jMenuItem19;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem20;
     private javax.swing.JMenuItem jMenuItem21;
     private javax.swing.JMenuItem jMenuItem22;
     private javax.swing.JMenuItem jMenuItem23;
