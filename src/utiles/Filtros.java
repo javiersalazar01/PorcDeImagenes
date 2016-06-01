@@ -32,7 +32,14 @@ public class Filtros {
         nrows = image.getWidth();
         ncols = image.getHeight();
         imageFinal = new BufferedImage(nrows, ncols, BufferedImage.TYPE_3BYTE_BGR);
-
+        
+        
+        for (int i = 0; i < nrows; i++) {
+            for (int j = 0; j < ncols; j++) {
+                Color c1 = new Color(image.getRGB(i, j));
+                imageFinal.setRGB(i, j, c1.getRGB());
+            }
+        }
         //inicializacion de los datos de la matriz gris
                 /*for(int i=0; i<this.matrizGris.length;i++)
          System.arraycopy(this.matrizGrisOriginal[i], 0, this.matrizGris[i], 0, this.matrizGris[0].length);
@@ -93,6 +100,14 @@ public class Filtros {
                 /*for(int i=0; i<this.matrizGris.length;i++)
          System.arraycopy(this.matrizGrisOriginal[i], 0, this.matrizGris[i], 0, this.matrizGris[0].length);
          */
+        
+           for (int i = 0; i < nrows; i++) {
+            for (int j = 0; j < ncols; j++) {
+                Color c1 = new Color(image.getRGB(i, j));
+                imageFinal.setRGB(i, j, c1.getRGB());
+            }
+        }
+           
         int tope = size / 2; //variable que sirve de control para evitar que se desborde la mascara de la matriz
         int acumulado;
         for (int i = tope; i < nrows - tope; i++) {
@@ -228,13 +243,19 @@ public class Filtros {
 		
 	int width = mascara.length;
         int height = mascara[0].length;
-        int tam = width * height;
+       // int tam = width * height;
         float filtroK[][] = new float[width][height];
 
         //Aplicamos el filtro
         //filtro.filter(image, imagenFiltrada);
         
-        
+           for (int i = 0; i < nrows; i++) {
+            for (int j = 0; j < ncols; j++) {
+                Color c1 = new Color(image.getRGB(i, j));
+                imageFinal.setRGB(i, j, c1.getRGB());
+            }
+        }
+           
         int max = 0, min = 9999;
 
            int tope = width / 2; //variable que sirve de control para evitar que se desborde la mascara de la matriz
@@ -255,16 +276,9 @@ public class Filtros {
                          gau = mascara[k][l] * filtroK[k][l];
                          
                     }
-                    
+                  
                 }
-                
-                
-                
-                
-        
-        
             }}
-
 		return imageFinal;
 	}
 
@@ -315,6 +329,7 @@ public class Filtros {
                 Color c1 = new Color(image.getRGB(i, j));
                 int ng = c1.getRed();
                 matrizGris[i][j] = (short) ng;
+                matriz[i][j]=ng;
             }
         }
 

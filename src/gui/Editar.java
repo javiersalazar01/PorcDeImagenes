@@ -1435,8 +1435,8 @@ public class Editar extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
        Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
         String valor = JOptionPane.showInputDialog(this, "Valor de sigma", "Definir el valor de sigma", JOptionPane.INFORMATION_MESSAGE);
-        int sSigma = Integer.parseInt(valor);
-        int longitudMascara = (int)(2*Math.sqrt(sSigma*2));
+        double sSigma = Double.parseDouble(valor);
+        int longitudMascara = (int)(2*Math.sqrt(2)*sSigma)*3;
        //Imagen imagenOriginal, int sigma, int umbral, int longitudMascara
 
       // BufferedImage Laplaciano = DetectorDeBordes.mostrarMascaraLaplacianoDelGaussiano(imagenScreen, sSigma);

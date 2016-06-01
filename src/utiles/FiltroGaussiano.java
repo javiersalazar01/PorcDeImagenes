@@ -1,5 +1,6 @@
 package utiles;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.awt.image.Kernel;
 import modelo.Filtro;
@@ -17,6 +18,12 @@ public class FiltroGaussiano {
 		Imagen imagenFiltrada = new Imagen(im, imagenOriginal.getFormato(), imagenOriginal.getNombre());
 		
 		
+            for (int i = 0; i < imagenOriginal.getBufferedImage().getWidth(); i++) {
+                for (int j = 0; j < imagenOriginal.getBufferedImage().getHeight(); j++) {
+                     Color c1 = new Color(imagenOriginal.getBufferedImage().getRGB(i, j));
+                     imagenFiltrada.getBufferedImage().setRGB(i, j, c1.getRGB());
+                }
+            }
 		int width = mascara.length;
         int height = mascara[0].length;
         int tam = width * height;
