@@ -130,6 +130,28 @@ public class ProcImagenes {
         //Retornamos la imagen
         return imageActual;
     }
+    
+      public BufferedImage escalaGrises(BufferedImage image) {
+        //Variables que almacenarán los píxeles
+        int mediaPixel, colorSRGB;
+        Color colorAux;
+
+        //Recorremos la imagen píxel a píxel
+        for (int i = 0; i < image.getWidth(); i++) {
+            for (int j = 0; j < image.getHeight(); j++) {
+                //Almacenamos el color del píxel
+                colorAux = new Color(image.getRGB(i, j));
+                //Calculamos la media de los tres canales (rojo, verde, azul)
+                mediaPixel = (int) ((colorAux.getRed() + colorAux.getGreen() + colorAux.getBlue()) / 3);
+                //Cambiamos a formato sRGB
+                colorSRGB = (mediaPixel << 16) | (mediaPixel << 8) | mediaPixel;
+                //Asignamos el nuevo valor al BufferedImage
+                image.setRGB(i, j, colorSRGB);
+            }
+        }
+        //Retornamos la imagen
+        return image;
+    }
 
     public BufferedImage umbralizarGrises(BufferedImage screen, int umbral) {
         BufferedImage copia = new BufferedImage(

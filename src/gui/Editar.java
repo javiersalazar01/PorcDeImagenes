@@ -1452,7 +1452,7 @@ public class Editar extends javax.swing.JInternalFrame {
      //  Imagen mascaraLaplaciano = new Imagen (Laplaciano, FormatoDeImagen.JPG, "imagen");
        
        BufferedImage LaplacianoGauss = DetectorDeBordes.aplicarDetectorLaplacianoDelGaussiano(imagenScreen, sSigma, 128,longitudMascara );
-        seleccionarRectangulo(LaplacianoGauss);
+       seleccionarRectangulo(LaplacianoGauss);
          System.out.println("Detector Laplaciano del Gaussiano OK");  
  
     }//GEN-LAST:event_jMenuItem25ActionPerformed
