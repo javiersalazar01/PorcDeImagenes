@@ -10,7 +10,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import modelo.Curva;
 import modelo.Imagen;
 
-
 public class Segmentador {
 
     private static int diferenciaColor = 20;

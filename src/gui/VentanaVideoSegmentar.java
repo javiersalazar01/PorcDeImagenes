@@ -42,6 +42,10 @@ public class VentanaVideoSegmentar extends javax.swing.JInternalFrame {
         labelPrincipal.setBounds(0, 0, 400, 300);
         getContentPane().add(labelPrincipal);
         setAllButtonsEnabled(false);
+        jMenuItemCuadros.setVisible(false); 
+        jMenuItemOficina.setVisible(false);
+        jMenuItemHojita.setVisible(false);
+
     }
 
     /**
@@ -67,6 +71,9 @@ public class VentanaVideoSegmentar extends javax.swing.JInternalFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItemHojita = new javax.swing.JMenuItem();
+        jMenuItemCuadros = new javax.swing.JMenuItem();
+        jMenuItemOficina = new javax.swing.JMenuItem();
 
         jPasswordField1.setText("jPasswordField1");
 
@@ -140,6 +147,30 @@ public class VentanaVideoSegmentar extends javax.swing.JInternalFrame {
         });
         jMenu1.add(jMenuItem1);
 
+        jMenuItemHojita.setText("Hojita");
+        jMenuItemHojita.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemHojitaActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItemHojita);
+
+        jMenuItemCuadros.setText("Cuadros");
+        jMenuItemCuadros.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemCuadrosActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItemCuadros);
+
+        jMenuItemOficina.setText("Oficina");
+        jMenuItemOficina.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemOficinaActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItemOficina);
+
         jMenuBar1.add(jMenu1);
 
         setJMenuBar(jMenuBar1);
@@ -153,21 +184,19 @@ public class VentanaVideoSegmentar extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 494, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 494, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(botonSegmentar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(botonSeleccionar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(botonPrincipio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(botonFotogramaAnterior, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(botonPlay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(botonSiguienteFotograma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(Otsu, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addContainerGap())))
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(botonSegmentar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(botonSeleccionar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(botonPrincipio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(botonFotogramaAnterior, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(botonPlay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(botonSiguienteFotograma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(Otsu, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -303,6 +332,24 @@ public class VentanaVideoSegmentar extends javax.swing.JInternalFrame {
                 mySwingWorker.execute();
     }//GEN-LAST:event_OtsuActionPerformed
 
+    private void jMenuItemHojitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemHojitaActionPerformed
+       ProcesadorDeVideo.obtenerInstancia().cargarVideo(Fotogramas.HOJA);
+        refrescarImagen(ProcesadorDeVideo.obtenerInstancia().getImagenActual().getBufferedImage());
+        botonSeleccionar.setEnabled(true);
+    }//GEN-LAST:event_jMenuItemHojitaActionPerformed
+
+    private void jMenuItemCuadrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCuadrosActionPerformed
+        ProcesadorDeVideo.obtenerInstancia().cargarVideo(Fotogramas.CUADROS);
+        refrescarImagen(ProcesadorDeVideo.obtenerInstancia().getImagenActual().getBufferedImage());
+        botonSeleccionar.setEnabled(true);
+    }//GEN-LAST:event_jMenuItemCuadrosActionPerformed
+
+    private void jMenuItemOficinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemOficinaActionPerformed
+        ProcesadorDeVideo.obtenerInstancia().cargarVideo(Fotogramas.OFICINA);
+        refrescarImagen(ProcesadorDeVideo.obtenerInstancia().getImagenActual().getBufferedImage());
+        botonSeleccionar.setEnabled(true);
+    }//GEN-LAST:event_jMenuItemOficinaActionPerformed
+
     private BufferedImage segmentarImagen() {
 
         ProcesadorDeVideo procesador = ProcesadorDeVideo.obtenerInstancia();
@@ -399,6 +446,9 @@ public class VentanaVideoSegmentar extends javax.swing.JInternalFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItemCuadros;
+    private javax.swing.JMenuItem jMenuItemHojita;
+    private javax.swing.JMenuItem jMenuItemOficina;
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables

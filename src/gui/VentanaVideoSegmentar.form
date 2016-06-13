@@ -22,6 +22,30 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem1ActionPerformed"/>
               </Events>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemHojita">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Hojita"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemHojitaActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemCuadros">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Cuadros"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemCuadrosActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemOficina">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Oficina"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemOficinaActionPerformed"/>
+              </Events>
+            </MenuItem>
           </SubComponents>
         </Menu>
       </SubComponents>
@@ -57,27 +81,23 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="jLabel2" min="-2" pref="69" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
+                  <Component id="jScrollPane1" alignment="0" pref="494" max="32767" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="jScrollPane1" alignment="0" pref="494" max="32767" attributes="0"/>
-                          <Group type="102" attributes="0">
-                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="botonSegmentar" max="32767" attributes="0"/>
-                                  <Component id="botonSeleccionar" max="32767" attributes="0"/>
-                                  <Component id="botonPrincipio" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="botonFotogramaAnterior" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="botonPlay" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="botonSiguienteFotograma" max="32767" attributes="0"/>
-                                  <Component id="Otsu" min="-2" pref="91" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="botonSegmentar" max="32767" attributes="0"/>
+                          <Component id="botonSeleccionar" max="32767" attributes="0"/>
+                          <Component id="botonPrincipio" alignment="0" max="32767" attributes="0"/>
+                          <Component id="botonFotogramaAnterior" alignment="0" max="32767" attributes="0"/>
+                          <Component id="botonPlay" alignment="0" max="32767" attributes="0"/>
+                          <Component id="botonSiguienteFotograma" max="32767" attributes="0"/>
+                          <Component id="Otsu" min="-2" pref="91" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
