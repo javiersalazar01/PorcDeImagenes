@@ -11,7 +11,7 @@ import javax.imageio.ImageIO;
 
 import enums.FormatoDeImagen;
 import gui.VentanaSegementarImagen;
-import gui.VentanaVideo;
+import utiles.VentanaVideo;
 import gui.VentanaVideoSegmentar;
 import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;

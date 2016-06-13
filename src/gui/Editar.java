@@ -18,6 +18,8 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
+import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -61,16 +63,15 @@ public class Editar extends javax.swing.JInternalFrame {
     private Histograma2 objHistograma;
     private VentanaHistograma objVentanaHistograma;
     private GeneradorDeRuido gdr;
-    
+
     public Editar(ProcImagenes pro) {
         initComponents();
-        
+
         this.p = pro;
         this.gdr = new GeneradorDeRuido();
         objVentanaHistograma = new VentanaHistograma();
         seleccionarRectangulo(p.getImageActual());
     }
-    
 
     public void seleccionarRectangulo(BufferedImage screen) {
         this.screen = screen;
@@ -79,7 +80,7 @@ public class Editar extends javax.swing.JInternalFrame {
                 screen.getHeight(),
                 screen.getType());
         screenLabel.setIcon(new ImageIcon(screenCopy));
-        
+
         repaint(screen, screenCopy);
         screenLabel.repaint();
     }
@@ -355,7 +356,7 @@ public class Editar extends javax.swing.JInternalFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(36, 36, 36)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(54, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -410,7 +411,7 @@ public class Editar extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 413, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(196, 196, 196))
@@ -421,7 +422,7 @@ public class Editar extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
@@ -875,7 +876,7 @@ public class Editar extends javax.swing.JInternalFrame {
         int x = Integer.parseInt(txtBuscarX.getText());
         int y = Integer.parseInt(txtBuscarY.getText());
 
-        Color c = p.valorPixel(screen,x, y);
+        Color c = p.valorPixel(screen, x, y);
 
         txtValorR.setText(String.valueOf(c.getRed()));
         txtValorG.setText(String.valueOf(c.getGreen()));
@@ -899,7 +900,7 @@ public class Editar extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnCambierRgbActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        
+
         Visor v = new Visor(p);
         JDesktopPane parentPanel = (JDesktopPane) this.getParent();
         parentPanel.add(v);
@@ -975,7 +976,7 @@ public class Editar extends javax.swing.JInternalFrame {
         txtBuscarX.setText(String.valueOf(x));
         txtBuscarY.setText(String.valueOf(y));
 
-        Color c = p.valorPixel(screen,x, y);
+        Color c = p.valorPixel(screen, x, y);
 
         txtValorR.setText(String.valueOf(c.getRed()));
         txtValorG.setText(String.valueOf(c.getGreen()));
@@ -988,24 +989,24 @@ public class Editar extends javax.swing.JInternalFrame {
         objVentanaHistograma.pack();
         //parentPanel.add(objVentanaHistograma);
         objVentanaHistograma.setVisible(true);
-        
-        
+
+
     }//GEN-LAST:event_jMenuItemHistogramaActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-        
+
         try {
             String res = JOptionPane.showInputDialog(this, "Valor Del Umbral: ");
             int resNum = Integer.parseInt(res);
             if (resNum > -1 && resNum < 256) {
-                seleccionarRectangulo(p.umbralizarGrises(screen,resNum));
+                seleccionarRectangulo(p.umbralizarGrises(screen, resNum));
             } else {
                 JOptionPane.showMessageDialog(this, "Ingrese Un Numero Entre 0 y 255");
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Ingrese Un Numero Entre 0 y 255");
         }
-        
+
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItemRestaurarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemRestaurarActionPerformed
@@ -1017,35 +1018,35 @@ public class Editar extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-        
+
         try {
             String sigma = JOptionPane.showInputDialog(this, "Valor De Sigma");
             //String mu = JOptionPane.showInputDialog(this, "Valor De Mu");
-            int sigmaInt = Integer.parseInt(sigma);          
+            int sigmaInt = Integer.parseInt(sigma);
             //int muInt = Integer.parseInt(mu);
             seleccionarRectangulo(GeneradorDeRuido.generarRuidoGauss(screen, sigmaInt, 1));
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Ingrese Solo Valores Numericos.");
             e.printStackTrace();
         }
-        
+
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
-        
+
         try {
             String phi = JOptionPane.showInputDialog(this, "Valor De Phi");
-            int phiInt = Integer.parseInt(phi);   
+            int phiInt = Integer.parseInt(phi);
             seleccionarRectangulo(GeneradorDeRuido.generarRuidoRayleighMultiplicativo(screen, phiInt));
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Ingrese Solo Valores Numericos.");
             e.printStackTrace();
         }
-        
+
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
-        
+
         try {
             String lamba = JOptionPane.showInputDialog(this, "Valor De Lambda");
             int lambaInt = Integer.parseInt(lamba);
@@ -1060,7 +1061,7 @@ public class Editar extends javax.swing.JInternalFrame {
         try {
             String sigma = JOptionPane.showInputDialog(this, "Valor De Sigma");
             String mu = JOptionPane.showInputDialog(this, "Valor De Mu");
-            int sigmaInt = Integer.parseInt(sigma);          
+            int sigmaInt = Integer.parseInt(sigma);
             int muInt = Integer.parseInt(mu);
             seleccionarRectangulo(GeneradorDeRuido.generarRuidoGauss(new BufferedImage(100, 100, BufferedImage.TYPE_3BYTE_BGR), sigmaInt, muInt));
         } catch (Exception e) {
@@ -1072,8 +1073,8 @@ public class Editar extends javax.swing.JInternalFrame {
     private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
         try {
             String phi = JOptionPane.showInputDialog(this, "Valor De Phi");
-            int phiInt = Integer.parseInt(phi);   
-            seleccionarRectangulo(GeneradorDeRuido.generarRuidoRayleighMultiplicativo(p.generarImagenSinteticaMultiplicativa(100, 100,1), phiInt));
+            int phiInt = Integer.parseInt(phi);
+            seleccionarRectangulo(GeneradorDeRuido.generarRuidoRayleighMultiplicativo(p.generarImagenSinteticaMultiplicativa(100, 100, 1), phiInt));
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Ingrese Solo Valores Numericos.");
             e.printStackTrace();
@@ -1084,7 +1085,7 @@ public class Editar extends javax.swing.JInternalFrame {
         try {
             String lamba = JOptionPane.showInputDialog(this, "Valor De Lambda");
             int lambaInt = Integer.parseInt(lamba);
-            seleccionarRectangulo(GeneradorDeRuido.generarRuidoExponencialMultiplicativo(p.generarImagenSinteticaMultiplicativa(100, 100,100), lambaInt));
+            seleccionarRectangulo(GeneradorDeRuido.generarRuidoExponencialMultiplicativo(p.generarImagenSinteticaMultiplicativa(100, 100, 100), lambaInt));
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Ingrese Solo Valores Numericos.");
             e.printStackTrace();
@@ -1100,80 +1101,78 @@ public class Editar extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Ingrese Solo Valores Numericos.");
             e.printStackTrace();
         }
-        
+
     }//GEN-LAST:event_jMenuItemSalYPimientaActionPerformed
 
     private void menuSumaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSumaActionPerformed
         // TODO add your handling code here:
-        
-    
-            BufferedImage bmp = null;
-            JFileChooser fileChooser = new JFileChooser();
-            FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG", "PNG", "jpg", "png");
-            fileChooser.setFileFilter(filter);
-            fileChooser.setAcceptAllFileFilterUsed(false);
-            int respu = fileChooser.showOpenDialog(this);
 
-            if (respu == JFileChooser.APPROVE_OPTION && fileChooser.getSelectedFile().exists()) {
-                try {
-                    //Devuelve el fichero seleccionado
-                    File imagenSeleccionada = fileChooser.getSelectedFile();
-                    //Asignamos a la variable bmp la imagen leida
-                    bmp = ImageIO.read(imagenSeleccionada);
-                    
-                } catch (IOException ex) {
-                    Logger.getLogger(Editar.class.getName()).log(Level.SEVERE, null, ex);
-                }
+        BufferedImage bmp = null;
+        JFileChooser fileChooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG", "PNG", "jpg", "png");
+        fileChooser.setFileFilter(filter);
+        fileChooser.setAcceptAllFileFilterUsed(false);
+        int respu = fileChooser.showOpenDialog(this);
+
+        if (respu == JFileChooser.APPROVE_OPTION && fileChooser.getSelectedFile().exists()) {
+            try {
+                //Devuelve el fichero seleccionado
+                File imagenSeleccionada = fileChooser.getSelectedFile();
+                //Asignamos a la variable bmp la imagen leida
+                bmp = ImageIO.read(imagenSeleccionada);
+
+            } catch (IOException ex) {
+                Logger.getLogger(Editar.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }
 //            screenCopy = p.escalaGrises(bmp);
 
-            if (screen.getWidth() == screenCopy.getWidth() && screen.getHeight() == screenCopy.getHeight()) {
+        if (screen.getWidth() == screenCopy.getWidth() && screen.getHeight() == screenCopy.getHeight()) {
 
-              seleccionarRectangulo(Op.suma(screen, bmp));
-            } else {
-                JOptionPane.showConfirmDialog(this, "Las imágenes no coinciden");
-            }
+            seleccionarRectangulo(Op.suma(screen, bmp));
+        } else {
+            JOptionPane.showConfirmDialog(this, "Las imágenes no coinciden");
+        }
 
 
-                         
     }//GEN-LAST:event_menuSumaActionPerformed
 
     private void menuRestaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuRestaActionPerformed
         // TODO add your handling code here:
 
-            BufferedImage bmp = null;
-            JFileChooser fileChooser = new JFileChooser();
-            FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG", "jpg", "png");
-            fileChooser.setFileFilter(filter);
-            fileChooser.setAcceptAllFileFilterUsed(false);
-            int respu = fileChooser.showOpenDialog(this);
+        BufferedImage bmp = null;
+        JFileChooser fileChooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG", "jpg", "png");
+        fileChooser.setFileFilter(filter);
+        fileChooser.setAcceptAllFileFilterUsed(false);
+        int respu = fileChooser.showOpenDialog(this);
 
-            if (respu == JFileChooser.APPROVE_OPTION && fileChooser.getSelectedFile().exists()) {
-                try {
-                    //Devuelve el fichero seleccionado
-                    File imagenSeleccionada = fileChooser.getSelectedFile();
-                    //Asignamos a la variable bmp la imagen leida
-                    bmp = ImageIO.read(imagenSeleccionada);
-                } catch (IOException ex) {
-                    Logger.getLogger(Editar.class.getName()).log(Level.SEVERE, null, ex);
-                }
+        if (respu == JFileChooser.APPROVE_OPTION && fileChooser.getSelectedFile().exists()) {
+            try {
+                //Devuelve el fichero seleccionado
+                File imagenSeleccionada = fileChooser.getSelectedFile();
+                //Asignamos a la variable bmp la imagen leida
+                bmp = ImageIO.read(imagenSeleccionada);
+            } catch (IOException ex) {
+                Logger.getLogger(Editar.class.getName()).log(Level.SEVERE, null, ex);
             }
-            //imageSegunda = p.escalaGrises(bmp);
+        }
+        //imageSegunda = p.escalaGrises(bmp);
 
-            if (screen.getWidth() == bmp.getWidth() && screen.getHeight() == bmp.getHeight()) {
+        if (screen.getWidth() == bmp.getWidth() && screen.getHeight() == bmp.getHeight()) {
 
-                seleccionarRectangulo(Op.resta(screen, bmp));
-                //repaint(screen, screenCopy);
-            } else {
-                JOptionPane.showConfirmDialog(this, "Las imágenes no coinciden");
-            }
+            seleccionarRectangulo(Op.resta(screen, bmp));
+            //repaint(screen, screenCopy);
+        } else {
+            JOptionPane.showConfirmDialog(this, "Las imágenes no coinciden");
+        }
 
-        
+
     }//GEN-LAST:event_menuRestaActionPerformed
 
     private void menuProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuProductoActionPerformed
         // TODO add your handling code here:
-         BufferedImage bmp = null;
+        BufferedImage bmp = null;
         JFileChooser fileChooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG", "jpg", "png");
         fileChooser.setFileFilter(filter);
@@ -1195,106 +1194,101 @@ public class Editar extends javax.swing.JInternalFrame {
         if (screen.getWidth() == bmp.getWidth() && screen.getHeight() == bmp.getHeight()) {
 
             seleccionarRectangulo(Op.producto(screen, bmp));
-           // repaint(screen, screenCopy);
+            // repaint(screen, screenCopy);
             System.out.println("Si multiplica imagenes");
         } else {
             JOptionPane.showConfirmDialog(this, "Las imágenes no coinciden");
         }
 
 
-
-        
-        
     }//GEN-LAST:event_menuProductoActionPerformed
 
     private void menuEscalarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuEscalarActionPerformed
         // TODO add your handling code here:
-        
+
         String valor = JOptionPane.showInputDialog(this, "Valor", "Multiplicar Valor A Imagen", JOptionPane.INFORMATION_MESSAGE);
         int constante = Integer.parseInt(valor);
         seleccionarRectangulo(Op.producto(screen, constante));
         System.out.println("Si Multiplica Constante");
 
-        
+
     }//GEN-LAST:event_menuEscalarActionPerformed
 
     private void menuDinamicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuDinamicoActionPerformed
         // TODO add your handling code here:
-        
-          //R valor máximo de gris en la imágen
+
+        //R valor máximo de gris en la imágen
         seleccionarRectangulo(Op.rangoDinamico(screen));
-       // repaint(screen, screenCopy);
+        // repaint(screen, screenCopy);
         System.out.println("si comprime el Rango dinamico");
-        
+
 
     }//GEN-LAST:event_menuDinamicoActionPerformed
 
     private void menuPotenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPotenciaActionPerformed
         // TODO add your handling code here:
-        
+
         String valor = JOptionPane.showInputDialog(this, "Valor", "Definir el valor de ɣ", JOptionPane.INFORMATION_MESSAGE);
         double gamma;
         gamma = Double.parseDouble(valor);
-    
-        seleccionarRectangulo(Op.powerLaw(screen,gamma));
+
+        seleccionarRectangulo(Op.powerLaw(screen, gamma));
         System.out.println("Si transforma potencia");
 
     }//GEN-LAST:event_menuPotenciaActionPerformed
 
     private void menuMedianaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuMedianaActionPerformed
         // TODO add your handling code here:
-        
+
         String valor = JOptionPane.showInputDialog(this, "Tamaño de máscara", "Definir el tamaño de mascara", JOptionPane.INFORMATION_MESSAGE);
         int sizeM = Integer.parseInt(valor);
-        
-        if(sizeM%2 == 0 || sizeM==1){
-            JOptionPane.showMessageDialog(null,"Favor ingresar un numero IMPAR o mayor a 1");
+
+        if (sizeM % 2 == 0 || sizeM == 1) {
+            JOptionPane.showMessageDialog(null, "Favor ingresar un numero IMPAR o mayor a 1");
         } else {
             seleccionarRectangulo(f.mediana(screen, sizeM));
             System.out.println("Filtro Mediana OK");
-            
+
         }
-        
-        
-        
+
+
     }//GEN-LAST:event_menuMedianaActionPerformed
 
     private void menuGaussActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuGaussActionPerformed
         // TODO add your handling code here:
         Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
 
-
-         String valor = JOptionPane.showInputDialog(this, "Valor de sigma", "Definir el valor de sigma", JOptionPane.INFORMATION_MESSAGE);
+        String valor = JOptionPane.showInputDialog(this, "Valor de sigma", "Definir el valor de sigma", JOptionPane.INFORMATION_MESSAGE);
         int sSigma = Integer.parseInt(valor);
-               
-      Imagen imagenFiltrada = FiltroGaussiano.aplicarFiltroGaussiano(imagenScreen, sSigma);
+
+        Imagen imagenFiltrada = FiltroGaussiano.aplicarFiltroGaussiano(imagenScreen, sSigma);
         seleccionarRectangulo(imagenFiltrada.getBufferedImage());
 
-            System.out.println("Filtro Gaussiano OK");           
+        System.out.println("Filtro Gaussiano OK");
 
-        
+
     }//GEN-LAST:event_menuGaussActionPerformed
 
     private void menuMediaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuMediaActionPerformed
         // TODO add your handling code here:
-        
-         String valor = JOptionPane.showInputDialog(this, "Tamaño de máscara", "Definir el tamaño de mascara", JOptionPane.INFORMATION_MESSAGE);
+
+        String valor = JOptionPane.showInputDialog(this, "Tamaño de máscara", "Definir el tamaño de mascara", JOptionPane.INFORMATION_MESSAGE);
         int sizeM = Integer.parseInt(valor);
-        
-        if(sizeM%2 == 0 || sizeM==1){
-            JOptionPane.showMessageDialog(null,"Favor ingresar un numero IMPAR o mayor a 1");
+
+        if (sizeM % 2 == 0 || sizeM == 1) {
+            JOptionPane.showMessageDialog(null, "Favor ingresar un numero IMPAR o mayor a 1");
         } else {
             seleccionarRectangulo(f.media(screen, sizeM));
             System.out.println("Filtro Media OK");
-            
+
         }
-        
-        
+
+
     }//GEN-LAST:event_menuMediaActionPerformed
 
     private void menuBordesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuBordesActionPerformed
         // TODO add your handling code here:
-        
+
         seleccionarRectangulo(f.bordes(screen));
         System.out.println("Filtro PasaAltos OK");
     }//GEN-LAST:event_menuBordesActionPerformed
@@ -1304,33 +1298,33 @@ public class Editar extends javax.swing.JInternalFrame {
         try {
             String res = JOptionPane.showInputDialog(this, "Valor Del rango: ");
             int resNum = Integer.parseInt(res);
-            
+
             if (resNum > 0 && resNum < 128) {
                 seleccionarRectangulo(p.contraste(screen, resNum));
             } else {
-                
+
                 JOptionPane.showMessageDialog(this, "Ingrese Un Numero Entre 0 y 128");
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Ingrese Un Numero Entre 0 y 255");
             e.printStackTrace();
         }
-    
+
     }//GEN-LAST:event_jMenuItem12ActionPerformed
 
     private void menuNegativoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuNegativoActionPerformed
         // TODO add your handling code here:
         seleccionarRectangulo(f.negativo(screen));
         System.out.println("negativo OK");
-        
+
     }//GEN-LAST:event_menuNegativoActionPerformed
 
     private void jMenuItem13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem13ActionPerformed
-        
-        Imagen imagenScreen = new Imagen(screen,FormatoDeImagen.GIF,"hola");
+
+        Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.GIF, "hola");
         BufferedImage prewitt = DetectorDeBordes.aplicarDetectorDePrewitt(imagenScreen);
         seleccionarRectangulo(prewitt);
-        
+
     }//GEN-LAST:event_jMenuItem13ActionPerformed
 
     private void jMenuItem14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem14ActionPerformed
@@ -1385,67 +1379,66 @@ public class Editar extends javax.swing.JInternalFrame {
         Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
         BufferedImage direccionalPrewitt = DetectorDeBordesDireccionales.aplicarDetectorDeBordesDireccional(imagenScreen, "Prewitt");
         seleccionarRectangulo(direccionalPrewitt);
-        
+
     }//GEN-LAST:event_jMenuItemPrewittActionPerformed
 
     private void jMenuItem23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem23ActionPerformed
         // TODO add your handling code here:
-        
+
         Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
         BufferedImage mascaraLaplaciano = DetectorDeBordes.mostrarMascaraDeLaplaciano(imagenScreen);
         seleccionarRectangulo(mascaraLaplaciano);
     }//GEN-LAST:event_jMenuItem23ActionPerformed
 
     private void jMenuItem19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem19ActionPerformed
-         try {
+        try {
             String repeticiones = JOptionPane.showInputDialog(this, "Numero De Repteciones: ");
             int repNum = Integer.parseInt(repeticiones);
-            
+
             if (repNum > 0) {
                 BufferedImage bufferedImage = Difuminador.aplicarDifusion(screen, null, repNum, true);
                 seleccionarRectangulo(bufferedImage);
             } else {
-                
+
                 JOptionPane.showMessageDialog(this, "Ingrese Un Superior a 0");
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Ingrese Un Numero Superior a 0");
             e.printStackTrace();
         }
-        
-        
+
+
     }//GEN-LAST:event_jMenuItem19ActionPerformed
-    private void aplicarAnisotropica(boolean isLeclerc){
+    private void aplicarAnisotropica(boolean isLeclerc) {
         InterfaceDetectorDeBordes detectorDeBordes = null;
-        
+
         try {
-            
+
             String repeticiones = JOptionPane.showInputDialog(this, "Numero De Repeticiones: ");
             String sigma = JOptionPane.showInputDialog(this, "Ingrese Sigma");
             int repNum = Integer.parseInt(repeticiones);
             int sigmaNum = Integer.parseInt(sigma);
-            
+
             if (repNum > 0 || sigmaNum < 0) {
                 if (isLeclerc) {
                     detectorDeBordes = new DetectorDeBordesLeclerc(sigmaNum);
                 } else {
                     detectorDeBordes = new DetectorDeBordesLorentz(sigmaNum);
                 }
-                
+
                 BufferedImage bufferedImage = Difuminador.aplicarDifusion(screen, detectorDeBordes, repNum, false);
                 seleccionarRectangulo(bufferedImage);
             } else {
-                
+
                 JOptionPane.showMessageDialog(this, "Ingrese Un Superior a 0");
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Ingrese Un Numero Superior a 0");
             e.printStackTrace();
         }
-        
-    
+
     }
-    
+
     private void jMenuItemLeclercActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemLeclercActionPerformed
         aplicarAnisotropica(true);
         //hola
@@ -1456,47 +1449,46 @@ public class Editar extends javax.swing.JInternalFrame {
         Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
         BufferedImage detectorLaplaciano = DetectorDeBordes.aplicarDetectorLaplaciano(imagenScreen);
         seleccionarRectangulo(detectorLaplaciano);
-        
+
     }//GEN-LAST:event_jMenuItem24ActionPerformed
 
     private void jMenuItem25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem25ActionPerformed
         // TODO add your handling code here:
-       Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
+        Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
         String valor = JOptionPane.showInputDialog(this, "Valor de sigma", "Definir el valor de sigma", JOptionPane.INFORMATION_MESSAGE);
         double sSigma = Double.parseDouble(valor);
-        int longitudMascara = (int)(4+(sSigma*3));
+        int longitudMascara = (int) (4 + (sSigma * 3));
        //Imagen imagenOriginal, int sigma, int umbral, int longitudMascara
 
       // BufferedImage Laplaciano = DetectorDeBordes.mostrarMascaraLaplacianoDelGaussiano(imagenScreen, sSigma);
-     //  Imagen mascaraLaplaciano = new Imagen (Laplaciano, FormatoDeImagen.JPG, "imagen");
-       
-       BufferedImage LaplacianoGauss = DetectorDeBordes.aplicarDetectorLaplacianoDelGaussiano(imagenScreen, sSigma, 128,longitudMascara );
-       seleccionarRectangulo(LaplacianoGauss);
-         System.out.println("Detector Laplaciano del Gaussiano OK");  
- 
+        //  Imagen mascaraLaplaciano = new Imagen (Laplaciano, FormatoDeImagen.JPG, "imagen");
+        BufferedImage LaplacianoGauss = DetectorDeBordes.aplicarDetectorLaplacianoDelGaussiano(imagenScreen, sSigma, 128, longitudMascara);
+        seleccionarRectangulo(LaplacianoGauss);
+        System.out.println("Detector Laplaciano del Gaussiano OK");
+
     }//GEN-LAST:event_jMenuItem25ActionPerformed
 
     private void jMenuItem21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem21ActionPerformed
         // TODO add your handling code here:
-        
+
         Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
         Imagen umbralGlobal = Umbralizador.umbralizarImagen(imagenScreen, Umbralizador.encontrarNuevoUmbralGlobal(imagenScreen, 128));
-                
+
         seleccionarRectangulo(umbralGlobal.getBufferedImage());
-        
+
     }//GEN-LAST:event_jMenuItem21ActionPerformed
 
     private void jMenuItem22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem22ActionPerformed
         // TODO add your handling code here:
-        
-     Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
+
+        Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
 
         int umbralOtsu = Umbralizador.generarUmbralizacionOtsu(imagenScreen, Canal.ROJO, true);
-	 Imagen imagenOtsu = Umbralizador.umbralizarImagen(imagenScreen, umbralOtsu);
-         //Imagen imagenOtsu = Umbralizador.generarUmbralizacionColor(imagenScreen);
+        Imagen imagenOtsu = Umbralizador.umbralizarImagen(imagenScreen, umbralOtsu);
+        //Imagen imagenOtsu = Umbralizador.generarUmbralizacionColor(imagenScreen);
 
         seleccionarRectangulo(imagenOtsu.getBufferedImage());
-        
+
     }//GEN-LAST:event_jMenuItem22ActionPerformed
 
     private void jMenuItemLorentzActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemLorentzActionPerformed
@@ -1505,33 +1497,39 @@ public class Editar extends javax.swing.JInternalFrame {
 
     private void jMenuItem20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem20ActionPerformed
         // TODO add your handling code here:
-        
+
         Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
         String valor = JOptionPane.showInputDialog(this, "Valor de sigma", "Definir el valor de sigma", JOptionPane.INFORMATION_MESSAGE);
         double sSigma = Double.parseDouble(valor);
-        int longitudMascara = (int)(4+(sSigma*3));
-       //Imagen imagenOriginal, int sigma, int umbral, int longitudMascara
+        int longitudMascara = (int) (4 + (sSigma * 3));
+        //Imagen imagenOriginal, int sigma, int umbral, int longitudMascara
 
-      BufferedImage Laplaciano = DetectorDeBordes.mostrarMascaraLaplacianoDelGaussiano(imagenScreen, sSigma);
-       
-      // BufferedImage LaplacianoGauss = DetectorDeBordes.aplicarDetectorLaplacianoDelGaussiano(imagenScreen, sSigma, 128,longitudMascara );
+        BufferedImage Laplaciano = DetectorDeBordes.mostrarMascaraLaplacianoDelGaussiano(imagenScreen, sSigma);
+
+        // BufferedImage LaplacianoGauss = DetectorDeBordes.aplicarDetectorLaplacianoDelGaussiano(imagenScreen, sSigma, 128,longitudMascara );
         seleccionarRectangulo(Laplaciano);
-         System.out.println("Mascara Laplaciano del Gaussiano OK");  
- 
+        System.out.println("Mascara Laplaciano del Gaussiano OK");
+
     }//GEN-LAST:event_jMenuItem20ActionPerformed
 
     private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
-        
+
     }//GEN-LAST:event_jMenu1ActionPerformed
 
     private void jMenuItem26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem26ActionPerformed
-        VentanaSegementarImagen segImagen = new VentanaSegementarImagen(screen);
+        VentanaSegementarImagen segImagen = new VentanaSegementarImagen(copiarBufferedImage(screen));
         JDesktopPane parentPanel = (JDesktopPane) this.getParent();
         parentPanel.add(segImagen);
         segImagen.setVisible(true);
     }//GEN-LAST:event_jMenuItem26ActionPerformed
 
-
+    private BufferedImage copiarBufferedImage(BufferedImage original){
+        ColorModel cm = original.getColorModel();
+        boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
+        WritableRaster raster = original.copyData(null);
+        BufferedImage copy = new BufferedImage(cm, raster, isAlphaPremultiplied, null);
+        return copy;
+    }
     protected static final String EXTENSION = ".jpg";
 
     protected static final String FORMAT_NAME = "jpg";

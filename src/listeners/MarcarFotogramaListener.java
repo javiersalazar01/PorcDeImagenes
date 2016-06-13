@@ -7,8 +7,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.JLabel;
-
-import gui.VentanaVideo;
+import utiles.VentanaVideo;
 import gui.VentanaVideoSegmentar;
 import modelo.Imagen;
 import procesadores.ProcesadorDeVideo;

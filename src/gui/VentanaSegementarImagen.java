@@ -8,19 +8,15 @@ package gui;
 import dialogs.DialogsHelper;
 import enums.FormatoDeImagen;
 import enums.NivelMensaje;
-import java.awt.Color;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
-import java.util.LinkedList;
-import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import listeners.MarcarFotogramaListener1Imagen;
 import modelo.Imagen;
-import procesadores.ProcesadorDeVideo;
 import procesadores.Segmentador;
 
 /**
@@ -33,12 +29,12 @@ public class VentanaSegementarImagen extends javax.swing.JInternalFrame {
      * Creates new form VentanaSegementarImagen
      */
     private JLabel labelPrincipal;
-    private BufferedImage imagen;
-    private Integer x1 = 0;   
+    private BufferedImage imagenActual;
+    private Integer x1 = 0;
     private Integer x2 = 0;
     private Integer y1 = 0;
     private Integer y2 = 0;
-
+    private BufferedImage original;
 
     public VentanaSegementarImagen(BufferedImage imagen) {
         initComponents();
@@ -48,11 +44,12 @@ public class VentanaSegementarImagen extends javax.swing.JInternalFrame {
         getContentPane().add(labelPrincipal);
         labelPrincipal.setIcon(new ImageIcon(imagen));
         jButton1.setEnabled(false);
-        setImagenActual(imagen);
+        this.original = imagen;
+        setImagenActual(copiarBufferedImage(imagen));
     }
 
-    public Imagen getImagen() {
-        return new Imagen(imagen, FormatoDeImagen.JPG, "hola");
+    public BufferedImage getImagen() {
+        return imagenActual;
     }
 
     /**
@@ -105,20 +102,19 @@ public class VentanaSegementarImagen extends javax.swing.JInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(361, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel2)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(repeticiones, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel1)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(diferenciaDeColor, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(73, 73, 73))
+                .addContainerGap(410, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(diferenciaDeColor))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(43, 43, 43)
+                        .addComponent(repeticiones, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(24, 24, 24))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -128,11 +124,11 @@ public class VentanaSegementarImagen extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(diferenciaDeColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(repeticiones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(repeticiones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(diferenciaDeColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jButton1)
                 .addContainerGap(169, Short.MAX_VALUE))
@@ -154,8 +150,8 @@ public class VentanaSegementarImagen extends javax.swing.JInternalFrame {
                 String diferenciaColor = diferenciaDeColor.getText().toString().trim();
 
                 if (!rep.isEmpty() && !diferenciaColor.isEmpty()) {
-                    
-                    Imagen i = new Imagen(this.imagen,FormatoDeImagen.JPG ,"hola");
+
+                    Imagen i = new Imagen(this.original, FormatoDeImagen.JPG, "hola");
                     BufferedImage bufferSegmentado = Segmentador.segmentarImagenPrimeraVez(i,
                             new Point(getX1(), getY1()),
                             new Point(getX2(), getY2()), Integer.parseInt(rep), Integer.parseInt(diferenciaColor));
@@ -177,11 +173,18 @@ public class VentanaSegementarImagen extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+
+        setImagenActual(copiarBufferedImage(original));
         labelPrincipal.addMouseListener(new MarcarFotogramaListener1Imagen(this));
         jButton1.setEnabled(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    
+    private BufferedImage copiarBufferedImage(BufferedImage bi) {
+        ColorModel cm = bi.getColorModel();
+        boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
+        WritableRaster raster = bi.copyData(null);
+        return new BufferedImage(cm, raster, isAlphaPremultiplied, null);
+    }
 
     public JLabel getPanelDeImagen() {
 
@@ -189,8 +192,8 @@ public class VentanaSegementarImagen extends javax.swing.JInternalFrame {
     }
 
     public void setImagenActual(BufferedImage ima) {
-        this.imagen = ima;
-        labelPrincipal.setIcon(new ImageIcon(imagen));
+        this.imagenActual = ima;
+        labelPrincipal.setIcon(new ImageIcon(imagenActual));
     }
 
     public Integer getX1() {
@@ -224,8 +227,6 @@ public class VentanaSegementarImagen extends javax.swing.JInternalFrame {
     public void setY2(Integer y2) {
         this.y2 = y2;
     }
-    
-    
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

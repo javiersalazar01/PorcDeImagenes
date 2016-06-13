@@ -32,7 +32,6 @@ public class MarcarFotogramaListener1Imagen implements MouseListener {
     private Dimension bordeInferiorDerecho;
 
     public MarcarFotogramaListener1Imagen(VentanaSegementarImagen ventana) {
-
         this.ventanaVideo = ventana;
         bordeInferiorDerecho = calcularBordeInferiorDerecho(ventanaVideo.getPanelDeImagen(), ventanaVideo.getImagen());
         bordeSuperiorIzquierdo = calcularBordeSuperiorIzquierdo(ventanaVideo.getPanelDeImagen(), ventanaVideo.getImagen());
@@ -55,27 +54,24 @@ public class MarcarFotogramaListener1Imagen implements MouseListener {
 
             int x2Final = (int) (x2 - bordeSuperiorIzquierdo.getWidth());
             int y2Final = (int) (y2 - bordeSuperiorIzquierdo.getHeight());
-            
-            
+
             marcarImagenActual(x1Final, y1Final, x2Final, y2Final, ventanaVideo);
-                    
+
             //ProcesadorDeVideo.obtenerInstancia().marcarImagenActual(x1Final, y1Final, x2Final, y2Final, ventanaVideo);
             ((Component) click.getSource()).removeMouseListener(this);
-            ventanaVideo.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         }
     }
 
     public void marcarImagenActual(Integer x1Param, Integer y1Param, Integer x2Param,
             Integer y2Param, VentanaSegementarImagen ventana) {
 
-        ventana.setX1(x1Param);       
+        ventana.setX1(x1Param);
         ventana.setX2(x2Param);
         ventana.setY1(y1Param);
         ventana.setY2(y2Param);
 
-
         //BufferedImage imagen = ProcesadorDeImagenes.obtenerInstancia().clonarBufferedImage(getImagenActual().getBufferedImage());
-        BufferedImage imea = ventana.getImagen().getBufferedImage();
+        BufferedImage imea = ventana.getImagen();
         ColorModel cm = imea.getColorModel();
         boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
         WritableRaster raster = imea.copyData(null);
@@ -113,12 +109,12 @@ public class MarcarFotogramaListener1Imagen implements MouseListener {
         return x1 >= bordeSuperiorIzquierdo.getWidth() && y1 >= bordeSuperiorIzquierdo.getHeight() && x1 <= bordeInferiorDerecho.getWidth() && y1 <= bordeInferiorDerecho.getHeight();
     }
 
-    public Dimension calcularBordeSuperiorIzquierdo(JLabel panelPrincipal, Imagen imagenActual) {
+    public Dimension calcularBordeSuperiorIzquierdo(JLabel panelPrincipal, BufferedImage imagenActual) {
 
-        int centroImagenX = (imagenActual.getBufferedImage().getWidth()) / 2;
+        int centroImagenX = (imagenActual.getWidth()) / 2;
         int centroPanelPrincipalX = panelPrincipal.getWidth() / 2;
 
-        int centroImagenY = (imagenActual.getBufferedImage().getHeight()) / 2;
+        int centroImagenY = (imagenActual.getHeight()) / 2;
         int centroPanelPrincipalY = panelPrincipal.getHeight() / 2;
 
         int xInicial = centroPanelPrincipalX - centroImagenX;
@@ -127,12 +123,12 @@ public class MarcarFotogramaListener1Imagen implements MouseListener {
         return new Dimension(xInicial, YInicial);
     }
 
-    public Dimension calcularBordeInferiorDerecho(JLabel panelPrincipal, Imagen imagenActual) {
+    public Dimension calcularBordeInferiorDerecho(JLabel panelPrincipal, BufferedImage imagenActual) {
 
-        int centroImagenX = (imagenActual.getBufferedImage().getWidth()) / 2;
+        int centroImagenX = (imagenActual.getWidth()) / 2;
         int centroPanelPrincipalX = panelPrincipal.getWidth() / 2;
 
-        int centroImagenY = (imagenActual.getBufferedImage().getHeight()) / 2;
+        int centroImagenY = (imagenActual.getHeight()) / 2;
         int centroPanelPrincipalY = panelPrincipal.getHeight() / 2;
 
         int xInicial = centroPanelPrincipalX + centroImagenX;
@@ -144,13 +140,11 @@ public class MarcarFotogramaListener1Imagen implements MouseListener {
     @Override
     public void mouseEntered(MouseEvent arg0) {
 
-        ventanaVideo.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }
 
     @Override
     public void mouseExited(MouseEvent arg0) {
 
-        ventanaVideo.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 
     }
 
