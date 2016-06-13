@@ -22,19 +22,18 @@ import javax.swing.SwingWorker;
 
 import dialogs.DialogsHelper;
 import enums.FormatoDeImagen;
+import java.awt.image.ColorModel;
+import java.awt.image.WritableRaster;
+import javax.swing.JInternalFrame;
 import listeners.MarcarFotogramaListener;
 import modelo.Fotogramas;
 import modelo.Imagen;
-import procesadores.ProcesadorDeImagenes;
 import procesadores.ProcesadorDeVideo;
 import procesadores.Segmentador;
 import utiles.Umbralizador;
 
-
-
-
 @SuppressWarnings("serial")
-public class VentanaVideo extends JFrame {
+public class VentanaVideo extends JInternalFrame {
 
     private JPanel panelBotones;
     private JLabel labelPrincipal;
@@ -47,9 +46,12 @@ public class VentanaVideo extends JFrame {
     private JTextArea consola;
 
     public VentanaVideo() {
-        this.setTitle("Procesamiento de Video");
+        this.setTitle("Segmentacion De Contornos Video");
 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setResizable(true);
+        this.setClosable(true);
+        this.setIconifiable(true);
+        this.setMaximizable(true);
         setBounds(100, 100, 800, 600);
         getContentPane().setLayout(null);
 
@@ -59,9 +61,9 @@ public class VentanaVideo extends JFrame {
         consola.setBounds(539, 35, 235, 439);
         getContentPane().add(consola);
 
-        lblNewLabel = new JLabel("CONSOLA");
+        lblNewLabel = new JLabel("Informacion");
         lblNewLabel.setBackground(Color.GRAY);
-        lblNewLabel.setFont(new Font("Quartz MS", Font.BOLD, 13));
+        lblNewLabel.setFont(new Font("Arial", Font.BOLD, 13));
         lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
         lblNewLabel.setBounds(539, 0, 235, 36);
         getContentPane().add(lblNewLabel);
@@ -241,7 +243,14 @@ public class VentanaVideo extends JFrame {
     private BufferedImage segmentarImagen() {
 
         ProcesadorDeVideo procesador = ProcesadorDeVideo.obtenerInstancia();
-        BufferedImage imagenNueva = ProcesadorDeImagenes.obtenerInstancia().clonarBufferedImage(procesador.getImagenActual().getBufferedImage());
+        //BufferedImage imagenNueva = ProcesadorDeImagenes.obtenerInstancia().clonarBufferedImage(procesador.getImagenActual().getBufferedImage());
+        
+        BufferedImage ima = procesador.getImagenActual().getBufferedImage();
+        ColorModel cm = ima.getColorModel();
+        boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
+        WritableRaster raster = ima.copyData(null);
+        BufferedImage imagenNueva = new BufferedImage(cm, raster, isAlphaPremultiplied, null);
+
         Imagen image = new Imagen(imagenNueva, FormatoDeImagen.JPEG, "segmentada");
 
         long tiempoDeInicio = new Date().getTime();
@@ -251,7 +260,7 @@ public class VentanaVideo extends JFrame {
                 new Point(procesador.getX2(), procesador.getY2()), 100, 50);
 
         long tiempoDeFin = new Date().getTime();
-        String tiempo = "Tiempo de procesamiento del fotograma " + procesador.getPosicionActual() + ": " + (tiempoDeFin - tiempoDeInicio) + " milisegundos";
+        String tiempo = "Tiempo: " + procesador.getPosicionActual() + ": " + (tiempoDeFin - tiempoDeInicio) + " milisegundos";
         System.out.println(tiempo);
         consola.setText(tiempo + "\n" + consola.getText().toString());
 
@@ -261,7 +270,14 @@ public class VentanaVideo extends JFrame {
     private BufferedImage volverASegmentarImagen() {
 
         ProcesadorDeVideo procesador = ProcesadorDeVideo.obtenerInstancia();
-        BufferedImage imagenNueva = ProcesadorDeImagenes.obtenerInstancia().clonarBufferedImage(procesador.getImagenActual().getBufferedImage());
+        
+        //BufferedImage imagenNueva = ProcesadorDeImagenes.obtenerInstancia().clonarBufferedImage(procesador.getImagenActual().getBufferedImage());
+        BufferedImage ima = procesador.getImagenActual().getBufferedImage();
+        ColorModel cm = ima.getColorModel();
+        boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
+        WritableRaster raster = ima.copyData(null);
+        BufferedImage imagenNueva = new BufferedImage(cm, raster, isAlphaPremultiplied, null);
+        
         Imagen image = new Imagen(imagenNueva, FormatoDeImagen.JPEG, "segmentada");
 
         long tiempoDeInicio = new Date().getTime();

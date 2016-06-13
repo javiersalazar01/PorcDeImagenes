@@ -10,7 +10,11 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 import enums.FormatoDeImagen;
+import gui.VentanaSegementarImagen;
 import gui.VentanaVideo;
+import gui.VentanaVideoSegmentar;
+import java.awt.image.ColorModel;
+import java.awt.image.WritableRaster;
 import modelo.Fotogramas;
 import modelo.Imagen;
 import modelo.Video;
@@ -106,14 +110,20 @@ public class ProcesadorDeVideo {
     }
 
     public void marcarImagenActual(Integer x1Param, Integer y1Param, Integer x2Param,
-            Integer y2Param, VentanaVideo ventana) {
+            Integer y2Param, VentanaVideoSegmentar ventana) {
 
         this.x1 = x1Param;
         this.x2 = x2Param;
         this.y1 = y1Param;
         this.y2 = y2Param;
 
-        BufferedImage imagen = ProcesadorDeImagenes.obtenerInstancia().clonarBufferedImage(getImagenActual().getBufferedImage());
+        //BufferedImage imagen = ProcesadorDeImagenes.obtenerInstancia().clonarBufferedImage(getImagenActual().getBufferedImage());
+        BufferedImage imea = imagenActual.getBufferedImage();
+        ColorModel cm = imea.getColorModel();
+        boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
+        WritableRaster raster = imea.copyData(null);
+        BufferedImage imagen = new BufferedImage(cm, raster, isAlphaPremultiplied, null);
+        
         Imagen image = new Imagen(imagen, FormatoDeImagen.JPEG, "original");
 
         if (image != null) {
@@ -140,6 +150,8 @@ public class ProcesadorDeVideo {
             ventana.refrescarImagen(image.getBufferedImage());
         }
     }
+    
+     
 
     public Integer getX1() {
         return x1;

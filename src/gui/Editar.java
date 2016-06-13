@@ -198,6 +198,7 @@ public class Editar extends javax.swing.JInternalFrame {
         jMenuItem20 = new javax.swing.JMenuItem();
         jMenuItem25 = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
+        jMenuItem26 = new javax.swing.JMenuItem();
 
         setClosable(true);
         setIconifiable(true);
@@ -830,6 +831,20 @@ public class Editar extends javax.swing.JInternalFrame {
         jMenuBar1.add(jMenuDetectoresDeBorde);
 
         jMenu1.setText("Segmentar");
+        jMenu1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu1ActionPerformed(evt);
+            }
+        });
+
+        jMenuItem26.setText("Segmentar Imagen");
+        jMenuItem26.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem26ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem26);
+
         jMenuBar1.add(jMenu1);
 
         setJMenuBar(jMenuBar1);
@@ -1505,6 +1520,17 @@ public class Editar extends javax.swing.JInternalFrame {
  
     }//GEN-LAST:event_jMenuItem20ActionPerformed
 
+    private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
+        
+    }//GEN-LAST:event_jMenu1ActionPerformed
+
+    private void jMenuItem26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem26ActionPerformed
+        VentanaSegementarImagen segImagen = new VentanaSegementarImagen(screen);
+        JDesktopPane parentPanel = (JDesktopPane) this.getParent();
+        parentPanel.add(segImagen);
+        segImagen.setVisible(true);
+    }//GEN-LAST:event_jMenuItem26ActionPerformed
+
 
     protected static final String EXTENSION = ".jpg";
 
@@ -1571,6 +1597,7 @@ public class Editar extends javax.swing.JInternalFrame {
     private javax.swing.JMenuItem jMenuItem23;
     private javax.swing.JMenuItem jMenuItem24;
     private javax.swing.JMenuItem jMenuItem25;
+    private javax.swing.JMenuItem jMenuItem26;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;

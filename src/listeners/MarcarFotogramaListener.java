@@ -9,6 +9,7 @@ import java.awt.event.MouseListener;
 import javax.swing.JLabel;
 
 import gui.VentanaVideo;
+import gui.VentanaVideoSegmentar;
 import modelo.Imagen;
 import procesadores.ProcesadorDeVideo;
 
@@ -16,7 +17,7 @@ import procesadores.ProcesadorDeVideo;
 
 public class MarcarFotogramaListener implements MouseListener{
 	
-	private VentanaVideo ventanaVideo;
+	private VentanaVideoSegmentar ventanaVideo;
 	private Integer x1;
 	private Integer y1;
 	private Integer x2;
@@ -24,7 +25,7 @@ public class MarcarFotogramaListener implements MouseListener{
 	private Dimension bordeSuperiorIzquierdo;
 	private Dimension bordeInferiorDerecho;
 
-	public MarcarFotogramaListener(VentanaVideo ventana) {
+	public MarcarFotogramaListener(VentanaVideoSegmentar ventana) {
 
 		this.ventanaVideo = ventana;
 		bordeInferiorDerecho = calcularBordeInferiorDerecho(ventanaVideo.getPanelDeImagen(), ProcesadorDeVideo.obtenerInstancia().getImagenActual());
@@ -96,7 +97,7 @@ public class MarcarFotogramaListener implements MouseListener{
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
 		
-		ventanaVideo.setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
+		ventanaVideo.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 	}
 
 	@Override
