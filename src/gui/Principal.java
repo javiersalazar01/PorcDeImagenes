@@ -37,6 +37,7 @@ public class Principal extends javax.swing.JFrame {
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         abrirMenuItem = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         crearMenuItem = new javax.swing.JMenu();
         circuloMenuItem = new javax.swing.JMenuItem();
         cuadradoMenuItem = new javax.swing.JMenuItem();
@@ -59,6 +60,14 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         fileMenu.add(abrirMenuItem);
+
+        jMenuItem1.setText("Segmentar Video");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        fileMenu.add(jMenuItem1);
 
         crearMenuItem.setText("Crear");
 
@@ -168,6 +177,11 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_coloresMenuItemActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        VentanaVideo video = new VentanaVideo();
+        video.setVisible(true);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -214,6 +228,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenuItem grisesMenuItem;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuBar menuBar;
     // End of variables declaration//GEN-END:variables

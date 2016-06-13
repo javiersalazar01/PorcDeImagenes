@@ -197,6 +197,7 @@ public class Editar extends javax.swing.JInternalFrame {
         jMenuItem24 = new javax.swing.JMenuItem();
         jMenuItem20 = new javax.swing.JMenuItem();
         jMenuItem25 = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
 
         setClosable(true);
         setIconifiable(true);
@@ -827,6 +828,9 @@ public class Editar extends javax.swing.JInternalFrame {
         jMenuDetectoresDeBorde.add(jMenuLaplaciano);
 
         jMenuBar1.add(jMenuDetectoresDeBorde);
+
+        jMenu1.setText("Segmentar");
+        jMenuBar1.add(jMenu1);
 
         setJMenuBar(jMenuBar1);
 
@@ -1543,6 +1547,7 @@ public class Editar extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenuAnisotropica;
     private javax.swing.JMenuBar jMenuBar1;
