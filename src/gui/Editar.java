@@ -7,9 +7,11 @@ package gui;
 
 import bordes.DetectorDeBordes;
 import bordes.DetectorDeBordesDireccionales;
+import bordes.DetectorSusan;
 import bordes.DetectorDeBordesLeclerc;
 import bordes.DetectorDeBordesLorentz;
 import bordes.InterfaceDetectorDeBordes;
+import bordes.DetectorDeBordesDeCanny;
 import enums.Canal;
 import enums.FormatoDeImagen;
 import java.awt.Color;
@@ -198,6 +200,11 @@ public class Editar extends javax.swing.JInternalFrame {
         jMenuItem24 = new javax.swing.JMenuItem();
         jMenuItem20 = new javax.swing.JMenuItem();
         jMenuItem25 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuItem27 = new javax.swing.JMenuItem();
+        jMenuItem28 = new javax.swing.JMenuItem();
+        jMenuItem29 = new javax.swing.JMenuItem();
+        jMenuItem30 = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem26 = new javax.swing.JMenuItem();
 
@@ -828,6 +835,42 @@ public class Editar extends javax.swing.JInternalFrame {
         jMenuLaplaciano.add(jMenuItem25);
 
         jMenuDetectoresDeBorde.add(jMenuLaplaciano);
+
+        jMenu2.setText("Canny");
+
+        jMenuItem27.setText("No Maximos");
+        jMenuItem27.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem27ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem27);
+
+        jMenuItem28.setText("Umbralizacion Histéresis");
+        jMenuItem28.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem28ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem28);
+
+        jMenuItem29.setText("Aplicar Canny");
+        jMenuItem29.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem29ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem29);
+
+        jMenuDetectoresDeBorde.add(jMenu2);
+
+        jMenuItem30.setText("SUSAN");
+        jMenuItem30.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem30ActionPerformed(evt);
+            }
+        });
+        jMenuDetectoresDeBorde.add(jMenuItem30);
 
         jMenuBar1.add(jMenuDetectoresDeBorde);
 
@@ -1460,7 +1503,7 @@ public class Editar extends javax.swing.JInternalFrame {
         int longitudMascara = (int) (4 + (sSigma * 3));
        //Imagen imagenOriginal, int sigma, int umbral, int longitudMascara
 
-      // BufferedImage Laplaciano = DetectorDeBordes.mostrarMascaraLaplacianoDelGaussiano(imagenScreen, sSigma);
+        // BufferedImage Laplaciano = DetectorDeBordes.mostrarMascaraLaplacianoDelGaussiano(imagenScreen, sSigma);
         //  Imagen mascaraLaplaciano = new Imagen (Laplaciano, FormatoDeImagen.JPG, "imagen");
         BufferedImage LaplacianoGauss = DetectorDeBordes.aplicarDetectorLaplacianoDelGaussiano(imagenScreen, sSigma, 128, longitudMascara);
         seleccionarRectangulo(LaplacianoGauss);
@@ -1523,7 +1566,74 @@ public class Editar extends javax.swing.JInternalFrame {
         segImagen.setVisible(true);
     }//GEN-LAST:event_jMenuItem26ActionPerformed
 
-    private BufferedImage copiarBufferedImage(BufferedImage original){
+    private void jMenuItem27ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem27ActionPerformed
+        // TODO add your handling code here:
+        Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
+        Imagen noMaximos = DetectorDeBordesDeCanny.mostrarImagenNoMaximos(imagenScreen);
+
+        seleccionarRectangulo(noMaximos.getBufferedImage());
+
+    }//GEN-LAST:event_jMenuItem27ActionPerformed
+
+    private void jMenuItem28ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem28ActionPerformed
+        // TODO add your handling code here:
+        Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
+        String u1 = JOptionPane.showInputDialog(this, "Valor del Umbral 1", "Definir el valor del primer umbral", JOptionPane.INFORMATION_MESSAGE);
+        String u2 = JOptionPane.showInputDialog(this, "Valor del Umbral 2", "Definir el valor del segundo umbral", JOptionPane.INFORMATION_MESSAGE);
+
+        int umbral1 = Integer.parseInt(u1);
+        int umbral2 = Integer.parseInt(u2);
+        Imagen umbralHist = DetectorDeBordesDeCanny.mostrarUmbralizacionConHisteresis(imagenScreen, umbral1, umbral2);
+
+        seleccionarRectangulo(umbralHist.getBufferedImage());
+
+
+    }//GEN-LAST:event_jMenuItem28ActionPerformed
+
+    private void jMenuItem29ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem29ActionPerformed
+        // TODO add your handling code here:
+        Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
+        String s1 = JOptionPane.showInputDialog(this, "Valor del Sigma 1", "Definir el valor del primer sigma", JOptionPane.INFORMATION_MESSAGE);
+        String s2 = JOptionPane.showInputDialog(this, "Valor del Sigma 2", "Definir el valor del segundo sigma", JOptionPane.INFORMATION_MESSAGE);
+
+        String u1 = JOptionPane.showInputDialog(this, "Valor del Umbral 1", "Definir el valor del primer umbral", JOptionPane.INFORMATION_MESSAGE);
+        String u2 = JOptionPane.showInputDialog(this, "Valor del Umbral 2", "Definir el valor del segundo umbral", JOptionPane.INFORMATION_MESSAGE);
+
+        int umbral1 = Integer.parseInt(u1);
+        int umbral2 = Integer.parseInt(u2);
+        int sigma1 = Integer.parseInt(s1);
+        int sigma2 = Integer.parseInt(s2);
+
+        Imagen canny = DetectorDeBordesDeCanny.aplicarDetectorDeCanny(imagenScreen, sigma1, sigma2, umbral1, umbral2);
+
+        seleccionarRectangulo(canny.getBufferedImage());
+
+    }//GEN-LAST:event_jMenuItem29ActionPerformed
+
+    private void jMenuItem30ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem30ActionPerformed
+        // TODO add your handling code here:
+        
+         Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
+        String valor = JOptionPane.showInputDialog(this, "Opciones: \n 1=Detectar Bordes \n 2=Detectar Esquinas", "Detectar bordes o esquinas", JOptionPane.INFORMATION_MESSAGE);
+        int opc = Integer.parseInt(valor);
+        String flag="";
+        switch (opc){
+            case 1:
+                flag = "Bordes";
+                break;
+            case 2:
+                flag = "Esquinas";
+                break;   
+        } 
+         BufferedImage susan = DetectorSusan.aplicar(imagenScreen, flag);
+         
+        seleccionarRectangulo(susan);
+        
+        
+       
+    }//GEN-LAST:event_jMenuItem30ActionPerformed
+
+    private BufferedImage copiarBufferedImage(BufferedImage original) {
         ColorModel cm = original.getColorModel();
         boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
         WritableRaster raster = original.copyData(null);
@@ -1572,6 +1682,7 @@ public class Editar extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenuAnisotropica;
     private javax.swing.JMenuBar jMenuBar1;
@@ -1596,7 +1707,11 @@ public class Editar extends javax.swing.JInternalFrame {
     private javax.swing.JMenuItem jMenuItem24;
     private javax.swing.JMenuItem jMenuItem25;
     private javax.swing.JMenuItem jMenuItem26;
+    private javax.swing.JMenuItem jMenuItem27;
+    private javax.swing.JMenuItem jMenuItem28;
+    private javax.swing.JMenuItem jMenuItem29;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem30;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
