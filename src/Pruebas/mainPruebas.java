@@ -12,11 +12,16 @@ package Pruebas;
 public class mainPruebas {
     public static void main(String args[]){
         
-        int x = 23;
-        int y = x;
-        y = 0;
-        System.out.println(y);
-        System.out.println(x);
-        
+        double sin = 64 * Math.sin(Math.toRadians(-60));
+        System.out.println(sin);
+        int ro = -200;
+        double compi = (0 * Math.cos(Math.toRadians(-60)));
+        double compj = (64 * Math.sin(Math.toRadians(-60)));
+        double casires = ro -  compi - compj;
+        double res = Math.abs(ro -  compi - compj);
+        System.out.println(compi);
+        System.out.println(compj);
+        System.out.println(casires);
+        System.out.println(res);
     }
 }
