@@ -12,6 +12,7 @@ import bordes.DetectorDeBordesLeclerc;
 import bordes.DetectorDeBordesLorentz;
 import bordes.InterfaceDetectorDeBordes;
 import bordes.DetectorDeBordesDeCanny;
+import bordes.TransformadaDeHough;
 import enums.Canal;
 import enums.FormatoDeImagen;
 import java.awt.Color;
@@ -33,6 +34,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import modelo.Imagen;
+import procesadores.ProcesadorDeImagenes;
 import utiles.Difuminador;
 import utiles.ExtensionFileFilter;
 import utiles.FiltroGaussiano;
@@ -205,6 +207,9 @@ public class Editar extends javax.swing.JInternalFrame {
         jMenuItem28 = new javax.swing.JMenuItem();
         jMenuItem29 = new javax.swing.JMenuItem();
         jMenuItem30 = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        jMenuItem31 = new javax.swing.JMenuItem();
+        jMenuItem32 = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem26 = new javax.swing.JMenuItem();
 
@@ -871,6 +876,21 @@ public class Editar extends javax.swing.JInternalFrame {
             }
         });
         jMenuDetectoresDeBorde.add(jMenuItem30);
+
+        jMenu3.setText("Transformada Hough");
+
+        jMenuItem31.setText("Rectas");
+        jMenuItem31.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem31ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem31);
+
+        jMenuItem32.setText("Circulos");
+        jMenu3.add(jMenuItem32);
+
+        jMenuDetectoresDeBorde.add(jMenu3);
 
         jMenuBar1.add(jMenuDetectoresDeBorde);
 
@@ -1631,7 +1651,36 @@ public class Editar extends javax.swing.JInternalFrame {
         
         
        
+        
     }//GEN-LAST:event_jMenuItem30ActionPerformed
+
+    private void jMenuItem31ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem31ActionPerformed
+        // TODO add your handling code here:
+         Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
+         int umbralOtsu = Umbralizador.generarUmbralizacionOtsu(imagenScreen, Canal.ROJO, true);
+         Imagen imagenOtsu = Umbralizador.umbralizarImagen(imagenScreen, umbralOtsu);
+      
+        String t1 = JOptionPane.showInputDialog(this, "Valor de T mínimo", "Definir el valor minimo de θ", JOptionPane.INFORMATION_MESSAGE);
+        String t2 = JOptionPane.showInputDialog(this, "Valor de T máximo", "Definir el valor máximo de θ", JOptionPane.INFORMATION_MESSAGE);
+
+        String r1 = JOptionPane.showInputDialog(this, "Valor de R mínimo", "Definir el valor minimo de ρ", JOptionPane.INFORMATION_MESSAGE);
+        String r2 = JOptionPane.showInputDialog(this, "Valor de R máximo", "Definir el valor máximo de ρ", JOptionPane.INFORMATION_MESSAGE);
+        String dis = JOptionPane.showInputDialog(this, "Cantidad de elementos para discretizar intervalos", "Definir la cantidad de elementos en los que se discretizan estos intervalos", JOptionPane.INFORMATION_MESSAGE);
+
+        int tMin = Integer.parseInt(t1);
+        int tMax = Integer.parseInt(t2);
+        int rMin = Integer.parseInt(r1);
+        int rMax = Integer.parseInt(r2);
+        int dT = Integer.parseInt(dis);
+        
+        
+       Imagen rectasHough = TransformadaDeHough.aplicarTransformadaDeHough(imagenOtsu, tMin, tMax, dT, rMin, rMax, dT, umbralOtsu);
+       // Imagen rectasH = TransformadaDeHough.houghRectas(imagenOtsu, umbralOtsu);
+        
+        seleccionarRectangulo(rectasHough.getBufferedImage());
+
+        
+    }//GEN-LAST:event_jMenuItem31ActionPerformed
 
     private BufferedImage copiarBufferedImage(BufferedImage original) {
         ColorModel cm = original.getColorModel();
@@ -1640,6 +1689,8 @@ public class Editar extends javax.swing.JInternalFrame {
         BufferedImage copy = new BufferedImage(cm, raster, isAlphaPremultiplied, null);
         return copy;
     }
+
+    
     protected static final String EXTENSION = ".jpg";
 
     protected static final String FORMAT_NAME = "jpg";
@@ -1683,6 +1734,7 @@ public class Editar extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenuAnisotropica;
     private javax.swing.JMenuBar jMenuBar1;
@@ -1712,6 +1764,8 @@ public class Editar extends javax.swing.JInternalFrame {
     private javax.swing.JMenuItem jMenuItem29;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem30;
+    private javax.swing.JMenuItem jMenuItem31;
+    private javax.swing.JMenuItem jMenuItem32;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
