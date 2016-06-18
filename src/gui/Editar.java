@@ -12,6 +12,7 @@ import bordes.DetectorDeBordesLeclerc;
 import bordes.DetectorDeBordesLorentz;
 import bordes.InterfaceDetectorDeBordes;
 import bordes.DetectorDeBordesDeCanny;
+import bordes.DetectorDeHarris;
 import bordes.TransformadaDeHough;
 import enums.Canal;
 import enums.FormatoDeImagen;
@@ -210,6 +211,7 @@ public class Editar extends javax.swing.JInternalFrame {
         jMenu3 = new javax.swing.JMenu();
         jMenuItem31 = new javax.swing.JMenuItem();
         jMenuItem32 = new javax.swing.JMenuItem();
+        jMenuItem33 = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem26 = new javax.swing.JMenuItem();
 
@@ -891,6 +893,14 @@ public class Editar extends javax.swing.JInternalFrame {
         jMenu3.add(jMenuItem32);
 
         jMenuDetectoresDeBorde.add(jMenu3);
+
+        jMenuItem33.setText("Harris");
+        jMenuItem33.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem33ActionPerformed(evt);
+            }
+        });
+        jMenuDetectoresDeBorde.add(jMenuItem33);
 
         jMenuBar1.add(jMenuDetectoresDeBorde);
 
@@ -1687,6 +1697,15 @@ public class Editar extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_jMenuItem31ActionPerformed
 
+    private void jMenuItem33ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem33ActionPerformed
+        // TODO add your handling code here:
+         Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
+        Imagen esquinasHarris = DetectorDeHarris.detectarEsquinas(imagenScreen);
+        seleccionarRectangulo(esquinasHarris.getBufferedImage());
+        
+        
+    }//GEN-LAST:event_jMenuItem33ActionPerformed
+
     private BufferedImage copiarBufferedImage(BufferedImage original) {
         ColorModel cm = original.getColorModel();
         boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
@@ -1770,6 +1789,7 @@ public class Editar extends javax.swing.JInternalFrame {
     private javax.swing.JMenuItem jMenuItem30;
     private javax.swing.JMenuItem jMenuItem31;
     private javax.swing.JMenuItem jMenuItem32;
+    private javax.swing.JMenuItem jMenuItem33;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
