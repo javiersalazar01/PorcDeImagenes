@@ -1640,34 +1640,32 @@ public class Editar extends javax.swing.JInternalFrame {
 
     private void jMenuItem30ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem30ActionPerformed
         // TODO add your handling code here:
-        
-         Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
+
+        Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
         String valor = JOptionPane.showInputDialog(this, "Opciones: \n 1=Detectar Bordes \n 2=Detectar Esquinas", "Detectar bordes o esquinas", JOptionPane.INFORMATION_MESSAGE);
         int opc = Integer.parseInt(valor);
-        String flag="";
-        switch (opc){
+        String flag = "";
+        switch (opc) {
             case 1:
                 flag = "Bordes";
                 break;
             case 2:
                 flag = "Esquinas";
-                break;   
-        } 
-         BufferedImage susan = DetectorSusan.aplicar(imagenScreen, flag);
-         
+                break;
+        }
+        BufferedImage susan = DetectorSusan.aplicar(imagenScreen, flag);
+
         seleccionarRectangulo(susan);
-        
-        
-       
-        
+
+
     }//GEN-LAST:event_jMenuItem30ActionPerformed
 
     private void jMenuItem31ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem31ActionPerformed
-        // TODO add your handling code here:
-         Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
-         int umbralOtsu = Umbralizador.generarUmbralizacionOtsu(imagenScreen, Canal.ROJO, true);
-         Imagen imagenOtsu = Umbralizador.umbralizarImagen(imagenScreen, umbralOtsu);
-      
+
+        Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
+        int umbralOtsu = Umbralizador.generarUmbralizacionOtsu(imagenScreen, Canal.ROJO, true);
+        Imagen imagenOtsu = Umbralizador.umbralizarImagen(imagenScreen, umbralOtsu);
+
         String t1 = JOptionPane.showInputDialog(this, "Valor de T mínimo", "Definir el valor minimo de θ", JOptionPane.INFORMATION_MESSAGE);
         String t2 = JOptionPane.showInputDialog(this, "Valor de T máximo", "Definir el valor máximo de θ", JOptionPane.INFORMATION_MESSAGE);
 
@@ -1675,19 +1673,18 @@ public class Editar extends javax.swing.JInternalFrame {
         String r2 = JOptionPane.showInputDialog(this, "Valor de R máximo", "Definir el valor máximo de ρ", JOptionPane.INFORMATION_MESSAGE);
         String dis = JOptionPane.showInputDialog(this, "Cantidad de elementos para discretizar intervalos", "Definir la cantidad de elementos en los que se discretizan estos intervalos", JOptionPane.INFORMATION_MESSAGE);
 
-        int tMin = Integer.parseInt(t1);
-        int tMax = Integer.parseInt(t2);
-        int rMin = Integer.parseInt(r1);
-        int rMax = Integer.parseInt(r2);
-        int dT = Integer.parseInt(dis);
-        
-        
-       Imagen rectasHough = TransformadaDeHough.aplicarTransformadaDeHough(imagenOtsu, tMin, tMax, dT, rMin, rMax, dT, umbralOtsu);
-       // Imagen rectasH = TransformadaDeHough.houghRectas(imagenOtsu, umbralOtsu);
-        
-        seleccionarRectangulo(rectasHough.getBufferedImage());
+        int tMin = Integer.valueOf(t1);
+        int tMax = Integer.valueOf(t2);
+        int rMin = Integer.valueOf(r1);
+        int rMax = Integer.valueOf(r2);
+        int dT = Integer.valueOf(dis);
 
-        
+        TransformadaDeHough.aplicarTransformadaDeHough(imagenOtsu, tMin, tMax, dT, rMin, rMax, dT, umbralOtsu);
+       // Imagen rectasH = TransformadaDeHough.houghRectas(imagenOtsu, umbralOtsu);
+
+        seleccionarRectangulo(imagenOtsu.getBufferedImage());
+
+
     }//GEN-LAST:event_jMenuItem31ActionPerformed
 
     private BufferedImage copiarBufferedImage(BufferedImage original) {
@@ -1698,7 +1695,6 @@ public class Editar extends javax.swing.JInternalFrame {
         return copy;
     }
 
-    
     protected static final String EXTENSION = ".jpg";
 
     protected static final String FORMAT_NAME = "jpg";
