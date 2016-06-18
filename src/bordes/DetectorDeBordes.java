@@ -470,6 +470,28 @@ public class DetectorDeBordes {
         return imagenResultante.getBufferedImage();
 
     }
+    
+    private static float[][] generarMascaraLaplacianoDelGaussiano(double sigma) {
+
+		int posibleTamanio = (int) ((3 * sigma) % 2 == 0 ? 3 * sigma : (3 * sigma) + 1);
+		int tamanioMascara = sigma < 1 ? 5 : posibleTamanio + 1;
+
+		float[][] matrizDeLaplacianoDelGaussiano = new float[tamanioMascara][tamanioMascara];
+
+		double primerTermino = -1.0 * (Math.sqrt(2 * Math.PI) * Math.pow(sigma, 3.0));
+		double segundoTermino = 0;
+
+		for (int i = 0; i < tamanioMascara; i++) {
+			for (int j = 0; j < tamanioMascara; j++) {
+
+				segundoTermino = (Math.pow(i, 2.0) + Math.pow(j, 2.0)) / Math.pow(sigma, 2.0);
+				matrizDeLaplacianoDelGaussiano[i][j] = (float) (primerTermino * (2.0 - segundoTermino)
+                                        * Math.exp((-0.5) * segundoTermino));
+			}
+		}
+
+		return matrizDeLaplacianoDelGaussiano;
+	}
 
     private static float[][] calcularMascaraDeLaplacianoDelGaussiano(int longitudMascara, double sigma) {
 
@@ -486,6 +508,7 @@ public class DetectorDeBordes {
         return mascaraDeLaplacianoDeGaussiano;
     }
 
+    
     private static float calcularValorMascaraLaplacianoDelGaussiano(int indiceI, int indiceJ, double sigma) {
 
        /* float termino1 =  (float) (-1 / ((Math.PI) * Math.pow(sigma, 4)));
@@ -497,18 +520,23 @@ public class DetectorDeBordes {
         float termino2 = (float) Math.exp(-1*(((indiceI*indiceI)+(indiceJ*indiceJ))/(2*Math.pow(sigma, 2))));
         //float termino3 
         
+        float t1 = (float) (-1.0 * (Math.sqrt(2 * Math.PI) * Math.pow(sigma, 3.0)));
+        float t2 = (float) ((Math.pow(indiceI, 2.0) + Math.pow(indiceJ, 2.0)) / Math.pow(sigma, 2.0));
+	
+        
         float valor = termino1 * termino2 *10;
+        float vF = (float) (t1 * (2.0 - t2) * Math.exp((-0.5) * t2));
         System.out.println(valor);
         return valor;
     }
 
-    public static BufferedImage aplicarDetectorLaplacianoDelGaussiano(Imagen imagenOriginal, double sigma, int umbral, int longitudMascara) {
+    public static BufferedImage aplicarDetectorLaplacianoDelGaussiano(Imagen imagenOriginal, double sigma, int umbral) {
 
-        if (longitudMascara % 2 == 0) {
+       int posibleTamanio = (int) ((3 * sigma) % 2 == 0 ? 3 * sigma : (3 * sigma) + 1);
+		int longitudMascara = sigma < 1 ? 5 : posibleTamanio + 1;
 
-            longitudMascara = longitudMascara + 1;
-        }
 
+       // float[][] mascaraLaplacianoDelGaussiano = generarMascaraLaplacianoDelGaussiano(sigma);
         float[][] mascaraLaplacianoDelGaussiano = calcularMascaraDeLaplacianoDelGaussiano(longitudMascara, sigma);
 
         FiltroNuevo filtroLaplacianoDelGaussiano = new FiltroNuevo(mascaraLaplacianoDelGaussiano);
@@ -545,6 +573,54 @@ public class DetectorDeBordes {
         return imagenFiltrada.getBufferedImage();
     }
 
+    	public static Imagen laplacianoGaussiano(Imagen imagen, double sigma) {
+
+            int[][] matrizPixelesLoG = new int[imagen.getBufferedImage().getWidth()][imagen.getBufferedImage().getHeight()];
+
+		float[][] mascaraLaplaciano = generarMascaraLaplacianoDelGaussiano(sigma);
+		int posicionCentralMascara = mascaraLaplaciano.length / 2;
+
+		 Imagen imagenFiltrada = new Imagen(imagen.getBufferedImage(), imagen.getFormato(), imagen.getNombre() + "_filtroLoG", imagen.getMatriz(Canal.ROJO), imagen.getMatriz(Canal.VERDE), imagen.getMatriz(Canal.AZUL));
+
+		for (int i = posicionCentralMascara; i < imagen.getBufferedImage().getWidth() - posicionCentralMascara; i++) {
+			for (int j = posicionCentralMascara; j < imagen.getBufferedImage().getHeight() - posicionCentralMascara; j++) {
+
+				float valorResultado = 0f;
+
+				for (int xMascaraEnImagen = i - posicionCentralMascara, xMascara = 0; xMascaraEnImagen <= i
+						+ posicionCentralMascara; xMascaraEnImagen++, xMascara++) {
+					for (int yMascaraEnImagen = j - posicionCentralMascara, yMascara = 0; yMascaraEnImagen <= j
+							+ posicionCentralMascara; yMascaraEnImagen++, yMascara++) {
+
+						double valorMascara = mascaraLaplaciano[xMascara][yMascara];
+						int nivelGrisPixel = imagen.getBufferedImage().getRGB(xMascaraEnImagen, yMascaraEnImagen);
+
+						double operacion = nivelGrisPixel * valorMascara;
+						valorResultado += operacion;
+					}
+				}
+
+				int valorEntero = (int) valorResultado;
+				matrizPixelesLoG[i][j] = valorEntero;
+			}
+		}
+
+		for (int i = 0; i < imagen.getBufferedImage().getWidth(); i++) {
+			for (int j = 0; j < imagen.getBufferedImage().getHeight(); j++) {
+
+				if (hayCambioDeSignoPorFila(matrizPixelesLoG, i, j)
+						|| hayCambioDeSignoPorColumna(matrizPixelesLoG, i, j)) {
+                                    imagenFiltrada.getBufferedImage().setRGB(i, j, 255);
+                                    //imagePlus.getProcessor().putPixel(i, j, 255);
+				} else {
+                                    imagenFiltrada.getBufferedImage().setRGB(i, j, 0);
+					//imagePlus.getProcessor().putPixel(i, j, 0);
+				}
+			}
+		}
+		return imagenFiltrada;
+	}
+    
     public static BufferedImage mostrarMascaraLaplacianoDelGaussiano(Imagen imagenOriginal, double sigma) {
 
         int longitudMascara = (int) (4+(sigma * 3));
@@ -588,6 +664,25 @@ public class DetectorDeBordes {
             }
         }
         return false;
+    }
+    
+      private static boolean hayCambioDeSignoPorColumna(int[][] matriz, int x, int y) {
+
+        boolean hayCambio = false;
+
+        if (x - 1 >= 0) {
+
+            int valorActual = matriz[x][y];
+            int valorAnterior = matriz[x-1][y];
+
+            if (valorAnterior == 0 && x - 2 >= 0) {
+                valorAnterior = matriz[x - 2][y];
+            }
+
+            hayCambio = (valorAnterior < 0 && valorActual > 0)
+                    || (valorAnterior > 0 && valorActual < 0);
+        }
+        return hayCambio;
     }
 
     private static boolean hayCambioDeSignoPorFilaYUmbral(int[][] matriz, int i, int j, int umbral) {

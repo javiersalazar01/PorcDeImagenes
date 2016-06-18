@@ -1520,13 +1520,21 @@ public class Editar extends javax.swing.JInternalFrame {
         Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
         String valor = JOptionPane.showInputDialog(this, "Valor de sigma", "Definir el valor de sigma", JOptionPane.INFORMATION_MESSAGE);
         double sSigma = Double.parseDouble(valor);
-        int longitudMascara = (int) (4 + (sSigma * 3));
+       // int longitudMascara = (int) (sSigma * 3);
        //Imagen imagenOriginal, int sigma, int umbral, int longitudMascara
 
         // BufferedImage Laplaciano = DetectorDeBordes.mostrarMascaraLaplacianoDelGaussiano(imagenScreen, sSigma);
         //  Imagen mascaraLaplaciano = new Imagen (Laplaciano, FormatoDeImagen.JPG, "imagen");
-        BufferedImage LaplacianoGauss = DetectorDeBordes.aplicarDetectorLaplacianoDelGaussiano(imagenScreen, sSigma, 128, longitudMascara);
-        seleccionarRectangulo(LaplacianoGauss);
+        int u1 = Umbralizador.generarUmbralizacionOtsu(imagenScreen, Canal.ROJO, false);
+        int u2 = Umbralizador.generarUmbralizacionOtsu(imagenScreen, Canal.AZUL, false);
+        int u3 = Umbralizador.generarUmbralizacionOtsu(imagenScreen, Canal.VERDE, false);
+
+        int umbral = (u1+u2+u3)/3;
+        
+        Imagen LaplacianoGauss = new Imagen (DetectorDeBordes.aplicarDetectorLaplacianoDelGaussiano(imagenScreen, sSigma, 128),FormatoDeImagen.JPG, "imagen");
+        Imagen LapGris = new Imagen (p.escalaGrises(LaplacianoGauss.getBufferedImage()),FormatoDeImagen.JPG, "imagen");
+        
+        seleccionarRectangulo(Umbralizador.umbralizarImagen(LapGris, 100).getBufferedImage());
         System.out.println("Detector Laplaciano del Gaussiano OK");
 
     }//GEN-LAST:event_jMenuItem25ActionPerformed
