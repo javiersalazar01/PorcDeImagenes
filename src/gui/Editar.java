@@ -36,6 +36,7 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import modelo.Imagen;
 import procesadores.ProcesadorDeImagenes;
+import sift.Sift;
 import utiles.Difuminador;
 import utiles.ExtensionFileFilter;
 import utiles.FiltroGaussiano;
@@ -214,6 +215,10 @@ public class Editar extends javax.swing.JInternalFrame {
         jMenuItem33 = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem26 = new javax.swing.JMenuItem();
+        jMenu4 = new javax.swing.JMenu();
+        jMenu6 = new javax.swing.JMenu();
+        jMenuItem34 = new javax.swing.JMenuItem();
+        jMenuItemIsRobusto = new javax.swing.JCheckBoxMenuItem();
 
         setClosable(true);
         setIconifiable(true);
@@ -425,10 +430,10 @@ public class Editar extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 413, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22)
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(196, 196, 196))
+                .addGap(38, 38, 38))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -436,7 +441,7 @@ public class Editar extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
@@ -920,6 +925,26 @@ public class Editar extends javax.swing.JInternalFrame {
         jMenu1.add(jMenuItem26);
 
         jMenuBar1.add(jMenu1);
+
+        jMenu4.setText("Sift");
+
+        jMenu6.setText("Aplicar SIFT");
+
+        jMenuItem34.setText("Abrir Imagen");
+        jMenuItem34.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem34ActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItem34);
+
+        jMenuItemIsRobusto.setSelected(true);
+        jMenuItemIsRobusto.setText("Robusto");
+        jMenu6.add(jMenuItemIsRobusto);
+
+        jMenu4.add(jMenu6);
+
+        jMenuBar1.add(jMenu4);
 
         setJMenuBar(jMenuBar1);
 
@@ -1706,6 +1731,23 @@ public class Editar extends javax.swing.JInternalFrame {
         
     }//GEN-LAST:event_jMenuItem33ActionPerformed
 
+    private void jMenuItem34ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem34ActionPerformed
+        File elejida = p.abrirFile();
+        File fileScreen =  new File("fileScreen.jpg");
+        try {
+            ImageIO.write(screen, "jpg", fileScreen);
+            Sift.aplicarMetodoSift(fileScreen, elejida, jMenuItemIsRobusto.isSelected());
+        } catch (IOException ex) {
+            Logger.getLogger(Editar.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(Editar.class.getName()).log(Level.SEVERE, null, ex);
+            
+        }
+        
+        
+        
+    }//GEN-LAST:event_jMenuItem34ActionPerformed
+
     private BufferedImage copiarBufferedImage(BufferedImage original) {
         ColorModel cm = original.getColorModel();
         boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
@@ -1758,7 +1800,9 @@ public class Editar extends javax.swing.JInternalFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
+    private javax.swing.JMenu jMenu6;
     private javax.swing.JMenu jMenuAnisotropica;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu jMenuDetectoresDeBorde;
@@ -1790,6 +1834,7 @@ public class Editar extends javax.swing.JInternalFrame {
     private javax.swing.JMenuItem jMenuItem31;
     private javax.swing.JMenuItem jMenuItem32;
     private javax.swing.JMenuItem jMenuItem33;
+    private javax.swing.JMenuItem jMenuItem34;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
@@ -1797,6 +1842,7 @@ public class Editar extends javax.swing.JInternalFrame {
     private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JMenuItem jMenuItemHistograma;
+    private javax.swing.JCheckBoxMenuItem jMenuItemIsRobusto;
     private javax.swing.JMenuItem jMenuItemLeclerc;
     private javax.swing.JMenuItem jMenuItemLorentz;
     private javax.swing.JMenuItem jMenuItemPrewitt;

@@ -66,9 +66,8 @@ public class ProcImagenes {
                 }
 
                 imageActual = bmp;
-                
-                //Asignamos a la variable bmp la imagen leida
 
+                //Asignamos a la variable bmp la imagen leida
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -130,8 +129,8 @@ public class ProcImagenes {
         //Retornamos la imagen
         return imageActual;
     }
-    
-      public BufferedImage escalaGrises(BufferedImage image) {
+
+    public BufferedImage escalaGrises(BufferedImage image) {
         //Variables que almacenarán los píxeles
         int mediaPixel, colorSRGB;
         Color colorAux;
@@ -442,5 +441,30 @@ public class ProcImagenes {
 
     }
 
+    public File abrirFile() {
+
+        File fileADevolver = null;
+
+        JFileChooser selector = new JFileChooser();
+        selector.setDialogTitle("Seleccione una imagen");
+
+        FileNameExtensionFilter filtroImagen = new FileNameExtensionFilter(
+                "JPG & GIF & BMP & PNG", "jpg", "gif", "bmp", "png");
+        selector.setFileFilter(filtroImagen);
+
+        int flag = selector.showOpenDialog(null);
+
+        if (flag == JFileChooser.APPROVE_OPTION) {
+            try {
+
+                fileADevolver = selector.getSelectedFile();
+            } catch (Exception e) {
+
+                e.printStackTrace();
+            }
+        }
+
+        return fileADevolver;
+    }
 
 }
