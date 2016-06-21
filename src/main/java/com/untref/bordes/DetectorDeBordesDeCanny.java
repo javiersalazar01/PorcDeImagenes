@@ -226,7 +226,7 @@ public static MatrizDeColores calcularMatrizConFiltrosGauss(Imagen imagenOrigina
         return matricesFiltradasResultantes;
     }
 
-    private static boolean esCuatroVecinoDeUnBorde(int[][] matrizNoMaximos, int i, int j) {
+        private static boolean esCuatroVecinoDeUnBorde(int[][] matrizNoMaximos, int i, int j) {
 
         boolean esBorde = false;
 

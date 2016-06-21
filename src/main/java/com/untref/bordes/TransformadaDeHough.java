@@ -7,7 +7,6 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class TransformadaDeHough {
 
     public static Imagen aplicarTransformadaDeHough(
@@ -257,26 +256,26 @@ public class TransformadaDeHough {
             }
         }
     }
+
+    private static Point[][] crearMatrizDeRectas(int titaMin, int titaMax,
+            int roMin, int roMax, int discretizadoTitas, int discretizadoRos) {
+
+        int cantidadDeTitas = (int) ((float) ((titaMax - titaMin) / discretizadoTitas)) + 1;
+        int cantidadDeRos = (int) ((float) ((roMax - roMin) / discretizadoRos)) + 1;
+        Point[][] matrizDeRectas = new Point[cantidadDeTitas][cantidadDeRos];
+
+        for (int i = 0; i < cantidadDeTitas; i++) {
+            for (int j = 0; j < cantidadDeRos; j++) {
+
+                matrizDeRectas[i][j] = new Point(titaMin
+                        + (discretizadoTitas * i), roMin
+                        + (discretizadoRos * j));
+            }
+        }
+
+        return matrizDeRectas;
+    }
     /*
-     private static Point[][] crearMatrizDeRectas(int titaMin, int titaMax,
-     int roMin, int roMax, int discretizadoTitas, int discretizadoRos) {
-
-     int cantidadDeTitas = (int) ((float) ((titaMax - titaMin) / discretizadoTitas)) + 1;
-     int cantidadDeRos = (int) ((float) ((roMax - roMin) / discretizadoRos)) + 1;
-     Point[][] matrizDeRectas = new Point[cantidadDeTitas][cantidadDeRos];
-
-     for (int i = 0; i < cantidadDeTitas; i++) {
-     for (int j = 0; j < cantidadDeRos; j++) {
-
-     matrizDeRectas[i][j] = new Point(titaMin
-     + (discretizadoTitas * i), roMin
-     + (discretizadoRos * j));
-     }
-     }
-
-     return matrizDeRectas;
-     }*/
-
     private static Point[][] crearMatrizDeRectas(int titaMin, int titaMax,
             int roMin, int roMax, int discretizadoTitas, int discretizadoRos) {
 
@@ -295,5 +294,5 @@ public class TransformadaDeHough {
         }
 
         return matrizDeRectas;
-    }
+    }*/
 }

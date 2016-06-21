@@ -55,7 +55,7 @@ public class FiltroNuevo {
                 // Iterar la m�scara
                 for (int iAnchoMascara = 0; iAnchoMascara < anchoMascara; iAnchoMascara++) {
                     for (int iAltoMascara = 0; iAltoMascara < altoMascara; iAltoMascara++) {
-
+                        
                         int indiceIDeLaImagen = i + sumarEnAncho + iAnchoMascara;
                         int indiceJDeLaImagen = j + sumarEnAlto + iAltoMascara;
 

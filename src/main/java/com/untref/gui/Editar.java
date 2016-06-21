@@ -898,6 +898,11 @@ public class Editar extends javax.swing.JInternalFrame {
         jMenu3.add(jMenuItem31);
 
         jMenuItem32.setText("Circulos");
+        jMenuItem32.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem32ActionPerformed(evt);
+            }
+        });
         jMenu3.add(jMenuItem32);
 
         jMenuDetectoresDeBorde.add(jMenu3);
@@ -1706,8 +1711,10 @@ public class Editar extends javax.swing.JInternalFrame {
     private void jMenuItem31ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem31ActionPerformed
 
         Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
-        int umbralOtsu = Umbralizador.generarUmbralizacionOtsu(imagenScreen, Canal.ROJO, true);
-        Imagen imagenOtsu = Umbralizador.umbralizarImagen(imagenScreen, umbralOtsu);
+        //int umbralOtsu = Umbralizador.generarUmbralizacionOtsu(imagenScreen, Canal.ROJO, true);
+        //Imagen imagenOtsu = Umbralizador.umbralizarImagen(imagenScreen, umbralOtsu);
+        
+        String valorUmbral = JOptionPane.showInputDialog(this, "Valor del umbral", JOptionPane.INFORMATION_MESSAGE);
 
         String t1 = JOptionPane.showInputDialog(this, "Valor de T mínimo", "Definir el valor minimo de θ", JOptionPane.INFORMATION_MESSAGE);
         String t2 = JOptionPane.showInputDialog(this, "Valor de T máximo", "Definir el valor máximo de θ", JOptionPane.INFORMATION_MESSAGE);
@@ -1722,10 +1729,10 @@ public class Editar extends javax.swing.JInternalFrame {
         int rMax = Integer.valueOf(r2);
         int dT = Integer.valueOf(dis);
 
-        TransformadaDeHough.aplicarTransformadaDeHough(imagenOtsu, tMin, tMax, dT, rMin, rMax, dT, umbralOtsu);
+        TransformadaDeHough.aplicarTransformadaDeHough(imagenScreen, tMin, tMax, dT, rMin, rMax, dT, Integer.parseInt(valorUmbral));
         // Imagen rectasH = TransformadaDeHough.houghRectas(imagenOtsu, umbralOtsu);
 
-        seleccionarRectangulo(imagenOtsu.getBufferedImage());
+        seleccionarRectangulo(imagenScreen.getBufferedImage());
 
 
     }//GEN-LAST:event_jMenuItem31ActionPerformed
@@ -1758,6 +1765,10 @@ public class Editar extends javax.swing.JInternalFrame {
     private void jMenuItemIsRobustoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemIsRobustoActionPerformed
         
     }//GEN-LAST:event_jMenuItemIsRobustoActionPerformed
+
+    private void jMenuItem32ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem32ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem32ActionPerformed
 
     private BufferedImage copiarBufferedImage(BufferedImage original) {
         ColorModel cm = original.getColorModel();
