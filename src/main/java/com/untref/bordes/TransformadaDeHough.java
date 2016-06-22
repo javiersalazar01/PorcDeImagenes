@@ -115,10 +115,10 @@ public class TransformadaDeHough {
                 }
             }
 
-            if (recta.x == 90 || recta.x == 270) {
+            if (recta.y == 90 || recta.y == 270) {
 
                 for (int i = 0; i < imagen.getBufferedImage().getWidth(); i++) {
-                    imagen.getBufferedImage().setRGB(i, recta.y, Color.GREEN.getRGB());
+                    imagen.getBufferedImage().setRGB(i, recta.x, Color.GREEN.getRGB());
                 }
             }
 

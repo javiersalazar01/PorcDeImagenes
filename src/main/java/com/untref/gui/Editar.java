@@ -12,6 +12,7 @@ import com.untref.bordes.DetectorDeBordesDireccionales;
 import com.untref.bordes.DetectorDeBordesLeclerc;
 import com.untref.bordes.DetectorDeBordesLorentz;
 import com.untref.bordes.DetectorDeHarris;
+import com.untref.bordes.HoughTransform;
 import com.untref.bordes.DetectorSusan;
 import com.untref.bordes.InterfaceDetectorDeBordes;
 import com.untref.bordes.TransformadaDeHough;
@@ -80,6 +81,10 @@ public class Editar extends javax.swing.JInternalFrame {
         seleccionarRectangulo(p.getImageActual());
        
         
+    }
+    
+    public BufferedImage getScreen(){
+       return this.screen;
     }
 
     public void seleccionarRectangulo(BufferedImage screen) {
@@ -1716,23 +1721,36 @@ public class Editar extends javax.swing.JInternalFrame {
         
         String valorUmbral = JOptionPane.showInputDialog(this, "Valor del umbral", JOptionPane.INFORMATION_MESSAGE);
 
-        String t1 = JOptionPane.showInputDialog(this, "Valor de T mínimo", "Definir el valor minimo de θ", JOptionPane.INFORMATION_MESSAGE);
-        String t2 = JOptionPane.showInputDialog(this, "Valor de T máximo", "Definir el valor máximo de θ", JOptionPane.INFORMATION_MESSAGE);
+       // String t1 = JOptionPane.showInputDialog(this, "Valor de T mínimo", "Definir el valor minimo de θ", JOptionPane.INFORMATION_MESSAGE);
+       // String t2 = JOptionPane.showInputDialog(this, "Valor de T máximo", "Definir el valor máximo de θ", JOptionPane.INFORMATION_MESSAGE);
 
-        String r1 = JOptionPane.showInputDialog(this, "Valor de R mínimo", "Definir el valor minimo de ρ", JOptionPane.INFORMATION_MESSAGE);
-        String r2 = JOptionPane.showInputDialog(this, "Valor de R máximo", "Definir el valor máximo de ρ", JOptionPane.INFORMATION_MESSAGE);
-        String dis = JOptionPane.showInputDialog(this, "Cantidad de elementos para discretizar intervalos", "Definir la cantidad de elementos en los que se discretizan estos intervalos", JOptionPane.INFORMATION_MESSAGE);
+        //String r1 = JOptionPane.showInputDialog(this, "Valor de R mínimo", "Definir el valor minimo de ρ", JOptionPane.INFORMATION_MESSAGE);
+        //String r2 = JOptionPane.showInputDialog(this, "Valor de R máximo", "Definir el valor máximo de ρ", JOptionPane.INFORMATION_MESSAGE);
+        //String dis = JOptionPane.showInputDialog(this, "Cantidad de elementos para discretizar intervalos", "Definir la cantidad de elementos en los que se discretizan estos intervalos", JOptionPane.INFORMATION_MESSAGE);
+        
+        
+        
+        //int tMin = Integer.valueOf(t1);
+        //int tMax = Integer.valueOf(t2);
+        //int rMin = Integer.valueOf(r1);
+        //int rMax = Integer.valueOf(r2);
+        int r1 = imagenScreen.getBufferedImage().getHeight();
+        int r2 = imagenScreen.getBufferedImage().getWidth();
+        
+        int D = Math.max(r1, r2);
+        int D1 = (int) (-1*Math.sqrt(2*D));
+        int D2 = (int) (Math.sqrt(2*D));
+        
+       // int dT = Integer.valueOf(dis);
+        System.out.println(D1 + " - "+ D2);
+       // System.out.println(dT);
 
-        int tMin = Integer.valueOf(t1);
-        int tMax = Integer.valueOf(t2);
-        int rMin = Integer.valueOf(r1);
-        int rMax = Integer.valueOf(r2);
-        int dT = Integer.valueOf(dis);
-
-        TransformadaDeHough.aplicarTransformadaDeHough(imagenScreen, tMin, tMax, dT, rMin, rMax, dT, Integer.parseInt(valorUmbral));
+       // TransformadaDeHough.aplicarTransformadaDeHough(imagenScreen, -90, 90, dT, D1, D2, dT, Integer.parseInt(valorUmbral));
         // Imagen rectasH = TransformadaDeHough.houghRectas(imagenOtsu, umbralOtsu);
 
-        seleccionarRectangulo(imagenScreen.getBufferedImage());
+        HoughTransform h = new HoughTransform(imagenScreen.getBufferedImage().getWidth(), imagenScreen.getBufferedImage().getHeight());        
+       
+        seleccionarRectangulo(h.getHoughArrayImage());
 
 
     }//GEN-LAST:event_jMenuItem31ActionPerformed

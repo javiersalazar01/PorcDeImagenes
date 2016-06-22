@@ -37,6 +37,12 @@
             <version>1.4-SNAPSHOT</version>
             <type>jar</type>
         </dependency>
+        <dependency>
+            <groupId>net.imagej</groupId>
+            <artifactId>ij</artifactId>
+            <version>1.50i</version>
+            <type>jar</type>
+        </dependency>
     </dependencies>
     <name>ProcesamientoImagenesMaven</name>
 </project>
