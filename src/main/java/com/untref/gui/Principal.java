@@ -7,6 +7,7 @@ package com.untref.gui;
 
 
 import com.untref.utiles.ProcImagenes;
+import com.untref.utiles.Graficador;
 
 /**
  *
@@ -140,6 +141,7 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
         ProcImagenes p2 = new ProcImagenes();
         p2.abrirImagen(this);
+        
         Editar ed = new Editar(p2);
         desktopPane.add(ed);
         ed.setVisible(true);
@@ -148,32 +150,41 @@ public class Principal extends javax.swing.JFrame {
 
     private void circuloMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_circuloMenuItemActionPerformed
         // TODO add your handling code here:
-        Crear cr = new Crear("circulo");
-        desktopPane.add(cr);
-        cr.setVisible(true);
+       
+        Editar ed = new Editar(); 
+        ed.seleccionarRectangulo(Graficador.crearImagenConCirculoEnElMedio(200, 200, 80));
+        
+        desktopPane.add(ed);
+        ed.setVisible(true);
        
     }//GEN-LAST:event_circuloMenuItemActionPerformed
 
     private void cuadradoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cuadradoMenuItemActionPerformed
         // TODO add your handling code here:
-        Crear cr = new Crear("cuadrado");
-        desktopPane.add(cr);
-        cr.setVisible(true);
+     
+        Editar ed = new Editar(); 
+        ed.seleccionarRectangulo(Graficador.crearImagenConCuadradoEnElCentro(200, 200, 160));
         
+        desktopPane.add(ed);
+        ed.setVisible(true);
     }//GEN-LAST:event_cuadradoMenuItemActionPerformed
 
     private void grisesMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_grisesMenuItemActionPerformed
         // TODO add your handling code here:
-          Crear cr = new Crear("grises");
-        desktopPane.add(cr);
-        cr.setVisible(true);
+    
+        Editar ed = new Editar(); 
+        ed.seleccionarRectangulo(Graficador.crearImagenConDegradeDeGrises(200, 200));
         
+        desktopPane.add(ed);
+        ed.setVisible(true);
     }//GEN-LAST:event_grisesMenuItemActionPerformed
 
     private void coloresMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_coloresMenuItemActionPerformed
-        Crear cr = new Crear("colores");
-        desktopPane.add(cr);
-        cr.setVisible(true);
+       Editar ed = new Editar(); 
+        ed.seleccionarRectangulo(Graficador.crearImagenConDegradeColor(200, 200));
+        
+        desktopPane.add(ed);
+        ed.setVisible(true);
         // TODO add your handling code here:
     }//GEN-LAST:event_coloresMenuItemActionPerformed
 
@@ -214,6 +225,7 @@ public class Principal extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new Principal().setVisible(true);
                 

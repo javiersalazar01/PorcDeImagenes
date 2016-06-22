@@ -6,6 +6,7 @@
 package com.untref.gui;
 
 import com.sun.java.swing.plaf.motif.MotifMenuItemUI;
+import com.untref.utiles.Graficador;
 import com.untref.bordes.DetectorDeBordes;
 import com.untref.bordes.DetectorDeBordesDeCanny;
 import com.untref.bordes.DetectorDeBordesDireccionales;
@@ -13,6 +14,7 @@ import com.untref.bordes.DetectorDeBordesLeclerc;
 import com.untref.bordes.DetectorDeBordesLorentz;
 import com.untref.bordes.DetectorDeHarris;
 import com.untref.bordes.HoughTransform;
+import com.untref.bordes.Hough_Circles;
 import com.untref.bordes.DetectorSusan;
 import com.untref.bordes.InterfaceDetectorDeBordes;
 import com.untref.bordes.TransformadaDeHough;
@@ -30,6 +32,7 @@ import com.untref.utiles.LayoutFileFilter;
 import com.untref.utiles.Operaciones;
 import com.untref.utiles.ProcImagenes;
 import com.untref.utiles.Umbralizador;
+import ij.ImagePlus;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
@@ -82,6 +85,7 @@ public class Editar extends javax.swing.JInternalFrame {
        
         
     }
+    
     
     public BufferedImage getScreen(){
        return this.screen;
@@ -160,14 +164,20 @@ public class Editar extends javax.swing.JInternalFrame {
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         menuHerramientas = new javax.swing.JMenu();
+        jMenuItemRestaurar = new javax.swing.JMenuItem();
         jMenuItemHistograma = new javax.swing.JMenuItem();
+        jMenu7 = new javax.swing.JMenu();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem21 = new javax.swing.JMenuItem();
         jMenuItem22 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItemRestaurar = new javax.swing.JMenuItem();
         jMenuItem12 = new javax.swing.JMenuItem();
         menuNegativo = new javax.swing.JMenuItem();
+        crearMenuItem = new javax.swing.JMenu();
+        circuloMenuItem = new javax.swing.JMenuItem();
+        cuadradoMenuItem = new javax.swing.JMenuItem();
+        grisesMenuItem = new javax.swing.JMenuItem();
+        coloresMenuItem = new javax.swing.JMenuItem();
         menuRuido = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
@@ -479,46 +489,6 @@ public class Editar extends javax.swing.JInternalFrame {
 
         menuHerramientas.setText("Herramientas");
 
-        jMenuItemHistograma.setText("Histograma");
-        jMenuItemHistograma.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemHistogramaActionPerformed(evt);
-            }
-        });
-        menuHerramientas.add(jMenuItemHistograma);
-
-        jMenuItem5.setText("Umbralizar");
-        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem5ActionPerformed(evt);
-            }
-        });
-        menuHerramientas.add(jMenuItem5);
-
-        jMenuItem21.setText("Umbralización Global");
-        jMenuItem21.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem21ActionPerformed(evt);
-            }
-        });
-        menuHerramientas.add(jMenuItem21);
-
-        jMenuItem22.setText("Umbralización de Otsu");
-        jMenuItem22.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem22ActionPerformed(evt);
-            }
-        });
-        menuHerramientas.add(jMenuItem22);
-
-        jMenuItem4.setText("Ecualizar");
-        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem4ActionPerformed(evt);
-            }
-        });
-        menuHerramientas.add(jMenuItem4);
-
         jMenuItemRestaurar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItemRestaurar.setText("Restaurar Imagen");
         jMenuItemRestaurar.addActionListener(new java.awt.event.ActionListener() {
@@ -527,6 +497,50 @@ public class Editar extends javax.swing.JInternalFrame {
             }
         });
         menuHerramientas.add(jMenuItemRestaurar);
+
+        jMenuItemHistograma.setText("Histograma");
+        jMenuItemHistograma.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemHistogramaActionPerformed(evt);
+            }
+        });
+        menuHerramientas.add(jMenuItemHistograma);
+
+        jMenu7.setText("Umbralizar");
+
+        jMenuItem5.setText("Umbralizar definido");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu7.add(jMenuItem5);
+
+        jMenuItem21.setText("Umbralización Global");
+        jMenuItem21.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem21ActionPerformed(evt);
+            }
+        });
+        jMenu7.add(jMenuItem21);
+
+        jMenuItem22.setText("Umbralización de Otsu");
+        jMenuItem22.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem22ActionPerformed(evt);
+            }
+        });
+        jMenu7.add(jMenuItem22);
+
+        menuHerramientas.add(jMenu7);
+
+        jMenuItem4.setText("Ecualizar");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        menuHerramientas.add(jMenuItem4);
 
         jMenuItem12.setText("Aumentar Contraste");
         jMenuItem12.addActionListener(new java.awt.event.ActionListener() {
@@ -543,6 +557,42 @@ public class Editar extends javax.swing.JInternalFrame {
             }
         });
         menuHerramientas.add(menuNegativo);
+
+        crearMenuItem.setText("Crear");
+
+        circuloMenuItem.setText("Circulo");
+        circuloMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                circuloMenuItemActionPerformed(evt);
+            }
+        });
+        crearMenuItem.add(circuloMenuItem);
+
+        cuadradoMenuItem.setText("Cuadrado");
+        cuadradoMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cuadradoMenuItemActionPerformed(evt);
+            }
+        });
+        crearMenuItem.add(cuadradoMenuItem);
+
+        grisesMenuItem.setText("Degradado Grises");
+        grisesMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                grisesMenuItemActionPerformed(evt);
+            }
+        });
+        crearMenuItem.add(grisesMenuItem);
+
+        coloresMenuItem.setText("Degradado Colores");
+        coloresMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                coloresMenuItemActionPerformed(evt);
+            }
+        });
+        crearMenuItem.add(coloresMenuItem);
+
+        menuHerramientas.add(crearMenuItem);
 
         jMenuBar1.add(menuHerramientas);
 
@@ -1786,7 +1836,43 @@ public class Editar extends javax.swing.JInternalFrame {
 
     private void jMenuItem32ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem32ActionPerformed
         // TODO add your handling code here:
+        Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
+        Hough_Circles hc = new Hough_Circles();
+        
+        
+        ImagePlus resultado = new ImagePlus();
+        
+		resultado.setImage(screen);
+                     //   .setImage(new BufferedImage(screen.getWidth(), screen.getHeight(), BufferedImage.TYPE_BYTE_GRAY));
+		//resultado.setTitle(screen.getTitle() + " - Hough");
+                
+        hc.run(resultado.getProcessor());
+        
+        seleccionarRectangulo(resultado.getBufferedImage());
     }//GEN-LAST:event_jMenuItem32ActionPerformed
+
+    private void circuloMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_circuloMenuItemActionPerformed
+        // TODO add your handling code here:
+        seleccionarRectangulo(Graficador.crearImagenConCirculoEnElMedio(200, 200, 80));
+
+    }//GEN-LAST:event_circuloMenuItemActionPerformed
+
+    private void cuadradoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cuadradoMenuItemActionPerformed
+        // TODO add your handling code here:
+        seleccionarRectangulo(Graficador.crearImagenConCuadradoEnElCentro(200, 200, 160));
+
+    }//GEN-LAST:event_cuadradoMenuItemActionPerformed
+
+    private void grisesMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_grisesMenuItemActionPerformed
+        // TODO add your handling code here:
+        seleccionarRectangulo(Graficador.crearImagenConDegradeDeGrises(200, 200));
+
+    }//GEN-LAST:event_grisesMenuItemActionPerformed
+
+    private void coloresMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_coloresMenuItemActionPerformed
+        seleccionarRectangulo(Graficador.crearImagenConDegradeColor(200, 200));
+        // TODO add your handling code here:
+    }//GEN-LAST:event_coloresMenuItemActionPerformed
 
     private BufferedImage copiarBufferedImage(BufferedImage original) {
         ColorModel cm = original.getColorModel();
@@ -1829,6 +1915,11 @@ public class Editar extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem Personalizado;
     private javax.swing.JButton btnCambierRgb;
+    private javax.swing.JMenuItem circuloMenuItem;
+    private javax.swing.JMenuItem coloresMenuItem;
+    private javax.swing.JMenu crearMenuItem;
+    private javax.swing.JMenuItem cuadradoMenuItem;
+    private javax.swing.JMenuItem grisesMenuItem;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
@@ -1843,6 +1934,7 @@ public class Editar extends javax.swing.JInternalFrame {
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
+    private javax.swing.JMenu jMenu7;
     private javax.swing.JMenu jMenuAnisotropica;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu jMenuDetectoresDeBorde;
