@@ -16,6 +16,7 @@ import com.untref.bordes.DetectorDeHarris;
 import com.untref.bordes.HoughTransform;
 import com.untref.bordes.Hough_Circles;
 import com.untref.bordes.DetectorSusan;
+import com.untref.bordes.HoughLine;
 import com.untref.bordes.InterfaceDetectorDeBordes;
 import com.untref.bordes.TransformadaDeHough;
 import com.untref.enums.Canal;
@@ -43,6 +44,7 @@ import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -82,13 +84,11 @@ public class Editar extends javax.swing.JInternalFrame {
         this.gdr = new GeneradorDeRuido();
         objVentanaHistograma = new VentanaHistograma();
         seleccionarRectangulo(p.getImageActual());
-       
-        
+
     }
-    
-    
-    public BufferedImage getScreen(){
-       return this.screen;
+
+    public BufferedImage getScreen() {
+        return this.screen;
     }
 
     public void seleccionarRectangulo(BufferedImage screen) {
@@ -1764,43 +1764,51 @@ public class Editar extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jMenuItem30ActionPerformed
 
     private void jMenuItem31ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem31ActionPerformed
-
-        Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
+        
+       /* Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
         //int umbralOtsu = Umbralizador.generarUmbralizacionOtsu(imagenScreen, Canal.ROJO, true);
         //Imagen imagenOtsu = Umbralizador.umbralizarImagen(imagenScreen, umbralOtsu);
-        
+
         String valorUmbral = JOptionPane.showInputDialog(this, "Valor del umbral", JOptionPane.INFORMATION_MESSAGE);
 
        // String t1 = JOptionPane.showInputDialog(this, "Valor de T mínimo", "Definir el valor minimo de θ", JOptionPane.INFORMATION_MESSAGE);
-       // String t2 = JOptionPane.showInputDialog(this, "Valor de T máximo", "Definir el valor máximo de θ", JOptionPane.INFORMATION_MESSAGE);
-
+        // String t2 = JOptionPane.showInputDialog(this, "Valor de T máximo", "Definir el valor máximo de θ", JOptionPane.INFORMATION_MESSAGE);
         //String r1 = JOptionPane.showInputDialog(this, "Valor de R mínimo", "Definir el valor minimo de ρ", JOptionPane.INFORMATION_MESSAGE);
         //String r2 = JOptionPane.showInputDialog(this, "Valor de R máximo", "Definir el valor máximo de ρ", JOptionPane.INFORMATION_MESSAGE);
         //String dis = JOptionPane.showInputDialog(this, "Cantidad de elementos para discretizar intervalos", "Definir la cantidad de elementos en los que se discretizan estos intervalos", JOptionPane.INFORMATION_MESSAGE);
-        
-        
-        
         //int tMin = Integer.valueOf(t1);
         //int tMax = Integer.valueOf(t2);
         //int rMin = Integer.valueOf(r1);
         //int rMax = Integer.valueOf(r2);
         int r1 = imagenScreen.getBufferedImage().getHeight();
         int r2 = imagenScreen.getBufferedImage().getWidth();
-        
+
         int D = Math.max(r1, r2);
-        int D1 = (int) (-1*Math.sqrt(2*D));
-        int D2 = (int) (Math.sqrt(2*D));
-        
-       // int dT = Integer.valueOf(dis);
-        System.out.println(D1 + " - "+ D2);
+        int D1 = (int) (-1 * Math.sqrt(2 * D));
+        int D2 = (int) (Math.sqrt(2 * D));
+
+        // int dT = Integer.valueOf(dis);
+        System.out.println(D1 + " - " + D2);
        // System.out.println(dT);
 
        // TransformadaDeHough.aplicarTransformadaDeHough(imagenScreen, -90, 90, dT, D1, D2, dT, Integer.parseInt(valorUmbral));
         // Imagen rectasH = TransformadaDeHough.houghRectas(imagenOtsu, umbralOtsu);
+        HoughTransform h = new HoughTransform(imagenScreen.getBufferedImage().getWidth(), imagenScreen.getBufferedImage().getHeight());
 
-        HoughTransform h = new HoughTransform(imagenScreen.getBufferedImage().getWidth(), imagenScreen.getBufferedImage().getHeight());        
-       
-        seleccionarRectangulo(h.getHoughArrayImage());
+        seleccionarRectangulo(h.getHoughArrayImage());*/
+         HoughTransform h = new HoughTransform(screen.getWidth(), screen.getHeight());
+
+        // add the points from the image (or call the addPoint method separately if your points are not in an image 
+        h.addPoints(screen);
+
+        // get the lines out 
+        Vector<HoughLine> lines = h.getLines(30);
+
+        // draw the lines back onto the image 
+        for (int j = 0; j < lines.size(); j++) {
+            HoughLine line = lines.elementAt(j);
+            line.draw(screen, Color.RED.getRGB());
+        }
 
 
     }//GEN-LAST:event_jMenuItem31ActionPerformed
@@ -1831,23 +1839,22 @@ public class Editar extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jMenuItem34ActionPerformed
 
     private void jMenuItemIsRobustoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemIsRobustoActionPerformed
-        
+
     }//GEN-LAST:event_jMenuItemIsRobustoActionPerformed
 
     private void jMenuItem32ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem32ActionPerformed
         // TODO add your handling code here:
         Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
         Hough_Circles hc = new Hough_Circles();
-        
-        
+
         ImagePlus resultado = new ImagePlus();
-        
-		resultado.setImage(screen);
+
+        resultado.setImage(screen);
                      //   .setImage(new BufferedImage(screen.getWidth(), screen.getHeight(), BufferedImage.TYPE_BYTE_GRAY));
-		//resultado.setTitle(screen.getTitle() + " - Hough");
-                
+        //resultado.setTitle(screen.getTitle() + " - Hough");
+
         hc.run(resultado.getProcessor());
-        
+
         seleccionarRectangulo(resultado.getBufferedImage());
     }//GEN-LAST:event_jMenuItem32ActionPerformed
 
