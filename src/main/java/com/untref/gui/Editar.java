@@ -5,7 +5,6 @@
  */
 package com.untref.gui;
 
-import com.sun.java.swing.plaf.motif.MotifMenuItemUI;
 import com.untref.utiles.Graficador;
 import com.untref.bordes.DetectorDeBordes;
 import com.untref.bordes.DetectorDeBordesDeCanny;
@@ -13,12 +12,10 @@ import com.untref.bordes.DetectorDeBordesDireccionales;
 import com.untref.bordes.DetectorDeBordesLeclerc;
 import com.untref.bordes.DetectorDeBordesLorentz;
 import com.untref.bordes.DetectorDeHarris;
-import com.untref.bordes.HoughTransform;
 import com.untref.bordes.Hough_Circles;
 import com.untref.bordes.DetectorSusan;
-import com.untref.bordes.HoughLine;
 import com.untref.bordes.InterfaceDetectorDeBordes;
-import com.untref.bordes.TransformadaDeHough;
+import com.untref.bordes.TranformadaDeHoughRectas;
 import com.untref.enums.Canal;
 import com.untref.enums.FormatoDeImagen;
 import com.untref.modelo.Imagen;
@@ -44,7 +41,6 @@ import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
-import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -52,7 +48,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.MenuSelectionManager;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
@@ -1646,7 +1641,10 @@ public class Editar extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
 
         Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
-        Imagen umbralGlobal = Umbralizador.umbralizarImagen(imagenScreen, Umbralizador.encontrarNuevoUmbralGlobal(imagenScreen, 128));
+        int nuevoUmbral = Umbralizador.encontrarNuevoUmbralGlobal(imagenScreen, 128);
+        JOptionPane.showMessageDialog(this, "Umbral Encontrado: "  + nuevoUmbral);
+        
+        Imagen umbralGlobal = Umbralizador.umbralizarImagen(imagenScreen, nuevoUmbral);
 
         seleccionarRectangulo(umbralGlobal.getBufferedImage());
 
@@ -1796,19 +1794,25 @@ public class Editar extends javax.swing.JInternalFrame {
         HoughTransform h = new HoughTransform(imagenScreen.getBufferedImage().getWidth(), imagenScreen.getBufferedImage().getHeight());
 
         seleccionarRectangulo(h.getHoughArrayImage());*/
-         HoughTransform h = new HoughTransform(screen.getWidth(), screen.getHeight());
+        
+        String um = JOptionPane.showInputDialog(this, "Valor Del Umbral", "Valor Del Umbra", JOptionPane.INFORMATION_MESSAGE);
 
-        // add the points from the image (or call the addPoint method separately if your points are not in an image 
-        h.addPoints(screen);
+        String t1 = JOptionPane.showInputDialog(this, "Valor de θ mínimo", "Definir el valor minimo de θ", JOptionPane.INFORMATION_MESSAGE);
+        String t2 = JOptionPane.showInputDialog(this, "Valor de θ máximo", "Definir el valor máximo de θ", JOptionPane.INFORMATION_MESSAGE);
+        String r1 = JOptionPane.showInputDialog(this, "Valor de ρ mínimo", "Definir el valor minimo de ρ", JOptionPane.INFORMATION_MESSAGE);
+        String r2 = JOptionPane.showInputDialog(this, "Valor de ρ máximo", "Definir el valor máximo de ρ", JOptionPane.INFORMATION_MESSAGE);
+        String disTheta = JOptionPane.showInputDialog(this, "Cantidad de elementos para discretizar intervalos θ", "Discretizar θ en intervalos", JOptionPane.INFORMATION_MESSAGE);
+        String disThetaRo = JOptionPane.showInputDialog(this, "Cantidad de elementos para discretizar intervalos ρ", "Discretizar ρ en intervalos", JOptionPane.INFORMATION_MESSAGE);
 
-        // get the lines out 
-        Vector<HoughLine> lines = h.getLines(30);
+        int tMin = Integer.valueOf(t1);
+        int tMax = Integer.valueOf(t2);
+        int rMin = Integer.valueOf(r1);
+        int rMax = Integer.valueOf(r2);
+        int umbral = Integer.valueOf(um);
+        int disTInt = Integer.valueOf(disTheta);
+        int disRInt = Integer.valueOf(disThetaRo);
 
-        // draw the lines back onto the image 
-        for (int j = 0; j < lines.size(); j++) {
-            HoughLine line = lines.elementAt(j);
-            line.draw(screen, Color.RED.getRGB());
-        }
+        TranformadaDeHoughRectas.aplicarTranformadaDeHough(screen, tMin, tMax,disTInt, rMin, rMax,disRInt, umbral);
 
 
     }//GEN-LAST:event_jMenuItem31ActionPerformed
