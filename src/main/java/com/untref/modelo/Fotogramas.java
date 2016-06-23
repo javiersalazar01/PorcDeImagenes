@@ -18,7 +18,7 @@ public enum Fotogramas {
             case ABUELA:
                 for (int i = 1; i < 96; i++) {
 
-                    lista.add("/resources/Abuela/Frame" + i + ".jpeg");
+                    lista.add("Abuela/Frame" + i + ".jpeg");
                 }
                 break;
             case HOJA:

@@ -87,9 +87,12 @@ public class ProcesadorDeVideo {
     }
 
     public Imagen getImagenActual() {
-
-        String fotogramaActual = VentanaVideo.class.getResource(getVideoActual().getFotogramaPorPosicion(posicionActual)).getPath();
-
+        //String fotoactual = getVideoActual().getFotogramaPorPosicion(posicionActual);
+        //String fotogramaActual = VentanaVideoSegmentar.class.getResource(fotoactual).getPath();
+        
+        ClassLoader classLoader = getClass().getClassLoader();
+	String fotogramaActual = classLoader.getResource(getVideoActual().getFotogramaPorPosicion(posicionActual)).getPath();
+       
         try {
 
             File img = new File(fotogramaActual);

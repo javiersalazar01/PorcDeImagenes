@@ -5,6 +5,8 @@
  */
 package com.untref.Pruebas;
 
+import java.io.File;
+
 /**
  *
  * @author javi_
@@ -12,16 +14,21 @@ package com.untref.Pruebas;
 public class mainPruebas {
     public static void main(String args[]){
         
-        double sin = 64 * Math.sin(Math.toRadians(-60));
-        System.out.println(sin);
-        int ro = -200;
-        double compi = (0 * Math.cos(Math.toRadians(-60)));
-        double compj = (64 * Math.sin(Math.toRadians(-60)));
-        double casires = ro -  compi - compj;
-        double res = Math.abs(ro -  compi - compj);
-        System.out.println(compi);
-        System.out.println(compj);
-        System.out.println(casires);
-        System.out.println(res);
+        mainPruebas obj = new mainPruebas();
+	System.out.println(obj.getFile("Abuela/Frame1.jpeg"));	
     }
+    
+    private String getFile(String fileName) {
+
+
+	//Get file from resources folder
+	ClassLoader classLoader = getClass().getClassLoader();
+	String res = classLoader.getResource(fileName).getPath();
+
+	
+		
+	return res;
+
+  }
+
 }
