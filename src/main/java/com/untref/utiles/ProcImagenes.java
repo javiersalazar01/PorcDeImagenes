@@ -465,4 +465,8 @@ public class ProcImagenes {
         return fileADevolver;
     }
 
+    public void setImageActual(BufferedImage imageActual) {
+        this.imageActual = imageActual;
+    }
+
 }

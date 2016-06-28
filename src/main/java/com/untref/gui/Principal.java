@@ -151,8 +151,10 @@ public class Principal extends javax.swing.JFrame {
     private void circuloMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_circuloMenuItemActionPerformed
         // TODO add your handling code here:
        
-        Editar ed = new Editar(); 
-        ed.seleccionarRectangulo(Graficador.crearImagenConCirculoEnElMedio(200, 200, 80));
+        ProcImagenes p2 = new ProcImagenes();
+        p2.setImageActual(Graficador.crearImagenConCirculoEnElMedio(200, 200, 80));
+        
+        Editar ed = new Editar(p2); 
         
         desktopPane.add(ed);
         ed.setVisible(true);
@@ -162,29 +164,39 @@ public class Principal extends javax.swing.JFrame {
     private void cuadradoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cuadradoMenuItemActionPerformed
         // TODO add your handling code here:
      
-        Editar ed = new Editar(); 
-        ed.seleccionarRectangulo(Graficador.crearImagenConCuadradoEnElCentro(200, 200, 160));
+         ProcImagenes p2 = new ProcImagenes();
+        p2.setImageActual(Graficador.crearImagenConCuadradoEnElCentro(200, 200, 160));
+        
+        Editar ed = new Editar(p2); 
         
         desktopPane.add(ed);
         ed.setVisible(true);
+        
     }//GEN-LAST:event_cuadradoMenuItemActionPerformed
 
     private void grisesMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_grisesMenuItemActionPerformed
         // TODO add your handling code here:
     
-        Editar ed = new Editar(); 
-        ed.seleccionarRectangulo(Graficador.crearImagenConDegradeDeGrises(200, 200));
+          ProcImagenes p2 = new ProcImagenes();
+        p2.setImageActual(Graficador.crearImagenConDegradeDeGrises(200, 200));
+        
+        Editar ed = new Editar(p2); 
         
         desktopPane.add(ed);
         ed.setVisible(true);
     }//GEN-LAST:event_grisesMenuItemActionPerformed
 
     private void coloresMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_coloresMenuItemActionPerformed
-       Editar ed = new Editar(); 
-        ed.seleccionarRectangulo(Graficador.crearImagenConDegradeColor(200, 200));
+       
+         ProcImagenes p2 = new ProcImagenes();
+        p2.setImageActual(Graficador.crearImagenConDegradeColor(200, 200));
+        
+        Editar ed = new Editar(p2); 
         
         desktopPane.add(ed);
         ed.setVisible(true);
+        
+       
         // TODO add your handling code here:
     }//GEN-LAST:event_coloresMenuItemActionPerformed
 
