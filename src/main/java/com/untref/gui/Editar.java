@@ -165,6 +165,7 @@ public class Editar extends javax.swing.JInternalFrame {
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem21 = new javax.swing.JMenuItem();
         jMenuItem22 = new javax.swing.JMenuItem();
+        jMenuItem35 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem12 = new javax.swing.JMenuItem();
         menuNegativo = new javax.swing.JMenuItem();
@@ -526,6 +527,14 @@ public class Editar extends javax.swing.JInternalFrame {
             }
         });
         jMenu7.add(jMenuItem22);
+
+        jMenuItem35.setText("Umbralizacion Color");
+        jMenuItem35.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem35ActionPerformed(evt);
+            }
+        });
+        jMenu7.add(jMenuItem35);
 
         menuHerramientas.add(jMenu7);
 
@@ -1885,6 +1894,14 @@ public class Editar extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_coloresMenuItemActionPerformed
 
+    private void jMenuItem35ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem35ActionPerformed
+        Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
+        
+        Imagen imagenUmbralColor = Umbralizador.generarUmbralizacionColor(imagenScreen);
+        
+        seleccionarRectangulo(imagenUmbralColor.getBufferedImage());
+    }//GEN-LAST:event_jMenuItem35ActionPerformed
+
     private BufferedImage copiarBufferedImage(BufferedImage original) {
         ColorModel cm = original.getColorModel();
         boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
@@ -1978,6 +1995,7 @@ public class Editar extends javax.swing.JInternalFrame {
     private javax.swing.JMenuItem jMenuItem32;
     private javax.swing.JMenuItem jMenuItem33;
     private javax.swing.JMenuItem jMenuItem34;
+    private javax.swing.JMenuItem jMenuItem35;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
