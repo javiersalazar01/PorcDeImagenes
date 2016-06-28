@@ -349,7 +349,7 @@ public class Umbralizador {
                 between.getClaseA().agregarPixeles(between.getClaseB().getPixeles());
                 clases.remove(between.getClaseB());
                 seCombinaronClases = true;
-                System.err.println("COMBINANDO CLASES \n" + between.getClaseA() + " y " + between.getClaseB());
+                System.err.println("Se Combinaron clases \n" + between.getClaseA() + " y " + between.getClaseB());
                 cargarMapaDeClases(mapaDeClases, clases);
             }
 
