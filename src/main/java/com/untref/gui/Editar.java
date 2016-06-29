@@ -7,8 +7,7 @@ package com.untref.gui;
 
 import com.untref.utiles.Graficador;
 import com.untref.bordes.DetectorDeBordes;
-import com.untref.bordes.CannyEdgeDetector;
-import com.untref.bordes.DetectorDeBordesDeCanny;
+import com.untref.bordes.DetectorDeBordesCanny;
 import com.untref.bordes.DetectorDeBordesDireccionales;
 import com.untref.bordes.DetectorDeBordesLeclerc;
 import com.untref.bordes.DetectorDeBordesLorentz;
@@ -1707,39 +1706,30 @@ public class Editar extends javax.swing.JInternalFrame {
 
     private void jMenuItem27ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem27ActionPerformed
         // TODO add your handling code here:
-        Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
-        Imagen noMaximos = DetectorDeBordesDeCanny.mostrarImagenNoMaximos(imagenScreen);
-
-        seleccionarRectangulo(noMaximos.getBufferedImage());
-
+ 
     }//GEN-LAST:event_jMenuItem27ActionPerformed
 
     private void jMenuItem29ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem29ActionPerformed
         // TODO add your handling code here:
         Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
-        /*
-         String u1 = JOptionPane.showInputDialog(this, "Valor del Umbral 1", "Definir el valor del primer umbral", JOptionPane.INFORMATION_MESSAGE);
-         String u2 = JOptionPane.showInputDialog(this, "Valor del Umbral 2", "Definir el valor del segundo umbral", JOptionPane.INFORMATION_MESSAGE);
+      
+         String u1 = JOptionPane.showInputDialog(this, "Valor de Umbral Bajo (1 a 10)", "Definir el valor del primer umbral", JOptionPane.INFORMATION_MESSAGE);
+         String u2 = JOptionPane.showInputDialog(this, "Valor de Umbral Alto (1 a 10)", "Definir el valor del segundo umbral", JOptionPane.INFORMATION_MESSAGE);
 
-         String s1 = JOptionPane.showInputDialog(this, "Valor del Sigma 1", "Definir el valor del primer sigma", JOptionPane.INFORMATION_MESSAGE);
-         String s2 = JOptionPane.showInputDialog(this, "Valor del Sigma 2", "Definir el valor del segundo sigma", JOptionPane.INFORMATION_MESSAGE);
-        
-         int umbral1 = Integer.parseInt(u1);
-         int umbral2 = Integer.parseInt(u2);
-         int sigma1 = Integer.parseInt(s1);
-         int sigma2 = Integer.parseInt(s2);
-         */
-       // ImagePlus cany = new ImagePlus("imagen", screen);
+         float umbral1 = Float.parseFloat(u1);
+         float umbral2 = Float.parseFloat(u2);
+
+
 
         //ImagePlus canny = DetectorCanny.cannny(cany, umbral1, umbral2);
         BufferedImage canny = imagenScreen.getBufferedImage();
-        CannyEdgeDetector c = new CannyEdgeDetector();
+        DetectorDeBordesCanny c = new DetectorDeBordesCanny(umbral1, umbral2);
 
-        c.setSourceImage(canny);
-        c.process();
+        c.setImagenOriginal(canny);
+        c.procesar();
 
         // Imagen canny = DetectorDeBordesDeCanny1.aplicarDetectorDeCanny(imagenScreen, sigma1, sigma2, umbral1, umbral2);
-        seleccionarRectangulo(c.getEdgesImage());
+        seleccionarRectangulo(c.getImagenFinal());
 
     }//GEN-LAST:event_jMenuItem29ActionPerformed
 
