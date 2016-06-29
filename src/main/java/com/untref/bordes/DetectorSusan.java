@@ -1,5 +1,6 @@
 package com.untref.bordes;
 
+import com.untref.enums.FormatoDeImagen;
 import com.untref.modelo.Imagen;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -154,6 +155,7 @@ public class DetectorSusan {
  	 					
  	 					imagenResultante.getBufferedImage().setRGB(i, j, pixelNegro);
  	 				}
+                                        
  					break;
 
  				case "Bordes":
@@ -166,58 +168,30 @@ public class DetectorSusan {
  	 				}
  					break;
 
- 				case "Sierras":
- 					if(Math.abs( Sr0 - criterioDeSierra) < 0.1){
- 	 					
- 	 					imagenResultante.getBufferedImage().setRGB(i, j, pixelRojo);
- 	 				} else {
- 	 					
- 	 					imagenResultante.getBufferedImage().setRGB(i, j, pixelNegro);
- 	 				}
- 					break;
- 					
- 				case "EsquinasYBordes":
- 					if(Math.abs( Sr0 - criterioDeEsquina) < 0.1 || Math.abs( Sr0 - criterioDeBorde) < 0.1){
- 	 					
- 	 					imagenResultante.getBufferedImage().setRGB(i, j, pixelRojo);
- 	 				} else {
- 	 					
- 	 					imagenResultante.getBufferedImage().setRGB(i, j, pixelNegro);
- 	 				}
- 					break;
- 					
- 				case "EsquinasYSierras":
- 					if(Math.abs( Sr0 - criterioDeEsquina) < 0.1 || Math.abs( Sr0 - criterioDeSierra) < 0.1){
- 	 					
- 	 					imagenResultante.getBufferedImage().setRGB(i, j, pixelRojo);
- 	 				} else {
- 	 					
- 	 					imagenResultante.getBufferedImage().setRGB(i, j, pixelNegro);
- 	 				}
- 					break;
- 				
- 				case "BordesYSierras":
- 					if(Math.abs( Sr0 - criterioDeBorde) < 0.1 || Math.abs( Sr0 - criterioDeSierra) < 0.1){
- 	 					
- 	 					imagenResultante.getBufferedImage().setRGB(i, j, pixelRojo);
- 	 				} else {
- 	 					
- 	 					imagenResultante.getBufferedImage().setRGB(i, j, pixelNegro);
- 	 				}
- 					break;
- 				
- 				case "BordesSierrasYEsquinas":
-					if(Math.abs( Sr0 - criterioDeEsquina) < 0.1 || Math.abs( Sr0 - criterioDeBorde) < 0.1 || Math.abs( Sr0 - criterioDeSierra) < 0.1){
-	 					
-	 					imagenResultante.getBufferedImage().setRGB(i, j, pixelRojo);
-	 				} else {
-	 					
-	 					imagenResultante.getBufferedImage().setRGB(i, j, pixelNegro);
-	 				}
-					break;
 				}
  			}
  		}
  		return imagenResultante.getBufferedImage();
  	}
+        
+        	public static Imagen superponerAImagenOriginal(Imagen umbralizada, Imagen original) {
+
+		Imagen imagenFinal = new Imagen(new BufferedImage(umbralizada.getBufferedImage().getWidth(), umbralizada.getBufferedImage().getHeight(), umbralizada.getBufferedImage().getType()), FormatoDeImagen.JPEG, "final");
+		
+		for (int i=0; i< umbralizada.getBufferedImage().getWidth(); i++){
+			for (int j=0; j< umbralizada.getBufferedImage().getHeight(); j++){
+				
+				Color colorEnUmbralizada = new Color(umbralizada.getBufferedImage().getRGB(i, j));
+				if (colorEnUmbralizada.getRed()==255){
+					
+					imagenFinal.getBufferedImage().setRGB(i, j, Color.RED.getRGB());
+				} else {
+					
+					imagenFinal.getBufferedImage().setRGB(i, j, original.getBufferedImage().getRGB(i, j));
+				}
+			}
+		}
+		
+		return imagenFinal;
+	}
 }
