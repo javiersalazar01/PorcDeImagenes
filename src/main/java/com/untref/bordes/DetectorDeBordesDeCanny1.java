@@ -10,15 +10,15 @@ import com.untref.utiles.MatricesManager;
 import java.awt.image.BufferedImage;
 
 
-public class DetectorDeBordesDeCanny {
+public class DetectorDeBordesDeCanny1 {
 
     public static Imagen mostrarImagenNoMaximos(Imagen imagenOriginal) {
 
         MatrizDeColores matrices = calcularSupresionNoMaximos(imagenOriginal);
 
         int[][] matrizR = MatricesManager.aplicarTransformacionLineal(matrices.getMatrizRojos());
-        int[][] matrizV = MatricesManager.aplicarTransformacionLineal(matrices.getMatrizVerdes());
-        int[][] matrizA = MatricesManager.aplicarTransformacionLineal(matrices.getMatrizAzules());
+        int[][] matrizV =MatricesManager.aplicarTransformacionLineal(matrices.getMatrizRojos());
+        int[][] matrizA = MatricesManager.aplicarTransformacionLineal(matrices.getMatrizRojos());
 
         Imagen imagenResultante = new Imagen(MatricesManager.obtenerImagenDeMatrices(matrizR, matrizV, matrizA), imagenOriginal.getFormato(), imagenOriginal.getNombre() + "_nomaximos");
 
@@ -38,25 +38,25 @@ public class DetectorDeBordesDeCanny {
 
         //Aplicamos filtros en X y en Y
         int[][] matrizRojoEnX = filtroEnX.filtrar(imagenFiltradaEnX, Canal.ROJO);
-        int[][] matrizVerdeEnX = filtroEnX.filtrar(imagenFiltradaEnX, Canal.VERDE);
-        int[][] matrizAzulEnX = filtroEnX.filtrar(imagenFiltradaEnX, Canal.AZUL);
+        int[][] matrizVerdeEnX = filtroEnX.filtrar(imagenFiltradaEnX, Canal.ROJO);
+        int[][] matrizAzulEnX = filtroEnX.filtrar(imagenFiltradaEnX, Canal.ROJO);
 
         int[][] matrizRojoEnY = filtroEnY.filtrar(imagenFiltradaEnY, Canal.ROJO);
-        int[][] matrizVerdeEnY = filtroEnY.filtrar(imagenFiltradaEnY, Canal.VERDE);
-        int[][] matrizAzulEnY = filtroEnY.filtrar(imagenFiltradaEnY, Canal.AZUL);
+        int[][] matrizVerdeEnY = filtroEnY.filtrar(imagenFiltradaEnY, Canal.ROJO);
+        int[][] matrizAzulEnY = filtroEnY.filtrar(imagenFiltradaEnY, Canal.ROJO);
 
         //Sintetizamos usando la raiz de los cuadrados
         int[][] matrizRojosSintetizados = DetectorDeBordes.sintetizar(matrizRojoEnX, matrizRojoEnY);
-        int[][] matrizVerdesSintetizados = DetectorDeBordes.sintetizar(matrizVerdeEnX, matrizVerdeEnY);
-        int[][] matrizAzulesSintetizados = DetectorDeBordes.sintetizar(matrizAzulEnX, matrizAzulEnY);
+        int[][] matrizVerdesSintetizados = DetectorDeBordes.sintetizar(matrizRojoEnX, matrizRojoEnY);
+        int[][] matrizAzulesSintetizados = DetectorDeBordes.sintetizar(matrizRojoEnX, matrizRojoEnY);
 
         int[][] matrizDeAngulosCanalRojo = calcularAnguloDelGradiente(matrizRojoEnX, matrizRojoEnY);
-        int[][] matrizDeAngulosCanalVerde = calcularAnguloDelGradiente(matrizVerdeEnX, matrizVerdeEnY);
-        int[][] matrizDeAngulosCanalAzul = calcularAnguloDelGradiente(matrizAzulEnX, matrizAzulEnY);
+        int[][] matrizDeAngulosCanalVerde = calcularAnguloDelGradiente(matrizRojoEnX, matrizRojoEnY);
+        int[][] matrizDeAngulosCanalAzul = calcularAnguloDelGradiente(matrizRojoEnX, matrizRojoEnY);
 
         int[][] matrizBordesRojos = buscarBordesImportantes(matrizRojosSintetizados, matrizDeAngulosCanalRojo);
-        int[][] matrizBordesVerdes = buscarBordesImportantes(matrizVerdesSintetizados, matrizDeAngulosCanalVerde);
-        int[][] matrizBordesAzules = buscarBordesImportantes(matrizAzulesSintetizados, matrizDeAngulosCanalAzul);
+        int[][] matrizBordesVerdes = buscarBordesImportantes(matrizRojosSintetizados, matrizDeAngulosCanalRojo);
+        int[][] matrizBordesAzules = buscarBordesImportantes(matrizRojosSintetizados, matrizDeAngulosCanalRojo);
 
         MatrizDeColores matrizFinal = new MatrizDeColores(matrizBordesRojos, matrizBordesVerdes, matrizBordesAzules);
 
@@ -164,7 +164,7 @@ public class DetectorDeBordesDeCanny {
                 if (valor < umbral1) {
 
                     valor = 0;
-                } else if (valor > umbral2) {
+                } else if (valor > umbral2 || esCuatroVecinoDeUnBorde(matrizNoMaximos, j, i)) {
 
                     valor = 255;
                 } else {
@@ -183,12 +183,12 @@ public class DetectorDeBordesDeCanny {
         MatrizDeColores matrices = calcularSupresionNoMaximos(imagenOriginal);
 
         int[][] matrizR2 = aplicarUmbralizacionConHisteresis(matrices.getMatrizRojos(), umbral1, umbral2);
-        int[][] matrizV2 = aplicarUmbralizacionConHisteresis(matrices.getMatrizVerdes(), umbral1, umbral2);
-        int[][] matrizA2 = aplicarUmbralizacionConHisteresis(matrices.getMatrizAzules(), umbral1, umbral2);
+        int[][] matrizV2 = aplicarUmbralizacionConHisteresis(matrices.getMatrizRojos(), umbral1, umbral2);
+        int[][] matrizA2 = aplicarUmbralizacionConHisteresis(matrices.getMatrizRojos(), umbral1, umbral2);
 
         int[][] matrizR = MatricesManager.aplicarTransformacionLineal(matrizR2);
-        int[][] matrizV = MatricesManager.aplicarTransformacionLineal(matrizV2);
-        int[][] matrizA = MatricesManager.aplicarTransformacionLineal(matrizA2);
+        int[][] matrizV = MatricesManager.aplicarTransformacionLineal(matrizR2);
+        int[][] matrizA = MatricesManager.aplicarTransformacionLineal(matrizR2);
         
         int[][] matrizRFinal = TransponerMatriz(matrizR);
         int[][] matrizVFinal =  TransponerMatriz(matrizV);
@@ -218,8 +218,8 @@ public static MatrizDeColores calcularMatrizConFiltrosGauss(Imagen imagenOrigina
         Imagen imagenConFiltroGauss = FiltroGaussiano.aplicarFiltroGaussiano(imagenOriginal, sigma);
 
         int[][] matrizRojoImagenGauss = imagenConFiltroGauss.getMatriz(Canal.ROJO);
-        int[][] matrizVerdeImagenGauss = imagenConFiltroGauss.getMatriz(Canal.VERDE);
-        int[][] matrizAzulImagenGauss = imagenConFiltroGauss.getMatriz(Canal.AZUL);
+        int[][] matrizVerdeImagenGauss = imagenConFiltroGauss.getMatriz(Canal.ROJO);
+        int[][] matrizAzulImagenGauss = imagenConFiltroGauss.getMatriz(Canal.ROJO);
 
         MatrizDeColores matricesFiltradasResultantes = new MatrizDeColores(matrizRojoImagenGauss, matrizVerdeImagenGauss, matrizAzulImagenGauss);
 
@@ -263,34 +263,34 @@ public static MatrizDeColores calcularMatrizConFiltrosGauss(Imagen imagenOrigina
 
     public static Imagen aplicarDetectorDeCanny(Imagen imagenActual, int sigma1, int sigma2, int umbral1, int umbral2) {
 
-        MatrizDeColores matrizDeColores1 = DetectorDeBordesDeCanny.calcularMatrizConFiltrosGauss(imagenActual, sigma1);
-        MatrizDeColores matrizDeColores2 = DetectorDeBordesDeCanny.calcularMatrizConFiltrosGauss(imagenActual, sigma2);
+        MatrizDeColores matrizDeColores1 = DetectorDeBordesDeCanny1.calcularMatrizConFiltrosGauss(imagenActual, sigma1);
+        MatrizDeColores matrizDeColores2 = DetectorDeBordesDeCanny1.calcularMatrizConFiltrosGauss(imagenActual, sigma2);
 
         Imagen imagen1 = new Imagen((MatricesManager.obtenerImagenDeMatrices(matrizDeColores1.getMatrizRojos(), matrizDeColores1.getMatrizVerdes(), matrizDeColores1.getMatrizAzules())), imagenActual.getFormato(), imagenActual.getNombre());
         Imagen imagen2 = new Imagen((MatricesManager.obtenerImagenDeMatrices(matrizDeColores2.getMatrizRojos(), matrizDeColores2.getMatrizVerdes(), matrizDeColores2.getMatrizAzules())), imagenActual.getFormato(), imagenActual.getNombre());
 
-        MatrizDeColores noMaximos1 = DetectorDeBordesDeCanny.calcularSupresionNoMaximos(imagen1);
-        MatrizDeColores noMaximos2 = DetectorDeBordesDeCanny.calcularSupresionNoMaximos(imagen2);
+        MatrizDeColores noMaximos1 = DetectorDeBordesDeCanny1.calcularSupresionNoMaximos(imagen1);
+        MatrizDeColores noMaximos2 = DetectorDeBordesDeCanny1.calcularSupresionNoMaximos(imagen2);
 
         int[][] matrizRojos1 = noMaximos1.getMatrizRojos();
-        int[][] matrizVerdes1 = noMaximos1.getMatrizVerdes();
-        int[][] matrizAzules1 = noMaximos1.getMatrizAzules();
+        int[][] matrizVerdes1 = noMaximos1.getMatrizRojos();
+        int[][] matrizAzules1 = noMaximos1.getMatrizRojos();
 
         int[][] matrizRojos2 = noMaximos2.getMatrizRojos();
-        int[][] matrizVerdes2 = noMaximos2.getMatrizVerdes();
-        int[][] matrizAzules2 = noMaximos2.getMatrizAzules();
+        int[][] matrizVerdes2 = noMaximos2.getMatrizRojos();
+        int[][] matrizAzules2 = noMaximos2.getMatrizRojos();
 
         int[][] matrizResultanteRojo = new int[matrizRojos1[0].length][matrizRojos1.length];
         int[][] matrizResultanteVerde = new int[matrizRojos1[0].length][matrizRojos1.length];
         int[][] matrizResultanteAzul = new int[matrizRojos1[0].length][matrizRojos1.length];
 
-        int[][] matrizHisteresisRojo1 = DetectorDeBordesDeCanny.aplicarUmbralizacionConHisteresis(matrizRojos1, umbral1, umbral2);
-        int[][] matrizHisteresisVerde1 = DetectorDeBordesDeCanny.aplicarUmbralizacionConHisteresis(matrizVerdes1, umbral1, umbral2);
-        int[][] matrizHisteresisAzul1 = DetectorDeBordesDeCanny.aplicarUmbralizacionConHisteresis(matrizAzules1, umbral1, umbral2);
+        int[][] matrizHisteresisRojo1 = DetectorDeBordesDeCanny1.aplicarUmbralizacionConHisteresis(matrizRojos1, umbral1, umbral2);
+        int[][] matrizHisteresisVerde1 = DetectorDeBordesDeCanny1.aplicarUmbralizacionConHisteresis(matrizVerdes1, umbral1, umbral2);
+        int[][] matrizHisteresisAzul1 = DetectorDeBordesDeCanny1.aplicarUmbralizacionConHisteresis(matrizAzules1, umbral1, umbral2);
 
-        int[][] matrizHisteresisRojo2 = DetectorDeBordesDeCanny.aplicarUmbralizacionConHisteresis(matrizRojos2, umbral1, umbral2);
-        int[][] matrizHisteresisVerde2 = DetectorDeBordesDeCanny.aplicarUmbralizacionConHisteresis(matrizVerdes2, umbral1, umbral2);
-        int[][] matrizHisteresisAzul2 = DetectorDeBordesDeCanny.aplicarUmbralizacionConHisteresis(matrizAzules2, umbral1, umbral2);
+        int[][] matrizHisteresisRojo2 = DetectorDeBordesDeCanny1.aplicarUmbralizacionConHisteresis(matrizRojos2, umbral1, umbral2);
+        int[][] matrizHisteresisVerde2 = DetectorDeBordesDeCanny1.aplicarUmbralizacionConHisteresis(matrizVerdes2, umbral1, umbral2);
+        int[][] matrizHisteresisAzul2 = DetectorDeBordesDeCanny1.aplicarUmbralizacionConHisteresis(matrizAzules2, umbral1, umbral2);
 
         for (int i = 0; i < matrizRojos1.length; i++) {
             for (int j = 0; j < matrizRojos1[0].length; j++) {
@@ -320,8 +320,8 @@ public static MatrizDeColores calcularMatrizConFiltrosGauss(Imagen imagenOrigina
         }
 
         int[][] matrizRojoFinal = MatricesManager.aplicarTransformacionLineal(matrizResultanteRojo);
-        int[][] matrizVerdeFinal = MatricesManager.aplicarTransformacionLineal(matrizResultanteVerde);
-        int[][] matrizAzulFinal = MatricesManager.aplicarTransformacionLineal(matrizResultanteAzul);
+        int[][] matrizVerdeFinal = MatricesManager.aplicarTransformacionLineal(matrizResultanteRojo);
+        int[][] matrizAzulFinal = MatricesManager.aplicarTransformacionLineal(matrizResultanteRojo);
         
         int[][] matrizRT = TransponerMatriz(matrizRojoFinal);
         int[][] matrizVT = TransponerMatriz(matrizVerdeFinal);

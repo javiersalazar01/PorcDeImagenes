@@ -7,7 +7,10 @@ package com.untref.gui;
 
 import com.untref.utiles.Graficador;
 import com.untref.bordes.DetectorDeBordes;
+import com.untref.bordes.DetectorCanny;
+import com.untref.bordes.CannyEdgeDetector;
 import com.untref.bordes.DetectorDeBordesDeCanny;
+import com.untref.bordes.DetectorDeBordesDeCanny1;
 import com.untref.bordes.DetectorDeBordesDireccionales;
 import com.untref.bordes.DetectorDeBordesLeclerc;
 import com.untref.bordes.DetectorDeBordesLorentz;
@@ -61,6 +64,7 @@ public class Editar extends javax.swing.JInternalFrame {
      */
     private ProcImagenes p;
     private Operaciones Op = new Operaciones();
+    
     private Filtros f = new Filtros();
     private Rectangle captureRect = new Rectangle();
     private Point start = new Point();
@@ -219,7 +223,6 @@ public class Editar extends javax.swing.JInternalFrame {
         jMenuItem25 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem27 = new javax.swing.JMenuItem();
-        jMenuItem28 = new javax.swing.JMenuItem();
         jMenuItem29 = new javax.swing.JMenuItem();
         jMenuItem30 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
@@ -443,8 +446,8 @@ public class Editar extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(38, 38, 38))
         );
@@ -454,7 +457,8 @@ public class Editar extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
@@ -910,14 +914,6 @@ public class Editar extends javax.swing.JInternalFrame {
             }
         });
         jMenu2.add(jMenuItem27);
-
-        jMenuItem28.setText("Umbralizacion Histéresis");
-        jMenuItem28.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem28ActionPerformed(evt);
-            }
-        });
-        jMenu2.add(jMenuItem28);
 
         jMenuItem29.setText("Aplicar Canny");
         jMenuItem29.addActionListener(new java.awt.event.ActionListener() {
@@ -1704,38 +1700,35 @@ public class Editar extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_jMenuItem27ActionPerformed
 
-    private void jMenuItem28ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem28ActionPerformed
-        // TODO add your handling code here:
-        Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
-        String u1 = JOptionPane.showInputDialog(this, "Valor del Umbral 1", "Definir el valor del primer umbral", JOptionPane.INFORMATION_MESSAGE);
-        String u2 = JOptionPane.showInputDialog(this, "Valor del Umbral 2", "Definir el valor del segundo umbral", JOptionPane.INFORMATION_MESSAGE);
-
-        int umbral1 = Integer.parseInt(u1);
-        int umbral2 = Integer.parseInt(u2);
-        Imagen umbralHist = DetectorDeBordesDeCanny.mostrarUmbralizacionConHisteresis(imagenScreen, umbral1, umbral2);
-
-        seleccionarRectangulo(umbralHist.getBufferedImage());
-
-
-    }//GEN-LAST:event_jMenuItem28ActionPerformed
-
     private void jMenuItem29ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem29ActionPerformed
         // TODO add your handling code here:
         Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
-        String s1 = JOptionPane.showInputDialog(this, "Valor del Sigma 1", "Definir el valor del primer sigma", JOptionPane.INFORMATION_MESSAGE);
-        String s2 = JOptionPane.showInputDialog(this, "Valor del Sigma 2", "Definir el valor del segundo sigma", JOptionPane.INFORMATION_MESSAGE);
-
+/*
         String u1 = JOptionPane.showInputDialog(this, "Valor del Umbral 1", "Definir el valor del primer umbral", JOptionPane.INFORMATION_MESSAGE);
         String u2 = JOptionPane.showInputDialog(this, "Valor del Umbral 2", "Definir el valor del segundo umbral", JOptionPane.INFORMATION_MESSAGE);
 
+        String s1 = JOptionPane.showInputDialog(this, "Valor del Sigma 1", "Definir el valor del primer sigma", JOptionPane.INFORMATION_MESSAGE);
+        String s2 = JOptionPane.showInputDialog(this, "Valor del Sigma 2", "Definir el valor del segundo sigma", JOptionPane.INFORMATION_MESSAGE);
+        
         int umbral1 = Integer.parseInt(u1);
         int umbral2 = Integer.parseInt(u2);
         int sigma1 = Integer.parseInt(s1);
         int sigma2 = Integer.parseInt(s2);
+*/
+       // ImagePlus cany = new ImagePlus("imagen", screen);
 
-        Imagen canny = DetectorDeBordesDeCanny.aplicarDetectorDeCanny(imagenScreen, sigma1, sigma2, umbral1, umbral2);
+        //ImagePlus canny = DetectorCanny.cannny(cany, umbral1, umbral2);
+          BufferedImage canny = imagenScreen.getBufferedImage();
+        CannyEdgeDetector c = new CannyEdgeDetector();
+   
+        c.setSourceImage(canny);
+        c.process();
+        
 
-        seleccionarRectangulo(canny.getBufferedImage());
+      
+      // Imagen canny = DetectorDeBordesDeCanny1.aplicarDetectorDeCanny(imagenScreen, sigma1, sigma2, umbral1, umbral2);
+        
+        seleccionarRectangulo(c.getEdgesImage());
 
     }//GEN-LAST:event_jMenuItem29ActionPerformed
 
@@ -1754,9 +1747,15 @@ public class Editar extends javax.swing.JInternalFrame {
                 flag = "Esquinas";
                 break;
         }
-        BufferedImage susan = DetectorSusan.aplicar(imagenScreen, flag);
-
-        seleccionarRectangulo(susan);
+        Imagen umbralizada = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
+        umbralizada.setBufferedImage(DetectorSusan.aplicar(imagenScreen, flag));
+        
+        if ("Esquinas".equals(flag)) {
+            
+            seleccionarRectangulo(DetectorSusan.superponerAImagenOriginal(umbralizada, imagenScreen).getBufferedImage());
+        }else{
+            seleccionarRectangulo(umbralizada.getBufferedImage());
+        }
 
 
     }//GEN-LAST:event_jMenuItem30ActionPerformed
@@ -1827,11 +1826,11 @@ public class Editar extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jMenuItem33ActionPerformed
 
     private void jMenuItem34ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem34ActionPerformed
-        File elejida = p.abrirFile();
+        File elegida = p.abrirFile();
         File fileScreen = new File("fileScreen.jpg");
         try {
             ImageIO.write(screen, "jpg", fileScreen);
-            Sift.aplicarMetodoSift(fileScreen, elejida, jMenuItemIsRobusto.isSelected());
+            Sift.aplicarMetodoSift(fileScreen, elegida, jMenuItemIsRobusto.isSelected());
         } catch (IOException ex) {
             Logger.getLogger(Editar.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
@@ -1970,7 +1969,6 @@ public class Editar extends javax.swing.JInternalFrame {
     private javax.swing.JMenuItem jMenuItem25;
     private javax.swing.JMenuItem jMenuItem26;
     private javax.swing.JMenuItem jMenuItem27;
-    private javax.swing.JMenuItem jMenuItem28;
     private javax.swing.JMenuItem jMenuItem29;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem30;
