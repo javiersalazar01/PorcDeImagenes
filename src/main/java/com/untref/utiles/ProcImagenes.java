@@ -44,7 +44,7 @@ public class ProcImagenes {
         //Le damos un título
         selector.setDialogTitle("Seleccione una imagen");
         //Filtramos los tipos de archivos
-        FileNameExtensionFilter filtroImagen = new FileNameExtensionFilter("JPG, GIF, BMP, JPG, PGM, BPM, JPEG, RAW", "jpeg", "jpg", "gif", "bmp", "pgm", "ppm", "raw");
+        FileNameExtensionFilter filtroImagen = new FileNameExtensionFilter("JPG, GIF, BMP, JPG, PGM, BPM, JPEG, RAW, PNG", "png","jpeg", "jpg", "gif", "bmp", "pgm", "ppm", "raw");
         selector.setFileFilter(filtroImagen);
         //Abrimos el cuadro de diálog
         int flag = selector.showOpenDialog(null);
