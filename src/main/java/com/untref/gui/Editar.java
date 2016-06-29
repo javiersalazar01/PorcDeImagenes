@@ -7,16 +7,14 @@ package com.untref.gui;
 
 import com.untref.utiles.Graficador;
 import com.untref.bordes.DetectorDeBordes;
-import com.untref.bordes.DetectorCanny;
 import com.untref.bordes.CannyEdgeDetector;
 import com.untref.bordes.DetectorDeBordesDeCanny;
-import com.untref.bordes.DetectorDeBordesDeCanny1;
 import com.untref.bordes.DetectorDeBordesDireccionales;
 import com.untref.bordes.DetectorDeBordesLeclerc;
 import com.untref.bordes.DetectorDeBordesLorentz;
 import com.untref.bordes.DetectorDeHarris;
-import com.untref.bordes.Hough_Circles;
 import com.untref.bordes.DetectorSusan;
+import com.untref.bordes.HoughCirculos;
 import com.untref.bordes.InterfaceDetectorDeBordes;
 import com.untref.bordes.TranformadaDeHoughRectas;
 import com.untref.enums.Canal;
@@ -33,7 +31,6 @@ import com.untref.utiles.LayoutFileFilter;
 import com.untref.utiles.Operaciones;
 import com.untref.utiles.ProcImagenes;
 import com.untref.utiles.Umbralizador;
-import ij.ImagePlus;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
@@ -41,6 +38,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
+import java.awt.image.DataBufferByte;
 import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
@@ -52,6 +50,13 @@ import javax.swing.JDesktopPane;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import org.opencv.core.Core;
+import org.opencv.core.CvType;
+import org.opencv.core.Mat;
+import org.opencv.core.Scalar;
+import org.opencv.core.Size;
+import org.opencv.highgui.Highgui;
+import org.opencv.imgproc.Imgproc;
 
 /**
  *
@@ -64,7 +69,7 @@ public class Editar extends javax.swing.JInternalFrame {
      */
     private ProcImagenes p;
     private Operaciones Op = new Operaciones();
-    
+
     private Filtros f = new Filtros();
     private Rectangle captureRect = new Rectangle();
     private Point start = new Point();
@@ -1647,8 +1652,8 @@ public class Editar extends javax.swing.JInternalFrame {
 
         Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
         int nuevoUmbral = Umbralizador.encontrarNuevoUmbralGlobal(imagenScreen, 128);
-        JOptionPane.showMessageDialog(this, "Umbral Encontrado: "  + nuevoUmbral);
-        
+        JOptionPane.showMessageDialog(this, "Umbral Encontrado: " + nuevoUmbral);
+
         Imagen umbralGlobal = Umbralizador.umbralizarImagen(imagenScreen, nuevoUmbral);
 
         seleccionarRectangulo(umbralGlobal.getBufferedImage());
@@ -1712,31 +1717,28 @@ public class Editar extends javax.swing.JInternalFrame {
     private void jMenuItem29ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem29ActionPerformed
         // TODO add your handling code here:
         Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
-/*
-        String u1 = JOptionPane.showInputDialog(this, "Valor del Umbral 1", "Definir el valor del primer umbral", JOptionPane.INFORMATION_MESSAGE);
-        String u2 = JOptionPane.showInputDialog(this, "Valor del Umbral 2", "Definir el valor del segundo umbral", JOptionPane.INFORMATION_MESSAGE);
+        /*
+         String u1 = JOptionPane.showInputDialog(this, "Valor del Umbral 1", "Definir el valor del primer umbral", JOptionPane.INFORMATION_MESSAGE);
+         String u2 = JOptionPane.showInputDialog(this, "Valor del Umbral 2", "Definir el valor del segundo umbral", JOptionPane.INFORMATION_MESSAGE);
 
-        String s1 = JOptionPane.showInputDialog(this, "Valor del Sigma 1", "Definir el valor del primer sigma", JOptionPane.INFORMATION_MESSAGE);
-        String s2 = JOptionPane.showInputDialog(this, "Valor del Sigma 2", "Definir el valor del segundo sigma", JOptionPane.INFORMATION_MESSAGE);
+         String s1 = JOptionPane.showInputDialog(this, "Valor del Sigma 1", "Definir el valor del primer sigma", JOptionPane.INFORMATION_MESSAGE);
+         String s2 = JOptionPane.showInputDialog(this, "Valor del Sigma 2", "Definir el valor del segundo sigma", JOptionPane.INFORMATION_MESSAGE);
         
-        int umbral1 = Integer.parseInt(u1);
-        int umbral2 = Integer.parseInt(u2);
-        int sigma1 = Integer.parseInt(s1);
-        int sigma2 = Integer.parseInt(s2);
-*/
+         int umbral1 = Integer.parseInt(u1);
+         int umbral2 = Integer.parseInt(u2);
+         int sigma1 = Integer.parseInt(s1);
+         int sigma2 = Integer.parseInt(s2);
+         */
        // ImagePlus cany = new ImagePlus("imagen", screen);
 
         //ImagePlus canny = DetectorCanny.cannny(cany, umbral1, umbral2);
-          BufferedImage canny = imagenScreen.getBufferedImage();
+        BufferedImage canny = imagenScreen.getBufferedImage();
         CannyEdgeDetector c = new CannyEdgeDetector();
-   
+
         c.setSourceImage(canny);
         c.process();
-        
 
-      
-      // Imagen canny = DetectorDeBordesDeCanny1.aplicarDetectorDeCanny(imagenScreen, sigma1, sigma2, umbral1, umbral2);
-        
+        // Imagen canny = DetectorDeBordesDeCanny1.aplicarDetectorDeCanny(imagenScreen, sigma1, sigma2, umbral1, umbral2);
         seleccionarRectangulo(c.getEdgesImage());
 
     }//GEN-LAST:event_jMenuItem29ActionPerformed
@@ -1758,11 +1760,11 @@ public class Editar extends javax.swing.JInternalFrame {
         }
         Imagen umbralizada = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
         umbralizada.setBufferedImage(DetectorSusan.aplicar(imagenScreen, flag));
-        
+
         if ("Esquinas".equals(flag)) {
-            
+
             seleccionarRectangulo(DetectorSusan.superponerAImagenOriginal(umbralizada, imagenScreen).getBufferedImage());
-        }else{
+        } else {
             seleccionarRectangulo(umbralizada.getBufferedImage());
         }
 
@@ -1770,39 +1772,38 @@ public class Editar extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jMenuItem30ActionPerformed
 
     private void jMenuItem31ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem31ActionPerformed
-        
-       /* Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
-        //int umbralOtsu = Umbralizador.generarUmbralizacionOtsu(imagenScreen, Canal.ROJO, true);
-        //Imagen imagenOtsu = Umbralizador.umbralizarImagen(imagenScreen, umbralOtsu);
 
-        String valorUmbral = JOptionPane.showInputDialog(this, "Valor del umbral", JOptionPane.INFORMATION_MESSAGE);
+        /* Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
+         //int umbralOtsu = Umbralizador.generarUmbralizacionOtsu(imagenScreen, Canal.ROJO, true);
+         //Imagen imagenOtsu = Umbralizador.umbralizarImagen(imagenScreen, umbralOtsu);
 
-       // String t1 = JOptionPane.showInputDialog(this, "Valor de T mínimo", "Definir el valor minimo de θ", JOptionPane.INFORMATION_MESSAGE);
-        // String t2 = JOptionPane.showInputDialog(this, "Valor de T máximo", "Definir el valor máximo de θ", JOptionPane.INFORMATION_MESSAGE);
-        //String r1 = JOptionPane.showInputDialog(this, "Valor de R mínimo", "Definir el valor minimo de ρ", JOptionPane.INFORMATION_MESSAGE);
-        //String r2 = JOptionPane.showInputDialog(this, "Valor de R máximo", "Definir el valor máximo de ρ", JOptionPane.INFORMATION_MESSAGE);
-        //String dis = JOptionPane.showInputDialog(this, "Cantidad de elementos para discretizar intervalos", "Definir la cantidad de elementos en los que se discretizan estos intervalos", JOptionPane.INFORMATION_MESSAGE);
-        //int tMin = Integer.valueOf(t1);
-        //int tMax = Integer.valueOf(t2);
-        //int rMin = Integer.valueOf(r1);
-        //int rMax = Integer.valueOf(r2);
-        int r1 = imagenScreen.getBufferedImage().getHeight();
-        int r2 = imagenScreen.getBufferedImage().getWidth();
+         String valorUmbral = JOptionPane.showInputDialog(this, "Valor del umbral", JOptionPane.INFORMATION_MESSAGE);
 
-        int D = Math.max(r1, r2);
-        int D1 = (int) (-1 * Math.sqrt(2 * D));
-        int D2 = (int) (Math.sqrt(2 * D));
+         // String t1 = JOptionPane.showInputDialog(this, "Valor de T mínimo", "Definir el valor minimo de θ", JOptionPane.INFORMATION_MESSAGE);
+         // String t2 = JOptionPane.showInputDialog(this, "Valor de T máximo", "Definir el valor máximo de θ", JOptionPane.INFORMATION_MESSAGE);
+         //String r1 = JOptionPane.showInputDialog(this, "Valor de R mínimo", "Definir el valor minimo de ρ", JOptionPane.INFORMATION_MESSAGE);
+         //String r2 = JOptionPane.showInputDialog(this, "Valor de R máximo", "Definir el valor máximo de ρ", JOptionPane.INFORMATION_MESSAGE);
+         //String dis = JOptionPane.showInputDialog(this, "Cantidad de elementos para discretizar intervalos", "Definir la cantidad de elementos en los que se discretizan estos intervalos", JOptionPane.INFORMATION_MESSAGE);
+         //int tMin = Integer.valueOf(t1);
+         //int tMax = Integer.valueOf(t2);
+         //int rMin = Integer.valueOf(r1);
+         //int rMax = Integer.valueOf(r2);
+         int r1 = imagenScreen.getBufferedImage().getHeight();
+         int r2 = imagenScreen.getBufferedImage().getWidth();
 
-        // int dT = Integer.valueOf(dis);
-        System.out.println(D1 + " - " + D2);
-       // System.out.println(dT);
+         int D = Math.max(r1, r2);
+         int D1 = (int) (-1 * Math.sqrt(2 * D));
+         int D2 = (int) (Math.sqrt(2 * D));
 
-       // TransformadaDeHough.aplicarTransformadaDeHough(imagenScreen, -90, 90, dT, D1, D2, dT, Integer.parseInt(valorUmbral));
-        // Imagen rectasH = TransformadaDeHough.houghRectas(imagenOtsu, umbralOtsu);
-        HoughTransform h = new HoughTransform(imagenScreen.getBufferedImage().getWidth(), imagenScreen.getBufferedImage().getHeight());
+         // int dT = Integer.valueOf(dis);
+         System.out.println(D1 + " - " + D2);
+         // System.out.println(dT);
 
-        seleccionarRectangulo(h.getHoughArrayImage());*/
-        
+         // TransformadaDeHough.aplicarTransformadaDeHough(imagenScreen, -90, 90, dT, D1, D2, dT, Integer.parseInt(valorUmbral));
+         // Imagen rectasH = TransformadaDeHough.houghRectas(imagenOtsu, umbralOtsu);
+         HoughTransform h = new HoughTransform(imagenScreen.getBufferedImage().getWidth(), imagenScreen.getBufferedImage().getHeight());
+
+         seleccionarRectangulo(h.getHoughArrayImage());*/
         String um = JOptionPane.showInputDialog(this, "Valor Del Umbral", "Valor Del Umbra", JOptionPane.INFORMATION_MESSAGE);
 
         String t1 = JOptionPane.showInputDialog(this, "Valor de θ mínimo", "Definir el valor minimo de θ", JOptionPane.INFORMATION_MESSAGE);
@@ -1820,7 +1821,7 @@ public class Editar extends javax.swing.JInternalFrame {
         int disTInt = Integer.valueOf(disTheta);
         int disRInt = Integer.valueOf(disThetaRo);
 
-        TranformadaDeHoughRectas.aplicarTranformadaDeHough(screen, tMin, tMax,disTInt, rMin, rMax,disRInt, umbral);
+        TranformadaDeHoughRectas.aplicarTranformadaDeHough(screen, tMin, tMax, disTInt, rMin, rMax, disRInt, umbral);
 
 
     }//GEN-LAST:event_jMenuItem31ActionPerformed
@@ -1856,18 +1857,24 @@ public class Editar extends javax.swing.JInternalFrame {
 
     private void jMenuItem32ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem32ActionPerformed
         // TODO add your handling code here:
-        Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
-        Hough_Circles hc = new Hough_Circles();
+       
 
-        ImagePlus resultado = new ImagePlus();
+        System.load("C:\\Users\\javi_\\Desktop\\downloades\\opencv\\opencv\\build\\java\\x64\\opencv_java2413.dll");
+        
+        String umbral = JOptionPane.showInputDialog(this, "Umbral: ", "Valor del Umbral", JOptionPane.INFORMATION_MESSAGE);
+        String radmin = JOptionPane.showInputDialog(this, "Radio Minimo: ", "Valor minimo del radio", JOptionPane.INFORMATION_MESSAGE);
+        String radmax = JOptionPane.showInputDialog(this, "Radio Maximo", "Valor de Maximo del radio", JOptionPane.INFORMATION_MESSAGE);
+        
+        int umbralInt = Integer.valueOf(umbral);       
+        int radminInt = Integer.valueOf(radmin);
+        int radmaxInt = Integer.valueOf(radmax);
 
-        resultado.setImage(screen);
-                     //   .setImage(new BufferedImage(screen.getWidth(), screen.getHeight(), BufferedImage.TYPE_BYTE_GRAY));
-        //resultado.setTitle(screen.getTitle() + " - Hough");
+        
+        
+        BufferedImage res = HoughCirculos.implementarCiculos(screen, umbralInt, radminInt, radmaxInt);
+        seleccionarRectangulo(res);
+        //Highgui.imwrite("asdas.jpg", destination);
 
-        hc.run(resultado.getProcessor());
-
-        seleccionarRectangulo(resultado.getBufferedImage());
     }//GEN-LAST:event_jMenuItem32ActionPerformed
 
     private void circuloMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_circuloMenuItemActionPerformed
@@ -1895,11 +1902,49 @@ public class Editar extends javax.swing.JInternalFrame {
 
     private void jMenuItem35ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem35ActionPerformed
         Imagen imagenScreen = new Imagen(screen, FormatoDeImagen.JPG, "imagen");
-        
+
         Imagen imagenUmbralColor = Umbralizador.generarUmbralizacionColor(imagenScreen);
-        
+
         seleccionarRectangulo(imagenUmbralColor.getBufferedImage());
     }//GEN-LAST:event_jMenuItem35ActionPerformed
+
+    public static BufferedImage matToBufferedImage(Mat matrix) {
+        BufferedImage bimg = new BufferedImage(1, 1, 1);
+        if (matrix != null) {
+            int cols = matrix.cols();
+            int rows = matrix.rows();
+            int elemSize = (int) matrix.elemSize();
+            byte[] data = new byte[cols * rows * elemSize];
+            int type;
+            matrix.get(0, 0, data);
+            switch (matrix.channels()) {
+                case 1:
+                    type = BufferedImage.TYPE_BYTE_GRAY;
+                    break;
+                case 3:
+                    type = BufferedImage.TYPE_3BYTE_BGR;
+                    // bgr to rgb  
+                    byte b;
+                    for (int i = 0; i < data.length; i = i + 3) {
+                        b = data[i];
+                        data[i] = data[i + 2];
+                        data[i + 2] = b;
+                    }
+                    break;
+                default:
+                    return null;
+            }
+
+            // Reuse existing BufferedImage if possible
+            if (bimg == null || bimg.getWidth() != cols || bimg.getHeight() != rows || bimg.getType() != type) {
+                bimg = new BufferedImage(cols, rows, type);
+            }
+            bimg.getRaster().setDataElements(0, 0, cols, rows, data);
+        } else { // mat was null
+            bimg = null;
+        }
+        return bimg;
+    }
 
     private BufferedImage copiarBufferedImage(BufferedImage original) {
         ColorModel cm = original.getColorModel();

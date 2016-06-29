@@ -6,29 +6,18 @@
 package com.untref.Pruebas;
 
 import java.io.File;
+import org.opencv.core.*;
+import org.opencv.highgui.Highgui;
+import org.opencv.imgproc.Imgproc;
 
 /**
  *
  * @author javi_
  */
 public class mainPruebas {
-    public static void main(String args[]){
-        
-        mainPruebas obj = new mainPruebas();
-	System.out.println(obj.getFile("Abuela/Frame1.jpeg"));	
+
+    public static void main(String args[]) {
+
+       System.out.println(System.getProperty("java.library.path"));
     }
-    
-    private String getFile(String fileName) {
-
-
-	//Get file from resources folder
-	ClassLoader classLoader = getClass().getClassLoader();
-	String res = classLoader.getResource(fileName).getPath();
-
-	
-		
-	return res;
-
-  }
-
 }
