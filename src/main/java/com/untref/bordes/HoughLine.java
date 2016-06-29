@@ -11,13 +11,7 @@ package com.untref.bordes;
  */
 import java.awt.image.BufferedImage;
 
-/**
- * Represents a linear line as detected by the hough transform. This line is
- * represented by an angle theta and a radius from the centre.
- *
- * @author Olly Oechsle, University of Essex, Date: 13-Mar-2008
- * @version 1.0
- */
+
 public class HoughLine {
 
     protected double theta;
