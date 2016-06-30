@@ -1,0 +1,2 @@
+para ejecutar el proyeto, hay que instalar maven y asegurarse que este bien instalado.
+-para la transformada de hough para circulos es nesesario tener la libreria nativa opencv_java2413.dll y direccionar correctamente la ubicacion del archivo en la linea 1852 de la clase Editar.java.
