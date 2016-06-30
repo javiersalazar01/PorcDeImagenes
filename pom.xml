@@ -64,7 +64,10 @@
     </dependencies>
     <name>ProcesamientoImagenesMaven</name>
     <build>
+        
+        <finalName>ProcesamientoDeImagenes</finalName>
         <plugins>
+            
             <plugin>
                 <!-- Build an executable JAR -->
                 <groupId>org.apache.maven.plugins</groupId>
@@ -74,20 +77,61 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <classpathPrefix>lib/</classpathPrefix>
+                            <classpathPrefix>dependency-jars/</classpathPrefix>
                             <mainClass>com.untref.gui.Principal</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
             </plugin>
+            
             <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>exec-maven-plugin</artifactId>
-            <version>1.2.1</version>
-            <configuration>
-                <mainClass>com.untref.gui.Principal</mainClass>
-            </configuration>
-        </plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>${jdk.version}</source>
+                    <target>${jdk.version}</target>
+                </configuration>
+            </plugin>
+            
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.2.1</version>
+                <configuration>
+                    <mainClass>com.untref.gui.Principal</mainClass>
+                </configuration>
+            </plugin>
+            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.5.1</version>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <!-- exclude junit, we need runtime dependency only -->
+                            <includeScope>runtime</includeScope>
+                            <outputDirectory>${project.build.directory}/dependency-jars/</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+                        
         </plugins>
+        
+        <resources>
+            <resource>
+                <directory>src/resources/Abuela</directory>
+                <includes>
+                    <include>**/*.jpeg</include>
+                </includes>
+            </resource>
+        </resources>
     </build>
 </project>
